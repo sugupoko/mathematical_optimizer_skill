@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# Virtual environment
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+*.key
+
+# Blind test results (検証用、リリースに含めない)
+blind_test/
+
+# Workspace data (ユーザーの作業データ)
+workspace/*/
+!workspace/.gitkeep
