@@ -7,81 +7,158 @@
 
 ## マッチングが必要な場面
 
-| 分野 | 提案側 | 受入側 | 典型的な制約 |
-|------|--------|--------|-------------|
-| **介護** | ヘルパー | 利用者 | 資格、対応曜日、地域、性別、要介護度 |
-| **求人** | 求職者 | 企業 | スキル、勤務地、給与レンジ、経験年数 |
-| **教育** | 家庭教師 | 生徒 | 科目、レベル、曜日、指導経験 |
-| **不動産** | 入居者 | 物件 | 予算、間取り、エリア、ペット可否 |
-| **臓器移植** | ドナー | レシピエント | 血液型、HLA適合、緊急度、待機期間 |
-| **メンタリング** | メンティー | メンター | 専門分野、キャリア段階、言語、時間帯 |
+「誰を誰に割り当てるか」を決める問題は、あらゆる業界に存在する。
 
-共通点: **双方に選好があり、制約を満たしつつ「良い組合せ」を見つけたい。**
+| 分野 | 供給側 | 需要側 | 典型的な制約 |
+|------|--------|--------|-------------|
+| **介護** | ヘルパー | 利用者 | 資格、対応曜日、地域、性別、要介護度、相性 |
+| **求人** | 求職者 | 企業 | スキル、勤務地、給与レンジ、経験年数、カルチャーフィット |
+| **教育** | 家庭教師 | 生徒 | 科目、レベル、曜日、指導経験、指導スタイル |
+| **不動産** | 物件 | 顧客 | 予算、間取り、エリア、築年数、ペット可否 |
+| **メンタリング** | メンター | メンティー | 専門分野、キャリア段階、言語、時間帯、相性 |
+
+共通点: **双方に選好（好み）がある**。片方だけ最適化すると、もう片方が不満を持つ。
 
 ---
 
-## 問題の分類と手法選択
+## 問題の分類テーブル
 
-| 特徴 | 推奨手法 | 計算量 | 備考 |
-|------|----------|--------|------|
-| 1対1、安定性重視 | **Gale-Shapley** | O(n²) | ブロッキングペアなしを保証 |
-| 1対多（1人が複数担当） | **CP-SAT / MIP** | 規模依存 | 割当数上限を制約で表現 |
-| 制約が複雑（資格、地域、時間） | **CP-SAT** | 規模依存 | 制約の追加が容易 |
-| 重み付き最大マッチング | **ハンガリアン法 / CP-SAT** | O(n³) / 規模依存 | 総スコア最大化 |
-| 動的（随時マッチ） | **オンラインマッチング** | O(1)/到着 | 定期バッチ再最適化と併用 |
+問題の特徴を見て、手法を選ぶ。
 
-### 判断フロー
+| 特徴 | 推奨手法 | 理由 |
+|------|---------|------|
+| 1対1、安定性重視 | **Gale-Shapley** | 安定マッチングが数学的に保証される |
+| 1対多（1人が複数を担当） | **CP-SAT / MIP** | 容量制約を自然に扱える |
+| 制約が複雑（資格、時間帯、距離…） | **CP-SAT** | 任意の制約を追加できる |
+| 重み付き最大マッチング | **ハンガリアン法 / CP-SAT** | 総マッチスコア最大化 |
+| 動的（リアルタイムで到着） | **オンラインマッチング** | 全体が見えない状態で逐次決定 |
+| 大規模（1万+ペア） | **ヒューリスティック + 局所探索** | ソルバーが時間内に解けない場合 |
 
-```
-マッチング問題に出会った
-  ├── 1対1 + 安定性が最重要
-  │     → Gale-Shapley
-  │     例: 研修医マッチング、学校選択
-  │
-  ├── 制約が複雑（資格、地域、時間帯、性別など）
-  │     → CP-SAT
-  │     例: 介護マッチング、家庭教師割当
-  │
-  ├── 重み付き最大マッチング（制約は少ない）
-  │     → ハンガリアン法 or CP-SAT
-  │     例: タスク割当、プロジェクト配属
-  │
-  └── 動的（リアルタイムで到着）
-        → オンラインアルゴリズム + 定期バッチ再最適化
-        例: ライドシェア、フードデリバリー
-```
+**迷ったらCP-SAT**。Gale-Shapleyは「安定性が最重要」の時だけ。
 
 ---
 
 ## Gale-Shapley vs CP-SAT の使い分け
 
-### Gale-Shapley
+### Gale-Shapley（安定マッチングアルゴリズム）
 
 | 項目 | 内容 |
 |------|------|
 | **計算量** | O(n²) — 数万件でも瞬時 |
-| **保証** | 安定性（ブロッキングペアなし）を必ず保証 |
-| **偏り** | 提案側最適（提案側にとって最良の安定マッチング） |
-| **制約** | 追加が難しい。アルゴリズムの外で事前フィルタする必要がある |
-| **目的関数** | カスタマイズ不可。安定性のみが目的 |
-| **1対多** | 拡張版（Gale-Shapley with quotas）で対応可能だが複雑 |
+| **安定性** | 保証される（ブロッキングペアが0） |
+| **偏り** | 提案側に最適、受入側には最悪の安定解 |
+| **制約追加** | 困難（アルゴリズムの外で事前フィルタする必要がある） |
+| **目的関数** | カスタマイズ不可（安定性のみが目的） |
+| **1対多** | 拡張版（Gale-Shapley with quotas）で対応可能だが複雑化する |
 
 **適するケース**: 安定性が最重要で、制約が少ない場面。
 研修医マッチング（NRMP）、学校選択問題など。
 
-### CP-SAT
+```python
+def gale_shapley(proposer_prefs, acceptor_prefs):
+    """
+    proposer_prefs: {proposer_id: [acceptor_id, ...]}  ← 好きな順
+    acceptor_prefs: {acceptor_id: [proposer_id, ...]}  ← 好きな順
+    """
+    free_proposers = list(proposer_prefs.keys())
+    # 受入側: 選好を順位に変換（O(1)で比較するため）
+    acceptor_rank = {}
+    for a, prefs in acceptor_prefs.items():
+        acceptor_rank[a] = {p: rank for rank, p in enumerate(prefs)}
+
+    proposals = {p: 0 for p in free_proposers}  # 次に提案する相手のインデックス
+    current_match = {}  # acceptor → proposer
+
+    while free_proposers:
+        proposer = free_proposers.pop(0)
+        prefs = proposer_prefs[proposer]
+        if proposals[proposer] >= len(prefs):
+            continue  # 全員に振られた
+
+        acceptor = prefs[proposals[proposer]]
+        proposals[proposer] += 1
+
+        if acceptor not in current_match:
+            current_match[acceptor] = proposer
+        elif acceptor_rank[acceptor].get(proposer, float('inf')) < \
+             acceptor_rank[acceptor].get(current_match[acceptor], float('inf')):
+            # 今の相手より好き → 乗り換え
+            rejected = current_match[acceptor]
+            current_match[acceptor] = proposer
+            free_proposers.append(rejected)
+        else:
+            free_proposers.append(proposer)
+
+    return {v: k for k, v in current_match.items()}  # proposer → acceptor
+```
+
+### CP-SAT（制約プログラミング）
 
 | 項目 | 内容 |
 |------|------|
-| **計算量** | 規模依存。100×100なら秒単位、1000×1000で分単位が目安 |
-| **保証** | 最適性を保証（時間内なら）。安定性は保証しない |
-| **偏り** | 目的関数の設計次第。双方に公平にできる |
-| **制約** | 自由に追加可能（資格、地域、時間、回数上限…） |
-| **目的関数** | 完全にカスタマイズ可能（互換性×重み + 公平性 + …） |
+| **計算量** | 規模依存（100ペアなら秒、1000ペアなら分〜時間） |
+| **安定性** | ソフト制約として近似可能（ブロッキングペアにペナルティ） |
+| **偏り** | 目的関数の設計次第で双方に公平にできる |
+| **制約追加** | 容易（資格、時間帯、距離、上限…何でも追加可能） |
+| **目的関数** | 完全にカスタマイズ可能（満足度最大化、公平性最大化、コスト最小化…） |
 | **1対多** | 自然に対応（割当数上限を制約にするだけ） |
 
 **適するケース**: 現実の業務で制約が多い場面。
 介護マッチング、求人マッチング、家庭教師割当など。
+
+```python
+from ortools.sat.python import cp_model
+
+def solve_matching_cpsat(suppliers, demanders, compatibility, constraints=None):
+    """
+    suppliers: ["ヘルパーA", "ヘルパーB", ...]
+    demanders: ["利用者1", "利用者2", ...]
+    compatibility: {(supplier_idx, demander_idx): score}  ← 相性スコア
+    """
+    model = cp_model.CpModel()
+    n_sup = len(suppliers)
+    n_dem = len(demanders)
+
+    # 変数: x[i,j] = 1 なら supplier_i が demander_j を担当
+    x = {}
+    for i in range(n_sup):
+        for j in range(n_dem):
+            x[i, j] = model.new_bool_var(f'x_{i}_{j}')
+
+    # 制約1: 各demander は最大1人の supplier に割当
+    for j in range(n_dem):
+        model.add(sum(x[i, j] for i in range(n_sup)) <= 1)
+
+    # 制約2: 各supplier の担当数上限（例: 最大3人）
+    capacity = 3
+    for i in range(n_sup):
+        model.add(sum(x[i, j] for j in range(n_dem)) <= capacity)
+
+    # 制約3: 相性スコアが0（不可）のペアは割当禁止
+    for i in range(n_sup):
+        for j in range(n_dem):
+            if compatibility.get((i, j), 0) == 0:
+                model.add(x[i, j] == 0)
+
+    # 目的関数: 相性スコアの合計を最大化
+    model.maximize(
+        sum(compatibility.get((i, j), 0) * x[i, j]
+            for i in range(n_sup) for j in range(n_dem))
+    )
+
+    solver = cp_model.CpSolver()
+    solver.parameters.max_time_in_seconds = 60
+    status = solver.solve(model)
+
+    results = []
+    if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+        for i in range(n_sup):
+            for j in range(n_dem):
+                if solver.value(x[i, j]) == 1:
+                    results.append((suppliers[i], demanders[j],
+                                    compatibility.get((i, j), 0)))
+    return results
+```
 
 ### 安定性をCP-SATで近似する方法
 
@@ -110,23 +187,13 @@ for p_id in p_ids:
 
 ### 主要指標
 
-| 指標 | 計算方法 | 目標 |
-|------|----------|------|
-| **マッチ率** | マッチ成立数 ÷ 全体数 | 高いほど良い（100%が理想） |
-| **安定性** | ブロッキングペアの数 | 0が理想 |
-| **提案側満足度** | 希望順位の平均（正規化） | 高いほど良い |
-| **受入側満足度** | 希望順位の平均（正規化） | 高いほど良い |
-| **公平性（満足度差）** | \|提案側満足度 − 受入側満足度\| | 0に近いほど公平 |
-| **公平性（ジニ係数）** | 互換性スコアのジニ係数 | 0に近いほど平等 |
-| **互換性スコア平均** | マッチペアの互換性スコアの平均 | 高いほど良い |
-
-### 動的マッチングの追加指標
-
-| 指標 | 計算方法 | 目標 |
-|------|----------|------|
-| **待ち時間** | リクエストからマッチまでの時間 | 短いほど良い |
-| **再マッチ率** | 一度マッチした後に再マッチが必要になった率 | 低いほど良い |
-| **空き率** | マッチを待っている受入側の割合 | 低いほど良い |
+| 指標 | 定義 | 目標 |
+|------|------|------|
+| **マッチ率** | マッチ成立数 / 全体数 | 高いほど良い（100%が理想） |
+| **安定性** | ブロッキングペアの数（「今の相手よりお互いに好きな相手がいる」ペア） | 0が理想 |
+| **満足度** | 各人が割り当てられた相手の選好順位の平均 | 低いほど良い（第1希望=1） |
+| **公平性** | 供給側と需要側の満足度の標準偏差・ジニ係数 | 0に近いほど公平 |
+| **待ち時間** | リクエストからマッチ成立までの所要時間 | 動的マッチングの場合に重要 |
 
 ### 指標間のトレードオフ
 
@@ -137,166 +204,343 @@ for p_id in p_ids:
 
 クライアントに「どの指標を優先するか」を必ず確認すること。
 
+```python
+def evaluate_matching(matching, proposer_prefs, acceptor_prefs):
+    """マッチング結果を多面的に評価する"""
+    metrics = {}
+
+    # マッチ率
+    total = max(len(proposer_prefs), len(acceptor_prefs))
+    metrics['match_rate'] = len(matching) / total if total > 0 else 0
+
+    # 満足度（選好順位の平均、低いほど良い）
+    proposer_ranks = []
+    acceptor_ranks = []
+    for proposer, acceptor in matching.items():
+        if acceptor in proposer_prefs.get(proposer, []):
+            proposer_ranks.append(proposer_prefs[proposer].index(acceptor))
+        if proposer in acceptor_prefs.get(acceptor, []):
+            acceptor_ranks.append(acceptor_prefs[acceptor].index(proposer))
+
+    metrics['proposer_avg_rank'] = (sum(proposer_ranks) / len(proposer_ranks)
+                                     if proposer_ranks else float('inf'))
+    metrics['acceptor_avg_rank'] = (sum(acceptor_ranks) / len(acceptor_ranks)
+                                     if acceptor_ranks else float('inf'))
+
+    # ブロッキングペア数
+    blocking_pairs = 0
+    for p1, a1 in matching.items():
+        for p2, a2 in matching.items():
+            if p1 == p2:
+                continue
+            p1_prefs = proposer_prefs.get(p1, [])
+            a2_prefs = acceptor_prefs.get(a2, [])
+            if (a2 in p1_prefs and a1 in p1_prefs and
+                p1_prefs.index(a2) < p1_prefs.index(a1) and
+                p1 in a2_prefs and p2 in a2_prefs and
+                a2_prefs.index(p1) < a2_prefs.index(p2)):
+                blocking_pairs += 1
+    metrics['blocking_pairs'] = blocking_pairs // 2  # 重複除去
+
+    return metrics
+```
+
 ---
 
 ## 介護マッチングの具体例
 
 最もよくある事例として、訪問介護の利用者×ヘルパーマッチングを解説する。
 
-### Step 1: データの把握
+### Step 1: データ設計
 
-**利用者（受入側）のデータ**:
+```python
+# ヘルパー（供給側）
+helpers = [
+    {'id': 'H1', 'name': '田中', 'qualifications': ['介護福祉士', '喀痰吸引'],
+     'available': ['月AM', '火AM', '水PM', '木AM', '金PM'],
+     'area': '北区', 'experience_years': 8, 'gender': '女性'},
+    {'id': 'H2', 'name': '鈴木', 'qualifications': ['介護福祉士'],
+     'available': ['月PM', '火PM', '水AM', '木PM', '金AM'],
+     'area': '北区', 'experience_years': 3, 'gender': '男性'},
+    {'id': 'H3', 'name': '佐藤', 'qualifications': ['初任者研修'],
+     'available': ['月AM', '月PM', '火AM', '水AM', '木AM'],
+     'area': '南区', 'experience_years': 1, 'gender': '女性'},
+]
 
-| 利用者ID | 要介護度 | 希望曜日 | 地域 | 性別希望 | 必要資格 |
-|----------|---------|---------|------|---------|---------|
-| P001 | 要介護3 | 月,水,金 | 北区 | 女性 | 介護福祉士 |
-| P002 | 要介護1 | 火,木 | 板橋区 | なし | ヘルパー2級 |
-| P003 | 要介護4 | 月,火,金 | 北区 | なし | 介護福祉士 |
-
-**ヘルパー（提案側）のデータ**:
-
-| ヘルパーID | 資格 | 対応曜日 | 地域 | 性別 | 最大担当数 |
-|-----------|------|---------|------|------|-----------|
-| H001 | 介護福祉士 | 月,水,金 | 北区 | 女性 | 3 |
-| H002 | ヘルパー2級 | 火,木,土 | 板橋区 | 男性 | 2 |
-| H003 | 介護福祉士 | 月〜金 | 北区 | 女性 | 3 |
-
-### Step 2: 互換性スコアの設計
-
-互換性スコアは複数の要素を重み付き加算で算出する:
-
+# 利用者（需要側）
+users = [
+    {'id': 'U1', 'name': '山田様', 'care_level': 3,
+     'required_qualifications': ['介護福祉士'],
+     'schedule': ['月AM', '木AM'], 'area': '北区',
+     'notes': '女性ヘルパー希望'},
+    {'id': 'U2', 'name': '佐々木様', 'care_level': 4,
+     'required_qualifications': ['介護福祉士', '喀痰吸引'],
+     'schedule': ['火AM', '金PM'], 'area': '北区',
+     'notes': '経験3年以上希望'},
+    {'id': 'U3', 'name': '高橋様', 'care_level': 2,
+     'required_qualifications': ['初任者研修'],
+     'schedule': ['月AM', '水AM'], 'area': '南区',
+     'notes': '特になし'},
+]
 ```
-互換性(h, p) = w1 × 資格適合 + w2 × 曜日重複率 + w3 × 地域一致
-             + w4 × 性別適合 + w5 × 経験レベル適合
-```
 
-| 要素 | 重み | 計算方法 |
-|------|------|----------|
-| 資格適合 | 0.25 | 必要資格を持っていれば1.0、なければ0.0 |
-| 曜日重複率 | 0.25 | 重複曜日数 ÷ 利用者の希望曜日数 |
-| 地域一致 | 0.20 | 同一区なら1.0、隣接区なら0.5、それ以外0.0 |
-| 性別適合 | 0.15 | 希望通りなら1.0、希望なしなら1.0、不一致なら0.0 |
-| 経験レベル | 0.15 | 要介護度に応じた必要経験と実績の一致度 |
+### Step 2: 相性スコアの設計
+
+相性スコアは**何を重視するか**で大きく変わる。クライアントと合意してから決める。
+
+```python
+def compute_compatibility(helper, user):
+    """相性スコアを0-100で返す。0は割当不可。"""
+    score = 0
+
+    # 1. 資格チェック（必須条件 → 満たさなければ0）
+    for req in user['required_qualifications']:
+        if req not in helper['qualifications']:
+            return 0  # 割当不可
+
+    # 2. スケジュール一致度（必須条件）
+    schedule_overlap = set(helper['available']) & set(user['schedule'])
+    if len(schedule_overlap) < len(user['schedule']):
+        return 0  # 全スケジュールをカバーできない
+
+    # 3. エリアの一致（重み: 30点）
+    if helper['area'] == user['area']:
+        score += 30
+    else:
+        score += 10  # 別エリアでも行けるが移動コスト
+
+    # 4. 経験年数（重み: 20点）
+    # 介護度が高い利用者にはベテランを優先
+    experience_match = min(helper['experience_years'] / max(user['care_level'], 1), 1.0)
+    score += int(experience_match * 20)
+
+    # 5. 相性（過去の実績があれば加点）（重み: 30点）
+    # ここは実データがあれば使う。なければ仮定で進める。
+    score += 20  # 仮定: 中程度の相性
+
+    # 6. 担当の継続性（重み: 20点）
+    # 既に担当していれば加点。利用者の安心感。
+    score += 0  # 初回マッチングでは0
+
+    return score
+```
 
 **注意**: この重みはヒアリングで調整する。「資格が最重要」「地域は気にしない」など、現場の声を反映させる。
 
-### Step 3: ハード制約の定義
-
-以下は**絶対に破れない**制約。これを満たさないマッチは不可:
-
-1. **資格要件**: 利用者が求める資格をヘルパーが保有していること
-2. **曜日の重なり**: 最低1日は対応曜日が重なること
-3. **性別希望**: 利用者が性別を指定している場合、合致すること
-4. **担当数上限**: ヘルパーの最大担当数を超えないこと
-
-### Step 4: CP-SATでの定式化
+### Step 3: 制約の定義
 
 ```python
-from matching_template import solve_matching_cpsat, evaluate_matching
-
-# データ準備（上記のテーブルをリスト化）
-proposers = [
-    {"id": "H001", "name": "ヘルパー田中",
-     "prefs": ["P001", "P003", "P002"],
-     "constraints": {"skills": ["介護福祉士"], "available_days": ["月","水","金"],
-                      "gender": "女性", "max_assignments": 3}},
-    # ... H002, H003
-]
-receivers = [
-    {"id": "P001", "name": "利用者山田",
-     "prefs": ["H001", "H003"],
-     "constraints": {"available_days": ["月","水","金"],
-                      "max_assignments": 1}},
-    # ... P002, P003
-]
-
-# 互換性スコア（事前計算）
-compatibility = {
-    ("H001", "P001"): 0.95,  # 資格◯、曜日◯、地域◯、性別◯
-    ("H001", "P002"): 0.40,  # 資格過剰、曜日×
-    ("H001", "P003"): 0.85,  # 資格◯、曜日△、地域◯
-    # ...
-}
-
-# ハード制約
+# ハード制約（絶対に守る）
 hard_constraints = [
-    {"type": "skill_required", "receiver_id": "P001", "skill": "介護福祉士"},
-    {"type": "skill_required", "receiver_id": "P003", "skill": "介護福祉士"},
-    {"type": "day_overlap_required", "min_days": 1},
-    {"type": "gender_preference", "receiver_id": "P001", "gender": "女性"},
+    '資格要件を満たすこと',
+    'スケジュールがカバーできること',
+    '1ヘルパーの担当は最大5人まで（労働基準）',
+    '利用者の拒否リストに載っているヘルパーは割当しない',
 ]
 
-# ソフト目的の重み
-soft_weights = {
-    "compatibility": 0.5,
-    "preference_rank": 0.3,
-    "fairness": 0.2,
-}
+# ソフト制約（できるだけ守る、重み付きペナルティ）
+soft_constraints = [
+    ('同一エリア優先', 30),       # 移動時間の削減
+    ('経験年数と介護度の適合', 20),  # 安全性
+    ('担当継続性', 20),            # 利用者の安心感
+    ('ヘルパー間の公平性', 15),     # 担当数の偏りを減らす
+    ('ヘルパーの希望', 15),         # 離職防止
+]
+```
 
-# 求解
-result = solve_matching_cpsat(
-    proposers, receivers, compatibility,
-    hard_constraints, soft_weights, time_limit=60,
-)
+### Step 4: CP-SAT で定式化
+
+```python
+from ortools.sat.python import cp_model
+
+def solve_care_matching(helpers, users, compatibility):
+    model = cp_model.CpModel()
+
+    H = range(len(helpers))
+    U = range(len(users))
+
+    # 変数
+    x = {}
+    for h in H:
+        for u in U:
+            x[h, u] = model.new_bool_var(f'assign_{h}_{u}')
+
+    # ハード制約1: 相性0（不可）のペアは割当禁止
+    for h in H:
+        for u in U:
+            if compatibility[h][u] == 0:
+                model.add(x[h, u] == 0)
+
+    # ハード制約2: 各利用者は1人のヘルパーに割当（未割当も許容する場合は <= 1）
+    for u in U:
+        model.add(sum(x[h, u] for h in H) <= 1)
+
+    # ハード制約3: 各ヘルパーの担当上限
+    max_capacity = 5
+    for h in H:
+        model.add(sum(x[h, u] for u in U) <= max_capacity)
+
+    # ソフト制約: 公平性（担当数の最大と最小の差を最小化）
+    loads = []
+    for h in H:
+        load = model.new_int_var(0, max_capacity, f'load_{h}')
+        model.add(load == sum(x[h, u] for u in U))
+        loads.append(load)
+
+    max_load = model.new_int_var(0, max_capacity, 'max_load')
+    min_load = model.new_int_var(0, max_capacity, 'min_load')
+    model.add_max_equality(max_load, loads)
+    model.add_min_equality(min_load, loads)
+    load_diff = model.new_int_var(0, max_capacity, 'load_diff')
+    model.add(load_diff == max_load - min_load)
+
+    # 目的関数: 相性スコア合計 - 公平性ペナルティ
+    fairness_weight = 50  # 公平性の重み（チューニング対象）
+    model.maximize(
+        sum(compatibility[h][u] * x[h, u] for h in H for u in U)
+        - fairness_weight * load_diff
+    )
+
+    solver = cp_model.CpSolver()
+    solver.parameters.max_time_in_seconds = 60
+    status = solver.solve(model)
+
+    results = []
+    if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+        for h in H:
+            for u in U:
+                if solver.value(x[h, u]) == 1:
+                    results.append({
+                        'helper': helpers[h]['name'],
+                        'user': users[u]['name'],
+                        'score': compatibility[h][u],
+                    })
+        print(f'目的関数値: {solver.objective_value}')
+        print(f'担当数の偏り: {solver.value(load_diff)}')
+    else:
+        print('解が見つかりません。制約を緩和してください。')
+
+    return results
 ```
 
 ### Step 5: 結果の評価
 
 ```python
-match_dict = {m["proposer_id"]: m["receiver_id"] for m in result["matches"]}
-evaluation = evaluate_matching(match_dict, proposers, receivers, compatibility)
-
 # 確認すべきこと:
 # 1. マッチ率が低すぎないか（制約が厳しすぎる可能性）
 # 2. 一方の満足度だけが極端に低くないか
 # 3. ブロッキングペアの数（安定性が必要な場合）
+# 4. 担当数の偏り（公平性）
+# 5. 未割当の利用者がいないか
 ```
 
 ---
 
 ## ヒアリングで聞くべきこと（マッチング特有）
 
-一般的なヒアリング項目に加えて、マッチング問題では以下を必ず確認する。
+マッチング問題では、**選好の構造**と**暗黙のNG条件**を引き出すことが最も重要。
 
-### 構造に関する質問
+### 質問1: 「今、どうやってマッチングしていますか？」
 
-| 質問 | なぜ聞くか |
-|------|-----------|
-| 「1対1ですか、1対多ですか？」 | 手法選択に直結。1対多ならCP-SAT一択 |
-| 「双方に希望はありますか？片方だけ？」 | 片側だけなら割当問題として単純化できる |
-| 「マッチ不成立の人が出てもいいですか？」 | 全員マッチ必須なら制約が厳しくなる |
-| 「既存のマッチングがありますか？」 | ゼロから組むか、差分を最小化するかで変わる |
+```
+目的: 現状の意思決定プロセスを理解する
+例:
+- 「ベテランの○○さんが経験と勘で割り振っている」
+  → その人の判断基準 = 暗黙の目的関数
+- 「前月のシフトをコピーして微調整している」
+  → 継続性が最重要制約
+- 「Excelで空いている人を上から埋めている」
+  → 先着順 = 公平性が考慮されていない可能性
+```
 
-### 優先度に関する質問
+### 質問2: 「絶対にやってはいけない組合せは？」
 
-| 質問 | なぜ聞くか |
-|------|-----------|
-| 「マッチの安定性と最適性、どちらが大事？」 | 安定性最重要→Gale-Shapley、最適性重視→CP-SAT |
-| 「双方の希望に優先順位はありますか？」 | 受入側優先（顧客重視）か、公平かで目的関数が変わる |
-| 「公平性はどの程度重要ですか？」 | 一部に偏ってでも全体最適か、均等配分か |
+```
+目的: ハード制約（NG条件）を引き出す
+例:
+- 「○○さんと△△さんは相性が悪い」 → NG制約
+- 「介護度4以上には経験2年以上でないと」 → 資格制約
+- 「男性ヘルパーNGの利用者がいる」 → 属性制約
+★ 聞かないと出てこないことが多い。具体例で確認する。
+```
 
-### 運用に関する質問
+### 質問3: 「理想のマッチングとは？」
 
-| 質問 | なぜ聞くか |
-|------|-----------|
-| 「時間経過で再マッチングしますか？」 | 動的対応が必要かどうか |
-| 「マッチ後にキャンセルは発生しますか？」 | 再割当ロジックが必要 |
-| 「どのくらいの頻度で新しい候補が来ますか？」 | バッチ処理かリアルタイムかの判断 |
-| 「現在は手作業ですか？ツールを使っていますか？」 | 現状の痛みと自動化のインパクトの把握 |
+```
+目的: 目的関数の重みを合意する
+例:
+- 「全員にまんべんなく割り振りたい」 → 公平性重視
+- 「利用者の満足度が最優先」 → 需要側の選好重視
+- 「移動時間を減らしたい」 → コスト最小化
+- 「なるべく同じ担当が続くように」 → 継続性重視
+★ 複数の回答が出たら、優先順位をつけてもらう。
+```
 
-### データに関する質問
+### 質問4: 「どのくらいの頻度で変わりますか？」
 
-| 質問 | なぜ聞くか |
-|------|-----------|
-| 「選好リストは何位まで出せますか？」 | 短いリストでは互換性スコアの精度が落ちる |
-| 「互換性の判断基準は明文化されていますか？」 | 暗黙知のスコア化が必要かどうか |
-| 「過去のマッチング実績データはありますか？」 | 実績から互換性スコアを学習できる可能性 |
+```
+目的: 問題の動的性を理解する
+例:
+- 「月1回作り直す」 → バッチ処理で十分
+- 「毎日変わる。当日キャンセルもある」 → 動的マッチングが必要
+- 「基本は固定で、異動時だけ見直す」 → 差分更新で対応可能
+★ 動的なら再計算の速度が重要。Gale-Shapleyの方が有利な場合も。
+```
+
+### 質問5: 「データはどこにありますか？」
+
+```
+目的: 入手可能なデータと、仮定で埋める部分を明確にする
+例:
+- 「利用者の情報はケアマネのファイルにある」 → 取得可能
+- 「ヘルパーの好みは聞いたことがない」 → 仮定が必要
+- 「過去の割当履歴はシステムにある」 → 相性の推定に使える
+★ 「ないデータ」を把握することが最も重要。
+  何を仮定で埋めたかを明示する（/opt-assess の出力に記載）。
+```
+
+---
+
+## 判断フロー
+
+問題を受け取ったら、この順番で考える。
+
+```
+1. 問題の構造を確認する
+   ├── 1対1か？ 1対多か？ 多対多か？
+   ├── 両側に選好があるか？ 片側だけか？
+   └── マッチングは固定か？ 動的か？
+
+2. 制約の複雑さを確認する
+   ├── 資格・属性制約はあるか？
+   ├── 時間帯・スケジュール制約はあるか？
+   ├── 地理的制約はあるか？
+   └── 制約が3つ以上 → CP-SAT一択
+
+3. 目的関数を確認する
+   ├── 安定性が最重要 → Gale-Shapley
+   ├── 総スコア最大化（制約なし） → ハンガリアン法
+   ├── 総スコア最大化（制約あり） → CP-SAT
+   └── 公平性重視 → CP-SAT（min-max目的関数）
+
+4. 規模を確認する
+   ├── 100 × 100 以下 → CP-SAT（秒で解ける）
+   ├── 1,000 × 1,000 以下 → CP-SAT（制限時間を設定して最良解）
+   ├── 10,000 × 10,000 → 地域分割 or 2段階最適化
+   └── 100,000+ → ヒューリスティック or 問題分割が必須
+
+5. ベースラインを作る（/opt-baseline）
+   ├── ランダム割当（下限の確認）
+   ├── 貪欲法（スコア順に割当）
+   └── ソルバー（CP-SAT）
+   → 3つを比較してボトルネックを特定
+```
 
 ---
 
 ## よくある落とし穴
 
-### 1. 互換性スコアの設計が粗すぎる
+### 1. 相性スコアの設計が粗すぎる
 
 ```
 × スコア = 資格が合えば1、合わなければ0
@@ -308,9 +552,9 @@ evaluation = evaluate_matching(match_dict, proposers, receivers, compatibility)
 ### 2. 安定性を無視してクレームが来る
 
 CP-SATで最適化しても、ブロッキングペアが残ることがある。
-「AさんとBさんが互いに相手を好むのに別々にマッチされた」→ クレーム。
+「AさんとBさんが互いに相手を好むのに別々にマッチされた」は現場でクレームになる。
 
-**対策**: `find_blocking_pairs()` で必ずチェックし、数が多ければペナルティを追加。
+**対策**: ブロッキングペアを必ずチェックし、数が多ければペナルティを追加する。
 
 ### 3. 制約を全部ハードにしてしまう
 
@@ -348,15 +592,15 @@ for p_id, r_id in existing_matches.items():
 
 ## 規模感と計算時間の目安
 
-| 規模（提案側×受入側） | Gale-Shapley | CP-SAT | ハンガリアン法 |
-|----------------------|-------------|--------|--------------|
-| 10×10 | 瞬時 | 瞬時 | 瞬時 |
-| 100×100 | 瞬時 | 1〜5秒 | 瞬時 |
-| 1,000×1,000 | 瞬時 | 30秒〜数分 | 数秒 |
-| 10,000×10,000 | 〜1秒 | 時間制限必須 | 数分 |
-| 100,000× | 数秒 | 分割が必要 | メモリ制約 |
+| 規模（供給側 x 需要側） | Gale-Shapley | CP-SAT | ハンガリアン法 |
+|------------------------|-------------|--------|--------------|
+| 10 x 10 | 瞬時 | 瞬時 | 瞬時 |
+| 100 x 100 | 瞬時 | 1〜5秒 | 瞬時 |
+| 1,000 x 1,000 | 瞬時 | 30秒〜数分 | 数秒 |
+| 10,000 x 10,000 | 〜1秒 | 時間制限必須 | 数分 |
+| 100,000+ | 数秒 | 分割が必要 | メモリ制約 |
 
 大規模な場合の対策:
 - **地域分割**: 地域ごとに独立したサブ問題に分解
 - **2段階最適化**: 粗いクラスタリング → クラスタ内で精密マッチング
-- **時間制限**: CP-SATの `time_limit` を設定し、途中のFEASIBLE解を採用
+- **時間制限**: CP-SATの `max_time_in_seconds` を設定し、途中のFEASIBLE解を採用
