@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v2.1.0] - 2026-03-30
+
+### Added / 新規追加
+
+#### Matching Problem Support / マッチング問題対応
+- `reference/matching_template.py` — Gale-Shapley + CP-SAT マッチングテンプレート
+- `reference/matching_guide.md` — マッチング問題ガイド（安定マッチング、使い分け、評価指標）
+- `reference/hearing_sheet_matching.md` — マッチング問題のヒアリングシート
+
+#### Care Matching Example / 介護マッチングサンプル
+- `workspace/examples/care_matching/` — 15利用者×10ヘルパーの介護マッチングサンプル
+- 利用者データ（要介護度、地域、希望曜日、性別希望、必要資格）
+- ヘルパーデータ（資格、対応地域、対応曜日、最大担当数）
+- 過去の相性履歴データ
+
+#### E2E Sample Results / サンプル実行結果
+- `workspace/examples/shift_scheduling/` — 全スキル実行結果（スクリプト+提案書+運用設計+本番パイプライン）
+- `workspace/examples/delivery_routing/` — 全スキル実行結果（スクリプト+提案書+配送指示書+本番パイプライン）
+
+---
+
 ## [v2.0.0] - 2026-03-30
 
 ### Added / 新規追加

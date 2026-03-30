@@ -100,10 +100,13 @@ mathematical_optimizer_skill/
 │   ├── improvement_patterns.md    <- 6 proven improvement patterns
 │   ├── state_schema.md            <- Inter-skill state management schema
 │   ├── hearing_templates.md       <- Hearing guide (intent behind each question)
+│   ├── matching_template.py        <- Matching problem template (Gale-Shapley + CP-SAT)
+│   ├── matching_guide.md           <- Matching problem guide
 │   ├── hearing_sheet_shift.md     <- Fill-in sheet (shift scheduling)
-│   └── hearing_sheet_routing.md   <- Fill-in sheet (delivery routing)
+│   ├── hearing_sheet_routing.md   <- Fill-in sheet (delivery routing)
+│   └── hearing_sheet_matching.md  <- Fill-in sheet (matching problems)
 └── workspace/                     <- Working directory
-    └── examples/                  <- Sample data for E2E demos
+    └── examples/                  <- Sample data for E2E demos (shift, routing, matching)
 ```
 
 ## Supported Problem Types
@@ -111,7 +114,8 @@ mathematical_optimizer_skill/
 - **Scheduling**: Shift tables, task assignment, timetabling
 - **Routing**: Delivery routes, sales visits, pickup/delivery
 - **Packing**: Container loading, warehouse layout
-- **Assignment**: Matching, set cover, combinatorial selection
+- **Matching**: Caregiver-patient, job placement, mentoring (bilateral preferences)
+- **Assignment**: Set cover, resource allocation, combinatorial selection
 
 ## Five Principles
 

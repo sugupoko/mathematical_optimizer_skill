@@ -69,6 +69,34 @@
 
 ---
 
+## 介護マッチング（care_matching/）
+
+**15人の利用者 × 10人のヘルパーの介護マッチング問題。**
+
+### データ
+- `data/care_receivers.csv` — 利用者15名（要介護度、地域、希望曜日、性別希望、必要資格）
+- `data/caregivers.csv` — ヘルパー10名（資格、地域、対応曜日、最大担当数）
+- `data/compatibility_history.csv` — 過去の相性履歴（満足度1-5）
+- `data/constraints.csv` — 制約条件（ハード4個 + ソフト4個）
+
+### 実行手順
+```
+/opt-assess workspace/examples/care_matching/data/
+/opt-baseline workspace/examples/care_matching/data/
+/opt-improve workspace/examples/care_matching/data/
+/opt-report workspace/examples/care_matching/results/
+/opt-deploy workspace/examples/care_matching/
+```
+
+### 問題の特徴
+- **双方向の選好**: 利用者の希望（性別、曜日）とヘルパーの制約（対応曜日、最大担当数）
+- **資格要件**: 身体介護は介護福祉士が必須
+- **地理的制約**: 同一区内 or 隣接区のみ
+- **相性の考慮**: 過去のフィードバックデータで互換性スコアを計算
+- Gale-Shapley（安定マッチング）と CP-SAT（制約付き最適化）の両方を試せるサンプル
+
+---
+
 ## 期待される結果
 
 各プロジェクトの `expected/` フォルダに、初期のベースライン結果のサンプルがあります。

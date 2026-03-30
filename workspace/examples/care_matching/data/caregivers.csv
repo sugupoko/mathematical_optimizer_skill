@@ -1,0 +1,11 @@
+caregiver_id,name,gender,qualification,district,available_days,max_clients,experience_years
+C001,森田美咲,F,介護福祉士,杉並区,"Mon,Tue,Wed,Thu,Fri,Sat",5,12
+C002,岡田健一,M,介護福祉士,世田谷区,"Mon,Tue,Wed,Thu,Fri",4,8
+C003,藤井裕子,F,介護福祉士,渋谷区,"Mon,Wed,Fri,Sat",4,15
+C004,石川大輔,M,初任者研修,新宿区,"Mon,Tue,Thu,Fri",3,2
+C005,前田恵美,F,介護福祉士,中野区,"Tue,Wed,Thu,Fri,Sat",5,10
+C006,川口真理,F,初任者研修,杉並区,"Mon,Wed,Fri",3,3
+C007,西村隆,M,介護福祉士,世田谷区,"Mon,Tue,Wed,Thu,Fri",4,7
+C008,橋本由紀,F,介護福祉士,新宿区,"Mon,Tue,Wed,Thu,Fri,Sat",5,20
+C009,小川翔太,M,初任者研修,中野区,"Tue,Thu,Sat",3,1
+C010,長谷川あかり,F,介護福祉士,渋谷区,"Mon,Tue,Wed,Thu,Fri",4,6

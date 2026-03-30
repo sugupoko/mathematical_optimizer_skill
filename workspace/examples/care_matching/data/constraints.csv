@@ -1,0 +1,13 @@
+constraint_id,type,description,parameter
+HC01,hard,身体介護には介護福祉士の資格が必須,service_type=身体介護 requires qualification=介護福祉士
+HC02,hard,要介護4以上には経験3年以上のヘルパーを配置,care_level>=4 requires experience_years>=3
+HC03,hard,ヘルパー1人あたりの担当数はmax_clientsを超えない,assigned_count<=max_clients
+HC04,hard,利用者の希望曜日とヘルパーの対応可能曜日が1日以上重なる,overlap(preferred_days AND available_days)>=1
+HC05,hard,R004にはC004を配置しない（過去トラブル）,exclude_pair(R004 AND C004)
+SC01,soft,利用者の性別希望にできるだけ合わせる,preferred_gender match priority=high
+SC02,soft,同一区内のマッチングを優先する,same_district priority=medium
+SC03,soft,過去の満足度スコア4以上の組合せを優先する,satisfaction_score>=4 priority=high
+SC04,soft,継続担当を維持する（満足度5の組合せ）,satisfaction_score=5 keep_assignment priority=very_high
+SC05,soft,ヘルパーの担当数をできるだけ均等にする,balance_workload priority=medium
+SC06,soft,要介護5の利用者には経験10年以上を優先する,care_level=5 prefer experience_years>=10 priority=high
+SC07,soft,移動距離が短い組合せを優先する,minimize_travel_distance priority=low

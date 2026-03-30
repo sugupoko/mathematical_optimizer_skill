@@ -1,0 +1,16 @@
+receiver_id,name,care_level,district,preferred_days,preferred_gender,required_qualification,service_type
+R001,田中花子,3,杉並区,"Mon,Wed,Fri",F,介護福祉士,身体介護
+R002,鈴木一郎,4,世田谷区,"Mon,Tue,Thu",any,介護福祉士,both
+R003,佐藤美智子,2,渋谷区,"Tue,Thu",F,any,生活援助
+R004,高橋正男,5,新宿区,"Mon,Wed,Fri",any,介護福祉士,身体介護
+R005,伊藤和子,1,中野区,"Wed,Fri",any,any,生活援助
+R006,山本幸子,3,杉並区,"Mon,Thu,Sat",F,初任者研修,both
+R007,渡辺勝,4,世田谷区,"Tue,Wed,Fri",any,介護福祉士,身体介護
+R008,中村敏江,2,渋谷区,"Mon,Wed",any,any,生活援助
+R009,小林清,5,新宿区,"Mon,Tue,Wed,Thu,Fri",any,介護福祉士,身体介護
+R010,加藤節子,3,中野区,"Tue,Thu,Sat",F,初任者研修,both
+R011,吉田太郎,2,杉並区,"Mon,Fri",any,any,生活援助
+R012,山田久美子,4,世田谷区,"Wed,Thu,Fri",F,介護福祉士,身体介護
+R013,松本義雄,3,新宿区,"Mon,Tue,Thu",any,初任者研修,both
+R014,井上文子,1,中野区,"Tue,Sat",any,any,生活援助
+R015,木村進,5,杉並区,"Mon,Wed,Thu,Fri",any,介護福祉士,身体介護

@@ -51,12 +51,16 @@ mathematical_optimizer_skill/
 │   ├── improvement_patterns.md    ← 6つの改善定石パターン
 │   ├── state_schema.md            ← スキル間状態管理スキーマ
 │   ├── hearing_templates.md       ← ヒアリングガイド
+│   ├── matching_template.py        ← マッチング問題のコード雛形（Gale-Shapley + CP-SAT）
+│   ├── matching_guide.md           ← マッチング問題ガイド（安定マッチング、介護等）
 │   ├── hearing_sheet_shift.md     ← 記入用シート（シフト業務）
-│   └── hearing_sheet_routing.md   ← 記入用シート（配送ルート）
+│   ├── hearing_sheet_routing.md   ← 記入用シート（配送ルート）
+│   └── hearing_sheet_matching.md  ← 記入用シート（マッチング問題）
 └── workspace/                     ← ★ここで作業する
     ├── examples/                  ← サンプルデータ（E2Eデモ用）
     │   ├── shift_scheduling/      ← シフト最適化サンプル（10人×7日）
-    │   └── delivery_routing/      ← 配送ルートサンプル（20地点×3台）
+    │   ├── delivery_routing/      ← 配送ルートサンプル（20地点×3台）
+    │   └── care_matching/         ← 介護マッチングサンプル（15利用者×10ヘルパー）
     └── my_project/                ← プロジェクトごとにフォルダを作成
         ├── data/                  ← クライアントから受け取ったデータ
         ├── .opt_state.yaml        ← スキル間の状態管理ファイル
@@ -69,8 +73,9 @@ mathematical_optimizer_skill/
 
 ### Step 0: ヒアリング（データを受け取る前に）
 ```
-reference/hearing_sheet_shift.md   ← シフト業務の場合
-reference/hearing_sheet_routing.md ← 配送ルートの場合
+reference/hearing_sheet_shift.md     ← シフト業務の場合
+reference/hearing_sheet_routing.md   ← 配送ルートの場合
+reference/hearing_sheet_matching.md  ← マッチング問題の場合
 → 印刷して現場で記入。暗黙の制約を引き出す。
 ```
 
@@ -221,7 +226,8 @@ git diff opt/client-name/v1..opt/client-name/v2 -- workspace/
 - スケジューリング（シフト、タスク割当、ジョブショップ）
 - 巡回・配送（TSP、VRP、配送ルート）
 - パッキング（ビンパッキング、2Dカッティング）
-- 割当（マッチング、集合被覆）
+- マッチング（介護×ヘルパー、求人、メンタリング等の双方向選好付き割当）
+- 割当（集合被覆、リソース配分）
 - 組合せ最適化全般
 
 ## 使用するツール
