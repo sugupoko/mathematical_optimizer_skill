@@ -53,6 +53,7 @@ mathematical_optimizer_skill/
 │   ├── hearing_templates.md       ← ヒアリングガイド
 │   ├── matching_template.py        ← マッチング問題のコード雛形（Gale-Shapley + CP-SAT）
 │   ├── matching_guide.md           ← マッチング問題ガイド（安定マッチング、介護等）
+│   ├── literature_guide.md         ← 文献・既存手法の調査ガイド（問題クラス別）
 │   ├── hearing_sheet_shift.md     ← 記入用シート（シフト業務）
 │   ├── hearing_sheet_routing.md   ← 記入用シート（配送ルート）
 │   └── hearing_sheet_matching.md  ← 記入用シート（マッチング問題）
