@@ -1,24 +1,48 @@
-"""
-配送ルート最適化（VRP）のRouting Library定式化テンプレート
-配送ルート最適化プロジェクト（5難易度×9手法比較）で検証済み。
+"""配送ルート最適化（VRP）のRouting Library定式化テンプレート。
+
+配送ルート最適化プロジェクト（5難易度×9手法比較）で検証済みのテンプレート。
+OR-ToolsのRouting Libraryを使い、容量制約付き配送ルート問題（CVRP）および
+時間枠制約付き配送ルート問題（VRPTW）を求解する。
 
 使い方:
   1. このファイルをコピーして問題に合わせて修正
   2. distance_matrix, demands, time_windows を自分のデータに合わせる
   3. 時間制限は長めに設定（品質は時間に比例）
+
+典型的な利用フロー::
+
+    dataset = json.load(open("data.json"))
+    routes = solve_vrp(dataset, time_limit=120)
 """
+
+from __future__ import annotations
 
 import json
 import logging
 import math
 from pathlib import Path
+from typing import Any
+
 from ortools.constraint_solver import routing_enums_pb2, pywrapcp
 
 logger = logging.getLogger(__name__)
 
 
 def haversine_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
-    """2点間の距離(km)。道路係数1.3を含む。"""
+    """2点間のHaversine距離を計算する（km単位、道路係数1.3を含む）。
+
+    直線距離に道路係数1.3を乗じて実走行距離を近似する。
+    より正確な距離が必要な場合はGoogle Maps APIなどに置き換えること。
+
+    Args:
+        lat1: 出発地の緯度（度）
+        lng1: 出発地の経度（度）
+        lat2: 到着地の緯度（度）
+        lng2: 到着地の経度（度）
+
+    Returns:
+        2点間の推定道路距離（km）
+    """
     R = 6371
     dlat = math.radians(lat2 - lat1)
     dlng = math.radians(lng2 - lng1)
@@ -28,8 +52,19 @@ def haversine_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
     return R * 2 * math.asin(math.sqrt(a)) * 1.3  # 道路係数
 
 
-def build_distance_matrix(depot: dict, locations: list[dict]) -> list[list[int]]:
-    """距離マトリクスを構築（メートル単位の整数）。"""
+def build_distance_matrix(depot: dict[str, float], locations: list[dict[str, Any]]) -> list[list[int]]:
+    """距離マトリクスを構築する（メートル単位の整数）。
+
+    デポと全配送先間の距離をHaversine公式で計算し、
+    OR-ToolsのRouting Libraryが要求する整数行列として返す。
+
+    Args:
+        depot: デポの座標。``{"lat": float, "lng": float}`` の形式。
+        locations: 配送先リスト。各要素に ``"lat"`` と ``"lng"`` を含む。
+
+    Returns:
+        (N+1) x (N+1) の距離行列（メートル単位の整数）。index 0 がデポ。
+    """
     nodes = [depot] + locations
     n = len(nodes)
     matrix = [[0] * n for _ in range(n)]
@@ -44,25 +79,33 @@ def build_distance_matrix(depot: dict, locations: list[dict]) -> list[list[int]]
     return matrix
 
 
-def solve_vrp(dataset: dict, time_limit: int = 120) -> list[list[int]]:
-    """
-    汎用VRPソルバー。
+def solve_vrp(dataset: dict[str, Any], time_limit: int = 120) -> list[list[int]]:
+    """汎用VRPソルバー。
 
-    dataset の構造（最低限必要なもの）:
-    {
-        "depot": {"lat": 34.71, "lng": 137.73},
-        "locations": [{"id": 1, "lat": ..., "lng": ..., "demand": 5}, ...],
-        "vehicles": [{"id": 0, "capacity": 80}, ...],
-    }
+    OR-ToolsのRouting Libraryを使い、容量制約付きVRP（CVRP）を求解する。
+    時間枠データが含まれる場合は自動的にVRPTWとして扱う。
 
-    オプション:
-        locations[].time_window: [start_min, end_min]  分単位
-        locations[].service_time: int  分
-        vehicles[].working_start: int  分
-        vehicles[].working_end: int  分
+    Args:
+        dataset: 問題データ。最低限以下の構造が必要::
+
+            {
+                "depot": {"lat": 34.71, "lng": 137.73},
+                "locations": [{"id": 1, "lat": ..., "lng": ..., "demand": 5}, ...],
+                "vehicles": [{"id": 0, "capacity": 80}, ...],
+            }
+
+            オプションフィールド:
+              - ``locations[].time_window``: ``[start_min, end_min]`` 分単位
+              - ``locations[].service_time``: int 分
+              - ``vehicles[].working_start``: int 分
+              - ``vehicles[].working_end``: int 分
+
+        time_limit: ソルバーの最大実行時間（秒）。デフォルト120秒。
+            品質は時間に比例するため、本番では長めに設定すること。
 
     Returns:
-        routes: [[0, 3, 7, 12, 0], [0, 1, 5, 0], ...]  ノードIDのリスト
+        各車両のルート（ノードIDのリスト）。例: ``[[0, 3, 7, 12, 0], [0, 1, 5, 0], ...]``
+        解が見つからない場合は空リストを返す。
     """
     depot = dataset["depot"]
     locations = dataset["locations"]

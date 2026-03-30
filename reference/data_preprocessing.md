@@ -103,3 +103,119 @@ df['date'] = pd.to_datetime(df['日付'], format='%Y/%m/%d')
 # NULLの意味を確認（0? 未入力? 該当なし?）
 print(df.isnull().sum())  # カラムごとのNULL数
 ```
+
+## 大規模距離行列の扱い
+
+N×N の距離行列は N>1,000 でメモリ問題が発生する（1,000地点で約8MB、10,000地点で約800MB）。
+
+### 方法1: int16 でスケーリング（最も簡単）
+
+```python
+import numpy as np
+
+def build_distance_matrix_compact(locations: list[dict], scale: int = 100) -> np.ndarray:
+    """距離をscaleメートル単位の整数で保持。メモリを1/4に削減。
+
+    scale=100 なら 100m単位（最大 3,276km まで表現可能）。
+    """
+    n = len(locations)
+    matrix = np.zeros((n, n), dtype=np.int16)
+    for i in range(n):
+        for j in range(i + 1, n):
+            dist_km = haversine_km(
+                locations[i]['lat'], locations[i]['lng'],
+                locations[j]['lat'], locations[j]['lng']
+            )
+            dist_scaled = int(dist_km * 1000 / scale)  # km → m → scaled
+            dist_scaled = min(dist_scaled, 32767)  # int16 の上限
+            matrix[i][j] = dist_scaled
+            matrix[j][i] = dist_scaled
+    return matrix
+
+# メモリ比較:
+#   float64: N×N×8 bytes = 10,000地点で 800MB
+#   int16:   N×N×2 bytes = 10,000地点で 200MB
+```
+
+### 方法2: k-nearest neighbor のみ保持（疎行列）
+
+```python
+from scipy.sparse import lil_matrix
+import numpy as np
+
+def build_sparse_distance_matrix(
+    locations: list[dict], k: int = 50
+) -> lil_matrix:
+    """各地点からの近い k 地点のみ距離を保持。メモリを大幅削減。
+
+    VRP では遠い地点間の距離は使わないことが多い。
+    k=50 なら 10,000地点でも約 4MB（N×k×8 bytes）。
+    """
+    n = len(locations)
+    matrix = lil_matrix((n, n), dtype=np.float32)
+
+    for i in range(n):
+        # 全地点への距離を計算
+        distances = []
+        for j in range(n):
+            if i == j:
+                continue
+            d = haversine_km(
+                locations[i]['lat'], locations[i]['lng'],
+                locations[j]['lat'], locations[j]['lng']
+            )
+            distances.append((j, d))
+
+        # 近い k 地点のみ保持
+        distances.sort(key=lambda x: x[1])
+        for j, d in distances[:k]:
+            matrix[i, j] = d
+
+    return matrix.tocsr()  # CSR形式に変換（高速アクセス）
+
+# 注意: ルート構築時に疎行列にない距離が必要な場合は都度計算する
+```
+
+### 方法3: オンデマンド計算（OR-Tools コールバック）
+
+```python
+def create_distance_callback(locations: list[dict]):
+    """距離行列を保持せず、コールバック内で都度計算する。
+
+    メモリ使用量はO(1)だが、計算回数が多くなる。
+    地点数が非常に多い場合（10,000+）に有効。
+    LRUキャッシュで頻繁にアクセスされる距離をキャッシュ。
+    """
+    from functools import lru_cache
+
+    @lru_cache(maxsize=100000)
+    def distance(i: int, j: int) -> int:
+        if i == j:
+            return 0
+        d = haversine_km(
+            locations[i]['lat'], locations[i]['lng'],
+            locations[j]['lat'], locations[j]['lng']
+        )
+        return int(d * 1000)  # km → m
+
+    return distance
+
+# OR-Tools での使用例:
+# callback = create_distance_callback(locations)
+# transit_callback_index = routing.RegisterTransitCallback(
+#     lambda from_idx, to_idx: callback(
+#         manager.IndexToNode(from_idx), manager.IndexToNode(to_idx)
+#     )
+# )
+```
+
+### 方法の選び方
+
+```
+地点数:
+  ├── ~1,000  → 通常の float64 行列で問題なし
+  ├── 1,000~5,000 → 方法1（int16スケーリング）
+  ├── 5,000~20,000 → 方法2（疎行列） or 方法3（オンデマンド）
+  └── 20,000+ → 方法3（オンデマンド + LRUキャッシュ）
+               + 必ずクラスタ分割（reference/improvement_patterns.md パターン3）
+```

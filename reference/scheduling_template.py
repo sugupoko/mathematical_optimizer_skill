@@ -1,32 +1,54 @@
-"""
-スケジューリング問題のCP-SAT定式化テンプレート
-シフト最適化プロジェクト（25手法比較）で検証済み。
+"""スケジューリング問題のCP-SAT定式化テンプレート。
+
+シフト最適化プロジェクト（25手法比較）で検証済みのテンプレート。
+CP-SATソルバーを使い、作業者をタスクスロットに割り当てる汎用的な
+スケジューリング問題を定式化・求解する。
 
 使い方:
   1. このファイルをコピーして問題に合わせて修正
   2. workers, shifts, stations, constraints を自分のデータに合わせる
   3. 目的関数は評価関数と精密一致させること（+15-27%改善の実績）
+
+典型的な利用フロー::
+
+    dataset = json.load(open("data.json"))
+    schedule = solve_scheduling(dataset, time_limit=120)
 """
+
+from __future__ import annotations
 
 import json
 import logging
 from pathlib import Path
+from typing import Any
+
 from ortools.sat.python import cp_model
 
 logger = logging.getLogger(__name__)
 
 
-def solve_scheduling(dataset: dict, time_limit: int = 120) -> list[dict]:
-    """
-    汎用スケジューリングソルバー。
+def solve_scheduling(dataset: dict[str, Any], time_limit: int = 120) -> list[dict[str, str]]:
+    """汎用スケジューリングソルバー。
 
-    dataset の構造（最低限必要なもの）:
-    {
-        "workers": [{"id": "W001", "skills": {"taskA": 3, "taskB": 5}, "max_hours": 40, ...}],
-        "slots": [{"day": "day_1", "shift": "morning", "task": "taskA", "needed": 2, "min_skill": 2}],
-        "hard_constraints": {...},
-        "soft_constraints": {...},
-    }
+    CP-SATモデルを構築し、作業者をタスクスロットに割り当てる。
+    スキルレベルに基づく枝刈り、必要人数の充足、同一シフト内の
+    重複割当防止などのハード制約を自動で設定する。
+
+    Args:
+        dataset: 問題データ。最低限以下の構造が必要::
+
+            {
+                "workers": [{"id": "W001", "skills": {"taskA": 3, "taskB": 5}, "max_hours": 40, ...}],
+                "slots": [{"day": "day_1", "shift": "morning", "task": "taskA", "needed": 2, "min_skill": 2}],
+                "hard_constraints": {...},
+                "soft_constraints": {...},
+            }
+
+        time_limit: ソルバーの最大実行時間（秒）。デフォルト120秒。
+
+    Returns:
+        割当結果のリスト。各要素は ``{"worker_id", "day", "shift", "task"}`` の辞書。
+        実行可能解が見つからない場合は空リストを返す。
     """
     model = cp_model.CpModel()
     workers = dataset["workers"]

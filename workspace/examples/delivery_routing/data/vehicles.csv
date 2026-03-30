@@ -1,0 +1,4 @@
+vehicle_id,capacity_kg,max_hours,cost_per_km
+V001,300,8,120
+V002,250,8,110
+V003,200,6,100

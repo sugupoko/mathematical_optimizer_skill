@@ -15,7 +15,7 @@ git clone https://github.com/xxx/mathematical_optimizer_skill.git
 cd mathematical_optimizer_skill
 
 # 2. 依存パッケージ
-pip install ortools omegaconf matplotlib numpy pandas
+pip install ortools omegaconf matplotlib numpy pandas pulp scipy
 
 # 3. このフォルダでClaude Codeを起動
 claude
@@ -30,26 +30,36 @@ cp /path/to/client_data.xlsx workspace/my_project/
 ```
 mathematical_optimizer_skill/
 ├── CLAUDE.md                      ← このファイル（プロジェクトガイド）
-├── OPTIMIZATION_MINDSET.md        ← 7つの思考回路
-├── .claude/skills/                ← 5つのスキル（/opt-xxx で呼び出し）
+├── OPTIMIZATION_MINDSET.md        ← 7つの思考回路 + LLM向けチェックリスト
+├── README.md                      ← 日本語版README（メイン）
+├── README_en.md                   ← 英語版README
+├── .claude/skills/                ← 6つのスキル（/opt-xxx で呼び出し）
 │   ├── opt-assess/                ← データ受領→問題分類→仮説
 │   ├── opt-baseline/              ← 3ベースライン→ボトルネック特定
 │   ├── opt-improve/               ← 改善策設計→検証（繰り返し可）
 │   ├── opt-report/                ← 経営向け提案書作成
-│   └── opt-request/               ← 追加データ依頼書生成
+│   ├── opt-request/               ← 追加データ依頼書生成
+│   └── opt-deploy/               ← 運用設計（自動化・監視・フォールバック）
 ├── reference/                     ← 実装パターン集・ヒアリングガイド
 │   ├── ortools_guide.md           ← CP-SAT vs Routing の使い分け
+│   ├── pulp_highs_guide.md        ← PuLP + HiGHS（LP/MIP向け）
+│   ├── multiobjective_guide.md    ← 多目的最適化（パレートフロント等）
 │   ├── scheduling_template.py     ← シフト最適化のコード雛形
 │   ├── vrp_template.py            ← 配送ルートのコード雛形
-│   ├── evaluator_template.py      ← 評価関数の雛形
-│   ├── data_preprocessing.md      ← データ前処理の定石
+│   ├── evaluator_template.py      ← 評価関数の雛形 + 一致検証
+│   ├── data_preprocessing.md      ← データ前処理の定石 + 大規模距離行列
 │   ├── improvement_patterns.md    ← 6つの改善定石パターン
+│   ├── state_schema.md            ← スキル間状態管理スキーマ
 │   ├── hearing_templates.md       ← ヒアリングガイド
 │   ├── hearing_sheet_shift.md     ← 記入用シート（シフト業務）
 │   └── hearing_sheet_routing.md   ← 記入用シート（配送ルート）
 └── workspace/                     ← ★ここで作業する
+    ├── examples/                  ← サンプルデータ（E2Eデモ用）
+    │   ├── shift_scheduling/      ← シフト最適化サンプル（10人×7日）
+    │   └── delivery_routing/      ← 配送ルートサンプル（20地点×3台）
     └── my_project/                ← プロジェクトごとにフォルダを作成
         ├── data/                  ← クライアントから受け取ったデータ
+        ├── .opt_state.yaml        ← スキル間の状態管理ファイル
         ├── scripts/               ← 作成したスクリプト
         ├── results/               ← 実験結果
         └── reports/               ← 提案書・レポート
@@ -99,11 +109,12 @@ reference/hearing_sheet_routing.md ← 配送ルートの場合
 | **opt-improve** | `/opt-improve [data]` | baselineの後（繰り返し可） |
 | **opt-report** | `/opt-report [results]` | 改善が終わった後 |
 | **opt-request** | `/opt-request` | 途中でデータが足りない時 |
+| **opt-deploy** | `/opt-deploy [project]` | 提案承認後、運用設計する時 |
 
 ## ワークフロー
 
 ```
-ヒアリング → データ受領 → /opt-assess → /opt-baseline → /opt-improve → /opt-report
+ヒアリング → データ受領 → /opt-assess → /opt-baseline → /opt-improve → /opt-report → /opt-deploy
                                                           ↑    ↓
                                                           └── /opt-request
 ```
@@ -171,6 +182,38 @@ workspace/my_project/
 - 「制約変更で何が犠牲になったか」のトレードオフが見える
 - クライアントに変化の経緯を説明できる
 
+### Git ベースのバージョン管理（推奨）
+
+フォルダの `v1/`, `v2/` 管理は小規模なら問題ないが、ファイルが増えると破綻する。
+Git ブランチとタグを使う方が再現性が高く、差分管理も容易。
+
+```bash
+# プロジェクト開始時: ブランチを作成
+git checkout -b opt/client-name/v1-initial
+
+# 作業が一段落したら: タグで結果を記録
+git tag opt/client-name/v1 -m "初回ベースライン: ソルバーfeasible, score=520"
+
+# 追加データが来た時: 新しいブランチを作成
+git checkout -b opt/client-name/v2-with-gps
+
+# 作業が完了したら: タグを打つ
+git tag opt/client-name/v2 -m "GPSログ追加: 違反5件→2件, score=650"
+
+# Before/After の確認
+git diff opt/client-name/v1..opt/client-name/v2 -- workspace/
+```
+
+**命名規則:**
+- ブランチ: `opt/<client>/<version>-<description>`
+- タグ: `opt/<client>/<version>`
+- タグメッセージ: 主要な結果の数値を含める
+
+**注意:**
+- クライアントデータを Git に入れる場合は `.gitignore` でセンシティブなデータを除外
+- 大きなファイル（GPS ログ等）は Git LFS を検討
+- 社内リポジトリを使う場合はアクセス権限に注意
+
 ---
 
 ## 対応する問題の種類
@@ -184,9 +227,11 @@ workspace/my_project/
 ## 使用するツール
 
 - **Google OR-Tools** (CP-SAT, Routing): 主力ソルバー（無料）
+- **PuLP + HiGHS**: LP/MIP ソルバー（無料、連続変数に強い）
 - **Python標準ライブラリ**: ヒューリスティクス実装
 - **matplotlib**: 可視化
 - **pandas**: データ前処理
+- **scipy**: 疎行列、クラスタリング補助
 
 ## 5つの原則
 

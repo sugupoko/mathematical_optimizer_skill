@@ -1,3 +1,7 @@
+**[English version here (README_en.md)](./README_en.md)**
+
+---
+
 # Mathematical Optimizer Skill Pack
 
 > **注意**: これは数理最適化を勉強しながら作成したものです。合成データでの検証のみで、実務で使えるかはわかりません。「こういうアプローチがあるんだな」程度の参考としてご覧ください。
@@ -21,6 +25,7 @@ Claude Code で数理最適化を行うためのスキルパック。
 3. **ボトルネックに合った改善策を設計・検証**（コードテンプレート付き）
 4. **経営向けの改善提案書を生成**（コスト・効果・導入難易度の比較表）
 5. **追加データの依頼書を生成**（何が・なぜ・ないとどうなるかを説明）
+6. **運用設計**（自動化・監視・フォールバック）
 
 さらに、現場のヒアリングシート（記入欄付き）で**データに載っていない暗黙の制約**を引き出せる。
 
@@ -29,10 +34,21 @@ Claude Code で数理最適化を行うためのスキルパック。
 ```bash
 git clone https://github.com/xxx/mathematical_optimizer_skill.git
 cd mathematical_optimizer_skill
-pip install ortools omegaconf matplotlib numpy pandas
+pip install ortools omegaconf matplotlib numpy pandas pulp scipy
 ```
 
 Claude Code でこのフォルダを開いて使う。
+
+## クイックスタート（サンプルデータで体験）
+
+`workspace/examples/` にサンプルデータがあります。30分で一連のフローを体験できます。
+
+```
+/opt-assess workspace/examples/shift_scheduling/data/
+/opt-baseline workspace/examples/shift_scheduling/data/
+```
+
+詳しくは [workspace/examples/README.md](./workspace/examples/README.md) を参照。
 
 ## 使い方
 
@@ -59,6 +75,7 @@ Claude Code で以下のスキルを順に実行する:
 /opt-baseline workspace/my_project/data/   → 3ベースライン + ボトルネック特定
 /opt-improve workspace/my_project/data/    → 改善策の設計と検証（繰り返し）
 /opt-report workspace/my_project/results/  → 経営向け提案書
+/opt-deploy workspace/my_project/          → 運用設計（自動化・監視）
 ```
 
 途中でデータが足りなければ `/opt-request` で依頼書を生成。
@@ -67,26 +84,36 @@ Claude Code で以下のスキルを順に実行する:
 
 ```
 mathematical_optimizer_skill/
-├── README.md                      ← このファイル
+├── README.md                      ← このファイル（日本語）
+├── README_en.md                   ← 英語版README
+├── CHANGELOG.md                   ← 変更履歴（日英バイリンガル）
 ├── CLAUDE.md                      ← Claude Code 向けの詳細ガイド
-├── OPTIMIZATION_MINDSET.md        ← 最適化スペシャリストの7つの思考回路
-├── .claude/skills/                ← 5つのスキル
+├── OPTIMIZATION_MINDSET.md        ← 7つの思考回路 + LLM向けチェックリスト
+├── .claude/skills/                ← 6つのスキル
 │   ├── opt-assess/                ← 問題アセスメント
 │   ├── opt-baseline/              ← ベースライン構築
 │   ├── opt-improve/               ← 改善策の設計・検証
 │   ├── opt-report/                ← 提案書作成
-│   └── opt-request/               ← 追加データ依頼書
+│   ├── opt-request/               ← 追加データ依頼書
+│   └── opt-deploy/               ← 運用設計（自動化・監視・フォールバック）
 ├── reference/                     ← 実装テンプレート集
 │   ├── ortools_guide.md           ← OR-Tools の使い分け（CP-SAT vs Routing）
+│   ├── pulp_highs_guide.md        ← PuLP + HiGHS（LP/MIP向け）
+│   ├── multiobjective_guide.md    ← 多目的最適化（パレートフロント等）
 │   ├── scheduling_template.py     ← シフト最適化のコード雛形
 │   ├── vrp_template.py            ← 配送ルートのコード雛形
-│   ├── evaluator_template.py      ← 評価関数の雛形
-│   ├── data_preprocessing.md      ← データ前処理の定石
+│   ├── evaluator_template.py      ← 評価関数の雛形 + 一致検証
+│   ├── data_preprocessing.md      ← データ前処理の定石 + 大規模距離行列
 │   ├── improvement_patterns.md    ← 6つの改善定石パターン
+│   ├── state_schema.md            ← スキル間状態管理スキーマ
 │   ├── hearing_templates.md       ← ヒアリングガイド（質問の意図）
 │   ├── hearing_sheet_shift.md     ← 記入用シート（シフト業務）
 │   └── hearing_sheet_routing.md   ← 記入用シート（配送ルート）
 └── workspace/                     ← ここで作業する
+    ├── examples/                  ← サンプルデータ（E2Eデモ用）
+    │   ├── shift_scheduling/      ← シフト最適化サンプル（10人×7日）
+    │   └── delivery_routing/      ← 配送ルートサンプル（20地点×3台）
+    └── my_project/                ← プロジェクトごとにフォルダを作成
 ```
 
 ## 対応する問題

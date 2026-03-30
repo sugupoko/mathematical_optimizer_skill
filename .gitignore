@@ -24,6 +24,7 @@ Thumbs.db
 # Blind test results (検証用、リリースに含めない)
 blind_test/
 
-# Workspace data (ユーザーの作業データ)
+# Workspace data (ユーザーの作業データ。examples は残す)
 workspace/*/
+!workspace/examples/
 !workspace/.gitkeep

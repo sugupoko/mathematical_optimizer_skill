@@ -1,0 +1,11 @@
+employee_id,name,skills,max_hours_per_week,min_hours_per_week,unavailable_days
+E001,田中 太郎,"reception,phone,training",40,24,
+E002,佐藤 花子,"reception,phone",40,24,Sun
+E003,鈴木 一郎,"reception,phone,training",32,16,
+E004,高橋 美咲,"reception,phone",40,24,Sat
+E005,伊藤 健太,"phone,training",40,20,
+E006,渡辺 由美,"reception,phone",32,16,"Sat,Sun"
+E007,山本 大輔,"reception,phone,training",40,24,
+E008,中村 さくら,"reception,phone",24,16,Wed
+E009,小林 裕二,"phone",40,20,
+E010,加藤 真理,"reception,phone,training",40,24,
