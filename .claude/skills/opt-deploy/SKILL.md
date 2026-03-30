@@ -197,6 +197,8 @@ def main():
 
 ## Phase 5: 出力
 
+**以下のMarkdownを `reports/deploy_design.md` に保存すること。** 本番パイプラインスクリプトは `scripts/` に保存する。
+
 ```markdown
 ## 運用設計書
 

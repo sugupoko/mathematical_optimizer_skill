@@ -199,6 +199,8 @@ user_invocable: true
 
 ## Phase 4: 出力
 
+**以下のMarkdownを `reports/assess_report.md` に保存すること。** 後続スキルが参照する。
+
 ```markdown
 ## 問題アセスメント
 

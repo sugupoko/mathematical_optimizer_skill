@@ -106,6 +106,25 @@ reference/hearing_sheet_matching.md  ← マッチング問題の場合
 → 経営向けの改善提案書を生成
 ```
 
+## 出力ルール（全スキル共通）
+
+**各スキルは結果をMarkdownドキュメントとして `reports/` に保存すること。**
+スクリプトは `scripts/`、数値結果は `results/` に保存する。
+
+| スキル | 出力ファイル |
+|--------|-----------|
+| opt-assess | `reports/assess_report.md` |
+| opt-baseline | `reports/baseline_report.md` + `scripts/baseline.py` + `results/baseline_results.json` |
+| opt-improve | `reports/improve_report.md` + `scripts/improve.py` + `results/improve_results.json` |
+| opt-report | `reports/v1_proposal.md`（バージョン連番） |
+| opt-request | `reports/data_request.md` |
+| opt-deploy | `reports/deploy_design.md` + `scripts/run_*.py`（本番パイプライン） |
+
+これにより:
+- 後続スキルが前のスキルの結果を参照できる
+- クライアントに成果物として渡せる
+- Git で変更履歴を追跡できる
+
 ## スキル一覧
 
 | スキル | コマンド | いつ使うか |

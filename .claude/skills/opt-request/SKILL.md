@@ -36,6 +36,8 @@ user_invocable: true
 
 ### 2. 依頼書の生成
 
+**以下のMarkdownを `reports/data_request.md` に保存すること。**
+
 ```markdown
 # 追加データ依頼書
 

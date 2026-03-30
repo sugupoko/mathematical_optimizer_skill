@@ -69,6 +69,9 @@ feasible?     x(50違反)   x(5違反)  o(0違反)
 ```
 
 ### 5. 出力
+
+**以下のMarkdownを `reports/baseline_report.md` に保存すること。** 実験スクリプトは `scripts/` に、数値結果は `results/` に保存する。
+
 ```markdown
 ## ベースライン結果
 

@@ -116,6 +116,9 @@ user_invocable: true
 ```
 
 ### 6. 出力
+
+**提案書を `reports/v1_proposal.md` に保存すること。** バージョンが進んだら `v2_proposal.md` 等に連番する。
+
 - Markdown形式の提案書
 - 必要に応じてPowerPoint（/pptxスキルと連携）
 

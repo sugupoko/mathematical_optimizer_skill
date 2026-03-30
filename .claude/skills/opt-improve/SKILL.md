@@ -163,6 +163,9 @@ user_invocable: true
 ```
 
 ### 4. 出力
+
+**以下のMarkdownを `reports/improve_report.md` に保存すること。** 改善スクリプトは `scripts/` に、数値結果は `results/` に保存する。
+
 ```markdown
 ## 改善結果
 
