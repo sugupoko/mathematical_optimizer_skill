@@ -1,0 +1,11 @@
+{
+  "wall_time": 0.05,
+  "timestamp": "20260330_120950",
+  "status": "OPTIMAL",
+  "objective": 8.0,
+  "feasible": true,
+  "hc_violations": 0,
+  "hours_std": 5.31,
+  "hours_range": "24-40h",
+  "total_assigned": 46
+}

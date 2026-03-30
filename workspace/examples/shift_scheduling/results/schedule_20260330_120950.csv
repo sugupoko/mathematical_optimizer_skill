@@ -1,0 +1,11 @@
+employee_id,name,Mon_morning,Mon_afternoon,Mon_night,Tue_morning,Tue_afternoon,Tue_night,Wed_morning,Wed_afternoon,Wed_night,Thu_morning,Thu_afternoon,Thu_night,Fri_morning,Fri_afternoon,Fri_night,Sat_morning,Sat_afternoon,Sat_night,Sun_morning,Sun_afternoon,Sun_night
+E001,田中 太郎,,,,,,,*,,,,,*,,,*,,*,,*,,
+E002,佐藤 花子,*,,,,,*,,,,*,,,,,*,,*,,,,
+E003,鈴木 一郎,,,*,,,,,,*,,,,*,,,*,,,,,
+E004,高橋 美咲,,,*,,,*,,,,*,,,*,,,,,,*,,
+E005,伊藤 健太,,*,,,*,,,,,,,,,*,,,,*,,,*
+E006,渡辺 由美,,*,,*,,,,*,,,*,,,,,,,,,,
+E007,山本 大輔,,,,*,,,,,*,,,,*,,,*,,,,,*
+E008,中村 さくら,*,,,*,,,,,,*,,,,,,,,,,,
+E009,小林 裕二,,,,,*,,,*,,,*,,,*,,,,*,,,
+E010,加藤 真理,*,,,,,,*,,,,,*,,*,,,,,,*,

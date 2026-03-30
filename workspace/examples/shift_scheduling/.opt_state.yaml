@@ -1,0 +1,80 @@
+version: 1
+project_name: "shift_scheduling_example"
+created_at: "2026-03-30T12:00:00"
+updated_at: "2026-03-30T12:00:00"
+
+assess:
+  status: "completed"
+  completed_at: "2026-03-30T12:00:00"
+  problem_type: "scheduling"
+  problem_subtype: "shift_scheduling"
+  scale:
+    variables: 210  # 10 employees x 21 shifts
+    constraints: 85  # 5 hard x ~10-21 + 5 soft
+    size_class: "small"
+  entities:
+    - name: "employees"
+      count: 10
+      source_file: "employees.csv"
+    - name: "shifts"
+      count: 21
+      source_file: "shifts.csv"
+    - name: "constraints"
+      count: 10
+      source_file: "constraints.csv"
+  objectives:
+    primary: "全ハード制約を充足（feasibility）"
+    secondary: "公平性（勤務時間のバラつき最小化）+ training配置"
+  hard_constraints:
+    - id: "HC1"
+      description: "各シフトの必要人数を満たす"
+      source: "staffing_requirement"
+    - id: "HC2"
+      description: "週最大勤務時間を超えない"
+      source: "labor_regulation"
+    - id: "HC3"
+      description: "利用不可日にシフトを割り当てない"
+      source: "employee_availability"
+    - id: "HC4"
+      description: "必要スキルを持つ従業員のみ割り当て"
+      source: "skill_requirement"
+    - id: "HC5"
+      description: "夜勤翌日の朝勤禁止（11時間休息）"
+      source: "labor_regulation"
+  soft_constraints:
+    - id: "SC1"
+      description: "連続勤務最大5日"
+      weight: 3
+    - id: "SC2"
+      description: "勤務時間の公平性（標準偏差最小化）"
+      weight: 5
+    - id: "SC3"
+      description: "最低勤務時間の確保"
+      weight: 4
+    - id: "SC4"
+      description: "夜勤は週2回以下"
+      weight: 3
+    - id: "SC5"
+      description: "training保持者を各日1シフト以上"
+      weight: 2
+  hypotheses:
+    - "供給(368h) < 需要(384h) で稼働率104.3%。ほぼ限界でfeasibility自体がきつい"
+    - "夜勤14スロット÷週2回制限=7人必要だが、不可日考慮で実質足りない可能性"
+    - "reception必須の朝勤(19スロット)に対しreception保持者8名。ここもタイト"
+    - "HC5(夜勤→朝勤禁止)が連鎖的にスケジュールを制約し、ボトルネックになりそう"
+  assumptions:
+    - key: "shift_duration"
+      value: 8
+      unit: "hours"
+      confidence: "high"
+      note: "全シフト統一8時間（データから確認済み）"
+    - key: "one_shift_per_day"
+      value: true
+      unit: "boolean"
+      confidence: "medium"
+      note: "1人1日1シフトと仮定（明示されていないがシフト時間の重複から推定）"
+  missing_data: []
+  data_quality:
+    overall: "良好"
+    issues:
+      - "unavailable_daysのNULLは「制限なし」と解釈"
