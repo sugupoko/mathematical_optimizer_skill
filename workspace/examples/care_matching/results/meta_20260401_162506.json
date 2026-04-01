@@ -1,0 +1,26 @@
+{
+  "match_count": 15,
+  "total_receivers": 15,
+  "match_rate": 1.0,
+  "hc_violations": 0,
+  "avg_compatibility": 82.67,
+  "total_score": 1240.0,
+  "gender_match_rate": 0.8,
+  "district_same_rate": 1.0,
+  "continuity_kept": 7,
+  "continuity_total": 7,
+  "workload_std": 0.6708,
+  "workload_distribution": {
+    "C001": 3,
+    "C002": 2,
+    "C003": 1,
+    "C004": 1,
+    "C005": 2,
+    "C006": 1,
+    "C007": 1,
+    "C008": 2,
+    "C009": 1,
+    "C010": 1
+  },
+  "timestamp": "20260401_162506"
+}

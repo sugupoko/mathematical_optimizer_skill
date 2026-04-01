@@ -83,8 +83,29 @@ assumptions:
   - "停滞判定: 経過6h超 かつ 進捗が期待の50%未満"
   - "LLM推定は過去実績ベースのフォールバック推定"
 
+deploy:
+  status: "completed"
+  completed_at: "2026-03-30T17:00:00"
+  execution_frequency: "every_15min"
+  schedule: "15分ごと + P1即時トリガー"
+  pipeline_script: "scripts/run_pipeline.py"
+  design_doc: "reports/deploy_design.md"
+  pipeline_steps:
+    - "データ取得（engineers/tickets/resolution_history CSV）"
+    - "バリデーション"
+    - "停滞検出"
+    - "CP-SAT複合最適化（ブロック解放 + 停滞再アサイン）"
+    - "結果検証"
+    - "アサインJSON出力"
+  monitoring_metrics:
+    - "P1未対応件数"
+    - "アサイン率"
+    - "HC違反数"
+    - "停滞チケット数"
+  fallback_plan: "貪欲法（優先度順）→ P1即時エスカレーション"
+
 next_steps:
-  - "ブロック解放ルールの運用導入"
+  - "ITSMツールとのAPI連携"
+  - "Slack通知の導入"
   - "停滞検出ダッシュボードの構築"
-  - "CP-SATソルバーの定期実行自動化"
   - "実運用データでのフィードバックループ"

@@ -199,8 +199,22 @@ report:
 
 # --- /opt-deploy の出力 ---
 deploy:
-  status: "pending"
-  execution_frequency: null
-  pipeline_steps: []
-  monitoring_metrics: []
-  fallback_plan: null
+  status: "completed"
+  completed_at: "2026-03-30T17:00:00"
+  execution_frequency: "monthly"
+  schedule: "毎月1日 or 都度"
+  pipeline_script: "scripts/run_pipeline.py"
+  design_doc: "reports/deploy_design.md"
+  pipeline_steps:
+    - "データ取得（care_receivers/caregivers/compatibility_history CSV）"
+    - "バリデーション"
+    - "CP-SAT改善版ソルバー実行"
+    - "結果検証"
+    - "マッチング表CSV + JSONメタデータ出力"
+  monitoring_metrics:
+    - "マッチ率"
+    - "HC違反数"
+    - "平均互換性スコア"
+    - "継続維持率"
+    - "負荷偏差"
+  fallback_plan: "貪欲法（要介護度優先）→ 前回結果 → 手動割当"

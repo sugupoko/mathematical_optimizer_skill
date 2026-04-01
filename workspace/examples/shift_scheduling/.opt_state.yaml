@@ -146,3 +146,26 @@ report:
     - id: "C"
       description: "パート従業員の追加（中長期）"
       impact: "構造的供給不足の根本解決"
+
+deploy:
+  status: "completed"
+  completed_at: "2026-03-30T17:00:00"
+  execution_frequency: "weekly"
+  schedule: "毎週金曜17:00"
+  pipeline_script: "scripts/run_pipeline.py"
+  design_doc: "reports/deploy_design.md"
+  pipeline_steps:
+    - "データ取得（CSV + 需要調整適用）"
+    - "バリデーション"
+    - "CP-SAT改善版ソルバー実行"
+    - "結果検証"
+    - "CSV + JSONメタデータ出力"
+  monitoring_metrics:
+    - "HC違反数"
+    - "計算時間"
+    - "公平性(hours_std)"
+    - "夜勤3回以上の従業員数"
+  fallback_plan: "貪欲法 → 前週シフト表 → 手動作成"
+  demand_overrides:
+    Wed_morning: 2
+    Sun_afternoon: 1
