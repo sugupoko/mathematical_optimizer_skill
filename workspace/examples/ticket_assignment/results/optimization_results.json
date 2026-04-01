@@ -1,0 +1,1939 @@
+{
+  "analysis": {
+    "engineer_count": 20,
+    "tier_counts": {
+      "L1": 8,
+      "L2": 8,
+      "L3": 4
+    },
+    "on_shift_count": 15,
+    "ticket_count": 80,
+    "status_counts": {
+      "in_progress": 47,
+      "blocked_vendor": 4,
+      "blocked_approval": 2,
+      "blocked_customer": 2,
+      "unassigned": 25
+    },
+    "priority_counts": {
+      "P1": 3,
+      "P2": 13,
+      "P3": 42,
+      "P4": 22
+    },
+    "type_counts": {
+      "incident_critical": 3,
+      "incident_high": 11,
+      "incident_mid": 24,
+      "incident_low": 17,
+      "service_request": 22,
+      "change_standard": 3
+    },
+    "blocked_count": 8,
+    "blocked_tickets": [
+      {
+        "id": "TK016",
+        "status": "blocked_vendor",
+        "assigned_to": "E009"
+      },
+      {
+        "id": "TK017",
+        "status": "blocked_vendor",
+        "assigned_to": "E013"
+      },
+      {
+        "id": "TK018",
+        "status": "blocked_approval",
+        "assigned_to": "E014"
+      },
+      {
+        "id": "TK019",
+        "status": "blocked_customer",
+        "assigned_to": "E012"
+      },
+      {
+        "id": "TK020",
+        "status": "blocked_vendor",
+        "assigned_to": "E005"
+      },
+      {
+        "id": "TK031",
+        "status": "blocked_approval",
+        "assigned_to": "E011"
+      },
+      {
+        "id": "TK069",
+        "status": "blocked_customer",
+        "assigned_to": "E018"
+      },
+      {
+        "id": "TK073",
+        "status": "blocked_vendor",
+        "assigned_to": "E003"
+      }
+    ],
+    "sla_risk_count": 8,
+    "sla_risk_tickets": [
+      {
+        "id": "TK001",
+        "priority": "P1",
+        "sla_remaining": 1.5
+      },
+      {
+        "id": "TK002",
+        "priority": "P1",
+        "sla_remaining": 2.0
+      },
+      {
+        "id": "TK003",
+        "priority": "P2",
+        "sla_remaining": 5.0
+      },
+      {
+        "id": "TK015",
+        "priority": "P2",
+        "sla_remaining": 5.0
+      },
+      {
+        "id": "TK016",
+        "priority": "P2",
+        "sla_remaining": 1.0
+      },
+      {
+        "id": "TK019",
+        "priority": "P3",
+        "sla_remaining": 2.0
+      },
+      {
+        "id": "TK036",
+        "priority": "P1",
+        "sla_remaining": 4.0
+      },
+      {
+        "id": "TK063",
+        "priority": "P2",
+        "sla_remaining": 5.0
+      }
+    ],
+    "unassigned_skill_demand": {
+      "infra": 4,
+      "monitoring": 3,
+      "cloud": 3,
+      "app_support": 5,
+      "database": 2,
+      "network": 3,
+      "helpdesk": 2,
+      "security": 3
+    },
+    "on_shift_skill_supply": {
+      "helpdesk": 6,
+      "app_support": 8,
+      "monitoring": 4,
+      "infra": 7,
+      "cloud": 6,
+      "database": 5,
+      "network": 5,
+      "security": 5
+    }
+  },
+  "stagnation": [
+    {
+      "ticket_id": "TK001",
+      "assigned_to": "E017",
+      "progress_pct": 40,
+      "expected_pct": 98.2,
+      "elapsed_hours": 53.8
+    },
+    {
+      "ticket_id": "TK002",
+      "assigned_to": "E018",
+      "progress_pct": 20,
+      "expected_pct": 95.5,
+      "elapsed_hours": 53.0
+    },
+    {
+      "ticket_id": "TK004",
+      "assigned_to": "E011",
+      "progress_pct": 30,
+      "expected_pct": 94.7,
+      "elapsed_hours": 54.0
+    },
+    {
+      "ticket_id": "TK008",
+      "assigned_to": "E014",
+      "progress_pct": 20,
+      "expected_pct": 94.5,
+      "elapsed_hours": 52.0
+    },
+    {
+      "ticket_id": "TK009",
+      "assigned_to": "E003",
+      "progress_pct": 10,
+      "expected_pct": 96.2,
+      "elapsed_hours": 101.0
+    },
+    {
+      "ticket_id": "TK011",
+      "assigned_to": "E006",
+      "progress_pct": 30,
+      "expected_pct": 96.4,
+      "elapsed_hours": 53.0
+    },
+    {
+      "ticket_id": "TK013",
+      "assigned_to": "E011",
+      "progress_pct": 40,
+      "expected_pct": 96.4,
+      "elapsed_hours": 53.5
+    },
+    {
+      "ticket_id": "TK021",
+      "assigned_to": "E006",
+      "progress_pct": 10,
+      "expected_pct": 93.6,
+      "elapsed_hours": 51.5
+    },
+    {
+      "ticket_id": "TK022",
+      "assigned_to": "E003",
+      "progress_pct": 0,
+      "expected_pct": 97.3,
+      "elapsed_hours": 73.0
+    },
+    {
+      "ticket_id": "TK023",
+      "assigned_to": "E018",
+      "progress_pct": 20,
+      "expected_pct": 95.5,
+      "elapsed_hours": 53.0
+    },
+    {
+      "ticket_id": "TK024",
+      "assigned_to": "E019",
+      "progress_pct": 10,
+      "expected_pct": 92.7,
+      "elapsed_hours": 51.0
+    },
+    {
+      "ticket_id": "TK025",
+      "assigned_to": "E009",
+      "progress_pct": 0,
+      "expected_pct": 94.5,
+      "elapsed_hours": 52.0
+    },
+    {
+      "ticket_id": "TK026",
+      "assigned_to": "E010",
+      "progress_pct": 0,
+      "expected_pct": 94.4,
+      "elapsed_hours": 50.5
+    },
+    {
+      "ticket_id": "TK027",
+      "assigned_to": "E001",
+      "progress_pct": 0,
+      "expected_pct": 98.1,
+      "elapsed_hours": 76.0
+    },
+    {
+      "ticket_id": "TK028",
+      "assigned_to": "E004",
+      "progress_pct": 40,
+      "expected_pct": 96.3,
+      "elapsed_hours": 52.5
+    },
+    {
+      "ticket_id": "TK029",
+      "assigned_to": "E012",
+      "progress_pct": 0,
+      "expected_pct": 94.3,
+      "elapsed_hours": 50.0
+    },
+    {
+      "ticket_id": "TK030",
+      "assigned_to": "E018",
+      "progress_pct": 10,
+      "expected_pct": 92.5,
+      "elapsed_hours": 49.0
+    },
+    {
+      "ticket_id": "TK032",
+      "assigned_to": "E005",
+      "progress_pct": 20,
+      "expected_pct": 96.0,
+      "elapsed_hours": 95.0
+    },
+    {
+      "ticket_id": "TK033",
+      "assigned_to": "E002",
+      "progress_pct": 30,
+      "expected_pct": 98.7,
+      "elapsed_hours": 75.0
+    },
+    {
+      "ticket_id": "TK035",
+      "assigned_to": "E015",
+      "progress_pct": 0,
+      "expected_pct": 93.2,
+      "elapsed_hours": 55.0
+    },
+    {
+      "ticket_id": "TK064",
+      "assigned_to": "E015",
+      "progress_pct": 20,
+      "expected_pct": 94.6,
+      "elapsed_hours": 53.0
+    },
+    {
+      "ticket_id": "TK065",
+      "assigned_to": "E010",
+      "progress_pct": 30,
+      "expected_pct": 95.4,
+      "elapsed_hours": 52.0
+    },
+    {
+      "ticket_id": "TK066",
+      "assigned_to": "E006",
+      "progress_pct": 40,
+      "expected_pct": 97.3,
+      "elapsed_hours": 71.0
+    },
+    {
+      "ticket_id": "TK067",
+      "assigned_to": "E004",
+      "progress_pct": 10,
+      "expected_pct": 94.4,
+      "elapsed_hours": 51.0
+    },
+    {
+      "ticket_id": "TK068",
+      "assigned_to": "E013",
+      "progress_pct": 30,
+      "expected_pct": 95.4,
+      "elapsed_hours": 52.0
+    },
+    {
+      "ticket_id": "TK071",
+      "assigned_to": "E007",
+      "progress_pct": 0,
+      "expected_pct": 97.3,
+      "elapsed_hours": 72.0
+    },
+    {
+      "ticket_id": "TK074",
+      "assigned_to": "E001",
+      "progress_pct": 20,
+      "expected_pct": 97.5,
+      "elapsed_hours": 99.0
+    },
+    {
+      "ticket_id": "TK075",
+      "assigned_to": "E019",
+      "progress_pct": 40,
+      "expected_pct": 94.7,
+      "elapsed_hours": 54.0
+    },
+    {
+      "ticket_id": "TK076",
+      "assigned_to": "E017",
+      "progress_pct": 0,
+      "expected_pct": 95.2,
+      "elapsed_hours": 50.0
+    },
+    {
+      "ticket_id": "TK077",
+      "assigned_to": "E002",
+      "progress_pct": 10,
+      "expected_pct": 97.2,
+      "elapsed_hours": 70.0
+    },
+    {
+      "ticket_id": "TK078",
+      "assigned_to": "E018",
+      "progress_pct": 30,
+      "expected_pct": 94.4,
+      "elapsed_hours": 51.0
+    },
+    {
+      "ticket_id": "TK079",
+      "assigned_to": "E014",
+      "progress_pct": 0,
+      "expected_pct": 95.1,
+      "elapsed_hours": 49.0
+    },
+    {
+      "ticket_id": "TK080",
+      "assigned_to": "E008",
+      "progress_pct": 0,
+      "expected_pct": 96.1,
+      "elapsed_hours": 74.0
+    }
+  ],
+  "baselines": {
+    "round_robin": {
+      "label": "round_robin",
+      "total_tickets": 25,
+      "assigned_count": 9,
+      "unassigned_count": 16,
+      "assignment_rate": 0.36,
+      "hc_violations": 0,
+      "avg_score": 56.0,
+      "skill_match_rate": 1.0,
+      "by_priority": {
+        "P1": {
+          "total": 1,
+          "assigned": 1,
+          "rate": 1.0,
+          "avg_score": 74.0
+        },
+        "P2": {
+          "total": 4,
+          "assigned": 0,
+          "rate": 0.0,
+          "avg_score": 0
+        },
+        "P3": {
+          "total": 13,
+          "assigned": 4,
+          "rate": 0.3077,
+          "avg_score": 56.25
+        },
+        "P4": {
+          "total": 7,
+          "assigned": 4,
+          "rate": 0.5714,
+          "avg_score": 51.25
+        }
+      },
+      "sla_critical_total": 1,
+      "sla_critical_assigned": 1,
+      "reassigned_count": 0,
+      "load_fairness_std": 0.3307
+    },
+    "greedy": {
+      "label": "greedy",
+      "total_tickets": 25,
+      "assigned_count": 9,
+      "unassigned_count": 16,
+      "assignment_rate": 0.36,
+      "hc_violations": 0,
+      "avg_score": 57.11,
+      "skill_match_rate": 1.0,
+      "by_priority": {
+        "P1": {
+          "total": 1,
+          "assigned": 1,
+          "rate": 1.0,
+          "avg_score": 74.0
+        },
+        "P2": {
+          "total": 4,
+          "assigned": 0,
+          "rate": 0.0,
+          "avg_score": 0
+        },
+        "P3": {
+          "total": 13,
+          "assigned": 4,
+          "rate": 0.3077,
+          "avg_score": 57.75
+        },
+        "P4": {
+          "total": 7,
+          "assigned": 4,
+          "rate": 0.5714,
+          "avg_score": 52.25
+        }
+      },
+      "sla_critical_total": 1,
+      "sla_critical_assigned": 1,
+      "reassigned_count": 0,
+      "load_fairness_std": 0.6999
+    },
+    "cpsat_baseline": {
+      "label": "cpsat_baseline",
+      "total_tickets": 25,
+      "assigned_count": 9,
+      "unassigned_count": 16,
+      "assignment_rate": 0.36,
+      "hc_violations": 0,
+      "avg_score": 57.67,
+      "skill_match_rate": 1.0,
+      "by_priority": {
+        "P1": {
+          "total": 1,
+          "assigned": 1,
+          "rate": 1.0,
+          "avg_score": 74.0
+        },
+        "P2": {
+          "total": 4,
+          "assigned": 0,
+          "rate": 0.0,
+          "avg_score": 0
+        },
+        "P3": {
+          "total": 13,
+          "assigned": 4,
+          "rate": 0.3077,
+          "avg_score": 59.0
+        },
+        "P4": {
+          "total": 7,
+          "assigned": 4,
+          "rate": 0.5714,
+          "avg_score": 52.25
+        }
+      },
+      "sla_critical_total": 1,
+      "sla_critical_assigned": 1,
+      "reassigned_count": 0,
+      "load_fairness_std": 0.6999
+    }
+  },
+  "improvements": {
+    "a_release_blocked": {
+      "label": "improve_a_release_blocked",
+      "total_tickets": 25,
+      "assigned_count": 14,
+      "unassigned_count": 11,
+      "assignment_rate": 0.56,
+      "hc_violations": 0,
+      "avg_score": 58.14,
+      "skill_match_rate": 1.0,
+      "by_priority": {
+        "P1": {
+          "total": 1,
+          "assigned": 1,
+          "rate": 1.0,
+          "avg_score": 74.0
+        },
+        "P2": {
+          "total": 4,
+          "assigned": 0,
+          "rate": 0.0,
+          "avg_score": 0
+        },
+        "P3": {
+          "total": 13,
+          "assigned": 9,
+          "rate": 0.6923,
+          "avg_score": 59.0
+        },
+        "P4": {
+          "total": 7,
+          "assigned": 4,
+          "rate": 0.5714,
+          "avg_score": 52.25
+        }
+      },
+      "sla_critical_total": 1,
+      "sla_critical_assigned": 1,
+      "reassigned_count": 0,
+      "load_fairness_std": 0.6633
+    },
+    "b_reassign_stagnant": {
+      "label": "improve_b_reassign_stagnant",
+      "total_tickets": 58,
+      "assigned_count": 38,
+      "unassigned_count": 20,
+      "assignment_rate": 0.6552,
+      "hc_violations": 0,
+      "avg_score": 61.26,
+      "skill_match_rate": 1.0,
+      "by_priority": {
+        "P1": {
+          "total": 3,
+          "assigned": 3,
+          "rate": 1.0,
+          "avg_score": 79.0
+        },
+        "P2": {
+          "total": 7,
+          "assigned": 6,
+          "rate": 0.8571,
+          "avg_score": 73.1667
+        },
+        "P3": {
+          "total": 31,
+          "assigned": 17,
+          "rate": 0.5484,
+          "avg_score": 60.4118
+        },
+        "P4": {
+          "total": 17,
+          "assigned": 12,
+          "rate": 0.7059,
+          "avg_score": 52.0833
+        }
+      },
+      "sla_critical_total": 3,
+      "sla_critical_assigned": 3,
+      "reassigned_count": 19,
+      "load_fairness_std": 1.4357
+    },
+    "c_combined": {
+      "label": "improve_c_combined",
+      "total_tickets": 58,
+      "assigned_count": 43,
+      "unassigned_count": 15,
+      "assignment_rate": 0.7414,
+      "hc_violations": 0,
+      "avg_score": 61.12,
+      "skill_match_rate": 1.0,
+      "by_priority": {
+        "P1": {
+          "total": 3,
+          "assigned": 3,
+          "rate": 1.0,
+          "avg_score": 79.0
+        },
+        "P2": {
+          "total": 7,
+          "assigned": 6,
+          "rate": 0.8571,
+          "avg_score": 73.6667
+        },
+        "P3": {
+          "total": 31,
+          "assigned": 22,
+          "rate": 0.7097,
+          "avg_score": 60.1818
+        },
+        "P4": {
+          "total": 17,
+          "assigned": 12,
+          "rate": 0.7059,
+          "avg_score": 52.0833
+        }
+      },
+      "sla_critical_total": 3,
+      "sla_critical_assigned": 3,
+      "reassigned_count": 20,
+      "load_fairness_std": 1.2797
+    }
+  },
+  "assignments_detail": {
+    "round_robin": [
+      {
+        "ticket_id": "TK036",
+        "engineer_id": "E020",
+        "score": 74.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK037",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK038",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK039",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK040",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK041",
+        "engineer_id": "E014",
+        "score": 54.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK042",
+        "engineer_id": "E010",
+        "score": 56.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK043",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK044",
+        "engineer_id": "E001",
+        "score": 56.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK045",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK046",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK047",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK048",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK051",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK052",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK055",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK056",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK059",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK049",
+        "engineer_id": "E001",
+        "score": 51.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK050",
+        "engineer_id": "E002",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK053",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK054",
+        "engineer_id": "E003",
+        "score": 51.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK057",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK058",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK060",
+        "engineer_id": "E005",
+        "score": 51.0,
+        "skill_match": true
+      }
+    ],
+    "greedy": [
+      {
+        "ticket_id": "TK036",
+        "engineer_id": "E020",
+        "score": 74.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK038",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK040",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK039",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK037",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK046",
+        "engineer_id": "E010",
+        "score": 61.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK056",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK045",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK042",
+        "engineer_id": "E014",
+        "score": 54.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK041",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK051",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK044",
+        "engineer_id": "E006",
+        "score": 57.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK043",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK055",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK048",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK059",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK047",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK052",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK053",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK049",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK050",
+        "engineer_id": "E004",
+        "score": 53.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK057",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK054",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK060",
+        "engineer_id": "E002",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK058",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      }
+    ],
+    "cpsat_baseline": [
+      {
+        "ticket_id": "TK036",
+        "engineer_id": "E020",
+        "score": 74.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK037",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK038",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK039",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK040",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK041",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK042",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK043",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK044",
+        "engineer_id": "E006",
+        "score": 57.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK045",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK046",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK047",
+        "engineer_id": "E010",
+        "score": 61.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK048",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK049",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK050",
+        "engineer_id": "E004",
+        "score": 53.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK051",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK052",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK053",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK054",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK055",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK056",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK057",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK058",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK059",
+        "engineer_id": "E014",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK060",
+        "engineer_id": "E002",
+        "score": 52.0,
+        "skill_match": true
+      }
+    ],
+    "improve_a": [
+      {
+        "ticket_id": "TK036",
+        "engineer_id": "E020",
+        "score": 74.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK037",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK038",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK039",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK040",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK041",
+        "engineer_id": "E012",
+        "score": 57.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK042",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK043",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK044",
+        "engineer_id": "E006",
+        "score": 57.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK045",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK046",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK047",
+        "engineer_id": "E010",
+        "score": 61.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK048",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK049",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK050",
+        "engineer_id": "E004",
+        "score": 53.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK051",
+        "engineer_id": "E014",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK052",
+        "engineer_id": "E009",
+        "score": 60.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK053",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK054",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK055",
+        "engineer_id": "E013",
+        "score": 60.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK056",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK057",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK058",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK059",
+        "engineer_id": "E014",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK060",
+        "engineer_id": "E002",
+        "score": 52.0,
+        "skill_match": true
+      }
+    ],
+    "improve_b": [
+      {
+        "ticket_id": "TK036",
+        "engineer_id": "E020",
+        "score": 74.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK037",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK038",
+        "engineer_id": "E018",
+        "score": 70.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK039",
+        "engineer_id": "E018",
+        "score": 70.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK040",
+        "engineer_id": "E018",
+        "score": 75.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK041",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK042",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK043",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK044",
+        "engineer_id": "E006",
+        "score": 57.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK045",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK046",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK047",
+        "engineer_id": "E013",
+        "score": 60.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK048",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK049",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK050",
+        "engineer_id": "E004",
+        "score": 53.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK051",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK052",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK053",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK054",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK055",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK056",
+        "engineer_id": "E018",
+        "score": 65.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK057",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK058",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK059",
+        "engineer_id": "E014",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK060",
+        "engineer_id": "E002",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK001",
+        "engineer_id": "E020",
+        "score": 84.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK002",
+        "engineer_id": "E020",
+        "score": 79.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK004",
+        "engineer_id": "E019",
+        "score": 80.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK008",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK009",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK011",
+        "engineer_id": "E004",
+        "score": 58.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK013",
+        "engineer_id": "E014",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK021",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK022",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK023",
+        "engineer_id": "E014",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK024",
+        "engineer_id": "E017",
+        "score": 72.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK025",
+        "engineer_id": "E009",
+        "score": 60.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK026",
+        "engineer_id": "E010",
+        "score": 61.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK027",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK028",
+        "engineer_id": "E004",
+        "score": 58.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK029",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK030",
+        "engineer_id": "E017",
+        "score": 72.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK032",
+        "engineer_id": "E002",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK033",
+        "engineer_id": "E004",
+        "score": 53.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK035",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK064",
+        "engineer_id": "E012",
+        "score": 62.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK065",
+        "engineer_id": "E010",
+        "score": 61.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK066",
+        "engineer_id": "E003",
+        "score": 51.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK067",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK068",
+        "engineer_id": "E010",
+        "score": 61.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK071",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK074",
+        "engineer_id": "E003",
+        "score": 51.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK075",
+        "engineer_id": "E019",
+        "score": 70.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK076",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK077",
+        "engineer_id": "E004",
+        "score": 53.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK078",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK079",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK080",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      }
+    ],
+    "improve_c": [
+      {
+        "ticket_id": "TK036",
+        "engineer_id": "E020",
+        "score": 74.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK037",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK038",
+        "engineer_id": "E018",
+        "score": 70.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK039",
+        "engineer_id": "E018",
+        "score": 70.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK040",
+        "engineer_id": "E017",
+        "score": 77.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK041",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK042",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK043",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK044",
+        "engineer_id": "E006",
+        "score": 57.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK045",
+        "engineer_id": "E014",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK046",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK047",
+        "engineer_id": "E010",
+        "score": 61.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK048",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK049",
+        "engineer_id": "E001",
+        "score": 51.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK050",
+        "engineer_id": "E004",
+        "score": 53.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK051",
+        "engineer_id": "E014",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK052",
+        "engineer_id": "E013",
+        "score": 60.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK053",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK054",
+        "engineer_id": "E001",
+        "score": 51.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK055",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK056",
+        "engineer_id": "E018",
+        "score": 65.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK057",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK058",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK059",
+        "engineer_id": "E011",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK060",
+        "engineer_id": "E002",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK001",
+        "engineer_id": "E020",
+        "score": 84.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK002",
+        "engineer_id": "E020",
+        "score": 79.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK004",
+        "engineer_id": "E019",
+        "score": 80.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK008",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK009",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK011",
+        "engineer_id": "E004",
+        "score": 58.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK013",
+        "engineer_id": "E014",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK021",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK022",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK023",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK024",
+        "engineer_id": "E019",
+        "score": 75.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK025",
+        "engineer_id": "E012",
+        "score": 62.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK026",
+        "engineer_id": "E014",
+        "score": 59.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK027",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK028",
+        "engineer_id": "E004",
+        "score": 58.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK029",
+        "engineer_id": "E009",
+        "score": 60.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK030",
+        "engineer_id": "E018",
+        "score": 70.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK032",
+        "engineer_id": "E002",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK033",
+        "engineer_id": "E004",
+        "score": 53.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK035",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK064",
+        "engineer_id": "E009",
+        "score": 60.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK065",
+        "engineer_id": "E010",
+        "score": 61.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK066",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK067",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK068",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK071",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      },
+      {
+        "ticket_id": "TK074",
+        "engineer_id": "E006",
+        "score": 52.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK075",
+        "engineer_id": "E017",
+        "score": 67.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK076",
+        "engineer_id": "E010",
+        "score": 61.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK077",
+        "engineer_id": "E004",
+        "score": 53.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK078",
+        "engineer_id": "E013",
+        "score": 60.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK079",
+        "engineer_id": "E012",
+        "score": 62.0,
+        "skill_match": true
+      },
+      {
+        "ticket_id": "TK080",
+        "engineer_id": null,
+        "score": 0,
+        "skill_match": false
+      }
+    ]
+  },
+  "estimator_stats": {
+    "personal_avg_count": 56,
+    "category_avg": {
+      "helpdesk": 0.56,
+      "app_support": 1.41,
+      "monitoring": 1.43,
+      "infra": 1.64,
+      "network": 1.6,
+      "database": 1.19,
+      "cloud": 1.28,
+      "security": 1.27
+    }
+  }
+}

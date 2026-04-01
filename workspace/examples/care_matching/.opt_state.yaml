@@ -1,0 +1,206 @@
+# workspace/examples/care_matching/.opt_state.yaml
+version: 1
+project_name: "介護マッチング最適化サンプル"
+created_at: "2026-03-30T10:00:00"
+updated_at: "2026-03-30T16:00:00"
+
+# --- /opt-assess の出力 ---
+assess:
+  status: "completed"
+  completed_at: "2026-03-30T10:30:00"
+  problem_type: "assignment"
+  problem_subtype: "bipartite_matching"
+  scale:
+    variables: 150  # 15利用者 x 10ヘルパー = 150ペア
+    constraints: 12  # HC01-HC05 + SC01-SC07
+    size_class: "small"
+  entities:
+    - name: "care_receivers"
+      count: 15
+      source_file: "data/care_receivers.csv"
+    - name: "caregivers"
+      count: 10
+      source_file: "data/caregivers.csv"
+    - name: "compatibility_history"
+      count: 150
+      source_file: "data/compatibility_history.csv"
+    - name: "constraints"
+      count: 12
+      source_file: "data/constraints.csv"
+  objectives:
+    primary: "互換性スコアの最大化"
+    secondary: "公平性（負荷均等化）"
+  hard_constraints:
+    - id: "HC01"
+      description: "身体介護には介護福祉士の資格が必須"
+      source: "制度要件"
+    - id: "HC02"
+      description: "要介護4以上には経験3年以上のヘルパーを配置"
+      source: "運用ルール"
+    - id: "HC03"
+      description: "ヘルパー1人あたりの担当数はmax_clientsを超えない"
+      source: "運用ルール"
+    - id: "HC04"
+      description: "利用者の希望曜日とヘルパーの対応可能曜日が1日以上重なる"
+      source: "スケジュール制約"
+    - id: "HC05"
+      description: "R004にはC004を配置しない（過去トラブル）"
+      source: "現場情報"
+  soft_constraints:
+    - id: "SC01"
+      description: "利用者の性別希望にできるだけ合わせる"
+      weight: 800
+    - id: "SC02"
+      description: "同一区内のマッチングを優先する"
+      weight: 600
+    - id: "SC03"
+      description: "過去の満足度スコア4以上の組合せを優先する"
+      weight: null
+    - id: "SC04"
+      description: "継続担当を維持する（満足度5の組合せ）"
+      weight: 3000
+    - id: "SC05"
+      description: "ヘルパーの担当数をできるだけ均等にする"
+      weight: -1000
+    - id: "SC06"
+      description: "要介護5の利用者には経験10年以上を優先する"
+      weight: 500
+    - id: "SC07"
+      description: "移動距離が短い組合せを優先する"
+      weight: 300
+  hypotheses:
+    - "供給が需要の2.67倍で全員マッチング可能"
+    - "ボトルネックはC002とC008への満足度5ペアの集中"
+    - "初任者研修ヘルパー（C004, C006, C009）の活用がカギ"
+    - "介護福祉士7名 vs 必要7名でぴったり"
+  assumptions:
+    - key: "supply_demand_ratio"
+      value: 2.67
+      unit: "倍"
+      confidence: "high"
+      note: "総受入可能数40名 / 利用者15名"
+    - key: "feasible_pair_ratio"
+      value: 81.3
+      unit: "%"
+      confidence: "high"
+      note: "122ペア / 150ペア（HC適用後）"
+  missing_data: []
+  data_quality:
+    overall: "良好"
+    issues: []
+
+# --- /opt-baseline の出力 ---
+baseline:
+  status: "completed"
+  completed_at: "2026-03-30T12:00:00"
+  results:
+    random:
+      feasible: false
+      violations: 9
+      violation_breakdown:
+        HC01: 4
+        HC02: 4
+        HC05: 1
+      score: 711.25
+      avg_compatibility: 47.42
+      continuity_rate: 0.0
+      district_match_rate: 0.7333
+      gender_match_rate: 0.8
+      workload_std: 1.118
+    greedy:
+      feasible: true
+      violations: 0
+      violation_breakdown: {}
+      score: 1240.0
+      method: "要介護度優先 + 互換性スコア最大"
+      avg_compatibility: 82.67
+      continuity_rate: 1.0
+      district_match_rate: 1.0
+      gender_match_rate: 0.8
+      workload_std: 0.922
+    solver:
+      feasible: true
+      violations: 0
+      score: 1240.0
+      solve_time_sec: null
+      method: "CP-SAT (互換性スコア総和最大化)"
+      avg_compatibility: 82.67
+      continuity_rate: 1.0
+      district_match_rate: 1.0
+      gender_match_rate: 0.8
+      workload_std: 0.8062
+  bottleneck:
+    constraint_id: "SC05"
+    description: "ヘルパー負荷の偏り（C009未配置、C001/C005に3名集中）"
+    evidence: "Greedy解でC009が未配置（負荷0）。曜日・経験・資格の制約が厳しい"
+    slack_ratio: 0.0
+  improvement_potential:
+    greedy_vs_solver_gap_pct: 0.0
+    assessment: "small"
+  scripts:
+    - path: "scripts/solve_all.py"
+
+# --- /opt-improve の出力 ---
+improve:
+  status: "completed"
+  iterations:
+    - iteration: 1
+      completed_at: "2026-03-30T14:00:00"
+      strategy: "ソフト制約の明示的モデル化（ボーナス重み付け）"
+      pattern_ref: "improvement_patterns.md#パターン1"
+      result:
+        feasible: true
+        violations: 0
+        score: 1240.0
+        avg_compatibility: 82.67
+        gender_match_rate: 0.8
+        district_match_rate: 1.0
+        continuity_rate: 1.0
+        workload_std: 0.922
+        vs_baseline_pct: "+0.0%"
+      what_worked: "継続ボーナス(+3000)、性別一致(+800)、地区一致(+600)、経験10年以上(+500)、公平性ペナルティ(-1000xmax_load)を目的関数に追加"
+      remaining_issues:
+        - "小規模問題のためGreedyと同等スコア"
+        - "C009が未配置のまま"
+        - "R012の性別希望未達（世田谷区に女性介護福祉士不在）"
+        - "R015の互換性スコアが低め（50.0）"
+  best:
+    iteration: 1
+    method: "CP-SAT + ソフト制約ボーナス（継続/性別/地区/経験/公平性）"
+    feasible: true
+    score: 1240.0
+    vs_baseline_pct: "+0.0%"
+    note: "スコア同等だがロバスト性と拡張容易性がCP-SAT改善版の利点"
+  additional_data_needed: []
+
+# --- /opt-report の出力 ---
+report:
+  status: "completed"
+  completed_at: "2026-03-30T16:00:00"
+  output_file: "reports/v1_proposal.md"
+  proposals:
+    - name: "CP-SATソルバー導入（コストゼロ）"
+      cost: 0
+      effect: "全ルール充足のマッチングを数秒で自動生成。ランダム比+74%互換性向上、違反9件→0件"
+      difficulty: "すぐできる"
+      recommended: true
+    - name: "C009の活用策"
+      cost: 0
+      effect: "新規利用者の受入時に優先配置。対応可能曜日の拡大検討"
+      difficulty: "中期"
+      recommended: true
+    - name: "R012への女性ヘルパー確保"
+      cost: "採用コスト"
+      effect: "性別一致率80%→86.7%"
+      difficulty: "中期"
+      recommended: false
+  impossibility_findings:
+    - "R012の性別希望は現在の世田谷区ヘルパー構成では完全充足不可（隣接区からの配置変更で対応可能）"
+
+# --- /opt-deploy の出力 ---
+deploy:
+  status: "pending"
+  execution_frequency: null
+  pipeline_steps: []
+  monitoring_metrics: []
+  fallback_plan: null

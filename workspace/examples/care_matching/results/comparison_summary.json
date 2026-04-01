@@ -1,0 +1,46 @@
+[
+  {
+    "method": "random",
+    "match_rate": 1.0,
+    "hc_violations": 9,
+    "avg_compatibility": 47.42,
+    "gender_match_rate": 0.8,
+    "district_match_rate": 0.7333,
+    "continuity_rate": 0.0,
+    "workload_std": 1.118,
+    "total_score": 711.25
+  },
+  {
+    "method": "greedy",
+    "match_rate": 1.0,
+    "hc_violations": 0,
+    "avg_compatibility": 82.67,
+    "gender_match_rate": 0.8,
+    "district_match_rate": 1.0,
+    "continuity_rate": 1.0,
+    "workload_std": 0.922,
+    "total_score": 1240.0
+  },
+  {
+    "method": "cpsat_basic",
+    "match_rate": 1.0,
+    "hc_violations": 0,
+    "avg_compatibility": 82.67,
+    "gender_match_rate": 0.8,
+    "district_match_rate": 1.0,
+    "continuity_rate": 1.0,
+    "workload_std": 0.8062,
+    "total_score": 1240.0
+  },
+  {
+    "method": "cpsat_improved",
+    "match_rate": 1.0,
+    "hc_violations": 0,
+    "avg_compatibility": 82.67,
+    "gender_match_rate": 0.8,
+    "district_match_rate": 1.0,
+    "continuity_rate": 1.0,
+    "workload_std": 0.922,
+    "total_score": 1240.0
+  }
+]

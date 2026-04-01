@@ -1,0 +1,55 @@
+{
+  "num_customers": 20,
+  "num_vehicles": 3,
+  "total_demand_kg": 815.0,
+  "total_capacity_kg": 750.0,
+  "capacity_ratio": 1.087,
+  "capacity_sufficient": false,
+  "avg_distance_from_depot_km": 7.99,
+  "avg_inter_customer_distance_km": 7.96,
+  "max_distance_from_depot_km": 14.97,
+  "avg_time_window_width_min": 216.0,
+  "min_time_window_width_min": 120,
+  "vehicles": [
+    {
+      "id": "V001",
+      "capacity": 300.0,
+      "max_hours": 8.0,
+      "cost_per_km": 120.0
+    },
+    {
+      "id": "V002",
+      "capacity": 250.0,
+      "max_hours": 8.0,
+      "cost_per_km": 110.0
+    },
+    {
+      "id": "V003",
+      "capacity": 200.0,
+      "max_hours": 6.0,
+      "cost_per_km": 100.0
+    }
+  ],
+  "demand_per_customer": {
+    "C001": 45.0,
+    "C002": 30.0,
+    "C003": 60.0,
+    "C004": 25.0,
+    "C005": 35.0,
+    "C006": 50.0,
+    "C007": 20.0,
+    "C008": 40.0,
+    "C009": 30.0,
+    "C010": 70.0,
+    "C011": 25.0,
+    "C012": 15.0,
+    "C013": 35.0,
+    "C014": 55.0,
+    "C015": 20.0,
+    "C016": 40.0,
+    "C017": 30.0,
+    "C018": 80.0,
+    "C019": 65.0,
+    "C020": 45.0
+  }
+}

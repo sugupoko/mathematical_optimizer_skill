@@ -1,0 +1,167 @@
+{
+  "random": {
+    "feasibility": 0,
+    "hard_violations": 8,
+    "hard_violations_detail": {
+      "HC1_required_count": 0,
+      "HC2_max_hours": 4,
+      "HC3_unavailable": 0,
+      "HC4_skills": 0,
+      "HC5_night_morning": 4
+    },
+    "soft_score": -62.29,
+    "soft_scores_detail": {
+      "SC1_consecutive": 0,
+      "SC2_fairness": -77.29,
+      "SC3_min_hours": -12,
+      "SC4_night_limit": -8,
+      "SC5_training": 35
+    },
+    "total_assignments": 48,
+    "hours_std": 15.46,
+    "hours_per_employee": {
+      "E002": 40,
+      "E001": 56,
+      "E007": 64,
+      "E005": 16,
+      "E004": 48,
+      "E003": 32,
+      "E008": 40,
+      "E009": 32,
+      "E010": 40,
+      "E006": 16
+    }
+  },
+  "greedy": {
+    "feasibility": 0,
+    "hard_violations": 3,
+    "hard_violations_detail": {
+      "HC1_required_count": 3,
+      "HC2_max_hours": 0,
+      "HC3_unavailable": 0,
+      "HC4_skills": 0,
+      "HC5_night_morning": 0
+    },
+    "soft_score": -14.99,
+    "soft_scores_detail": {
+      "SC1_consecutive": 0,
+      "SC2_fairness": -33.99,
+      "SC3_min_hours": 0,
+      "SC4_night_limit": -16,
+      "SC5_training": 35
+    },
+    "total_assignments": 45,
+    "hours_std": 6.8,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 40,
+      "E003": 32,
+      "E004": 40,
+      "E006": 24,
+      "E007": 40,
+      "E010": 40,
+      "E008": 24,
+      "E005": 40,
+      "E009": 40
+    }
+  },
+  "cpsat_basic": {
+    "feasibility": 0,
+    "hard_violations": 2,
+    "hard_violations_detail": {
+      "HC1_required_count": 2,
+      "HC2_max_hours": 0,
+      "HC3_unavailable": 0,
+      "HC4_skills": 0,
+      "HC5_night_morning": 0
+    },
+    "soft_score": -8.97,
+    "soft_scores_detail": {
+      "SC1_consecutive": 0,
+      "SC2_fairness": -27.97,
+      "SC3_min_hours": 0,
+      "SC4_night_limit": -16,
+      "SC5_training": 35
+    },
+    "total_assignments": 46,
+    "hours_std": 5.59,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 40,
+      "E003": 32,
+      "E004": 40,
+      "E005": 40,
+      "E006": 32,
+      "E007": 40,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40
+    }
+  },
+  "cpsat_improved": {
+    "feasibility": 0,
+    "hard_violations": 2,
+    "hard_violations_detail": {
+      "HC1_required_count": 2,
+      "HC2_max_hours": 0,
+      "HC3_unavailable": 0,
+      "HC4_skills": 0,
+      "HC5_night_morning": 0
+    },
+    "soft_score": 7.03,
+    "soft_scores_detail": {
+      "SC1_consecutive": 0,
+      "SC2_fairness": -27.97,
+      "SC3_min_hours": 0,
+      "SC4_night_limit": 0,
+      "SC5_training": 35
+    },
+    "total_assignments": 46,
+    "hours_std": 5.59,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 40,
+      "E003": 32,
+      "E004": 40,
+      "E005": 40,
+      "E006": 32,
+      "E007": 40,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40
+    }
+  },
+  "two_phase": {
+    "feasibility": 0,
+    "hard_violations": 2,
+    "hard_violations_detail": {
+      "HC1_required_count": 2,
+      "HC2_max_hours": 0,
+      "HC3_unavailable": 0,
+      "HC4_skills": 0,
+      "HC5_night_morning": 0
+    },
+    "soft_score": 7.03,
+    "soft_scores_detail": {
+      "SC1_consecutive": 0,
+      "SC2_fairness": -27.97,
+      "SC3_min_hours": 0,
+      "SC4_night_limit": 0,
+      "SC5_training": 35
+    },
+    "total_assignments": 46,
+    "hours_std": 5.59,
+    "hours_per_employee": {
+      "E001": 40,
+      "E004": 40,
+      "E002": 40,
+      "E003": 32,
+      "E007": 40,
+      "E005": 40,
+      "E006": 32,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40
+    }
+  }
+}

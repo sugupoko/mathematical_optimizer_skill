@@ -1,0 +1,79 @@
+{
+  "num_employees": 10,
+  "num_shift_slots": 21,
+  "total_demand_slots": 48,
+  "total_demand_hours": 384,
+  "total_supply_max_hours": 368,
+  "total_supply_min_hours": 208,
+  "supply_demand_ratio": 0.96,
+  "demand_by_day": {
+    "Mon": 7,
+    "Tue": 7,
+    "Wed": 7,
+    "Thu": 7,
+    "Fri": 8,
+    "Sat": 6,
+    "Sun": 6
+  },
+  "demand_by_shift": {
+    "morning": 19,
+    "afternoon": 15,
+    "night": 14
+  },
+  "demand_by_skill": {
+    "reception": 19,
+    "phone": 29
+  },
+  "skill_supply_count": {
+    "reception": 8,
+    "phone": 10,
+    "training": 5
+  },
+  "available_by_day": {
+    "Mon": 10,
+    "Tue": 10,
+    "Wed": 9,
+    "Thu": 10,
+    "Fri": 10,
+    "Sat": 8,
+    "Sun": 8
+  },
+  "feasibility_check": "POTENTIALLY_INFEASIBLE",
+  "day_analysis": {
+    "Mon": {
+      "demand_slots": 7,
+      "available_employees": 10,
+      "status": "OK"
+    },
+    "Tue": {
+      "demand_slots": 7,
+      "available_employees": 10,
+      "status": "OK"
+    },
+    "Wed": {
+      "demand_slots": 7,
+      "available_employees": 9,
+      "status": "OK"
+    },
+    "Thu": {
+      "demand_slots": 7,
+      "available_employees": 10,
+      "status": "OK"
+    },
+    "Fri": {
+      "demand_slots": 8,
+      "available_employees": 10,
+      "status": "OK"
+    },
+    "Sat": {
+      "demand_slots": 6,
+      "available_employees": 8,
+      "status": "OK"
+    },
+    "Sun": {
+      "demand_slots": 6,
+      "available_employees": 8,
+      "status": "OK"
+    }
+  }
+}

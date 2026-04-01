@@ -1,0 +1,73 @@
+{
+  "receivers": 15,
+  "caregivers": 10,
+  "total_capacity": 40,
+  "capacity_ratio": 2.67,
+  "receiver_by_district": {
+    "杉並区": 4,
+    "世田谷区": 3,
+    "渋谷区": 2,
+    "新宿区": 3,
+    "中野区": 3
+  },
+  "caregiver_by_district": {
+    "杉並区": 2,
+    "世田谷区": 2,
+    "渋谷区": 2,
+    "新宿区": 2,
+    "中野区": 2
+  },
+  "qualification_distribution": {
+    "介護福祉士": 7,
+    "初任者研修": 3
+  },
+  "receivers_need_kaigofukushishi": 7,
+  "care_level_distribution": {
+    "3": 4,
+    "4": 3,
+    "2": 3,
+    "5": 3,
+    "1": 2
+  },
+  "gender_preference": {
+    "F": 5,
+    "any": 10
+  },
+  "gender_supply": {
+    "F": 6,
+    "M": 4
+  },
+  "score5_pairs": 7,
+  "score5_detail": [
+    {
+      "receiver": "R001",
+      "caregiver": "C001"
+    },
+    {
+      "receiver": "R002",
+      "caregiver": "C002"
+    },
+    {
+      "receiver": "R003",
+      "caregiver": "C010"
+    },
+    {
+      "receiver": "R004",
+      "caregiver": "C008"
+    },
+    {
+      "receiver": "R007",
+      "caregiver": "C002"
+    },
+    {
+      "receiver": "R009",
+      "caregiver": "C008"
+    },
+    {
+      "receiver": "R010",
+      "caregiver": "C005"
+    }
+  ],
+  "feasible_pairs": 122,
+  "total_pairs": 150
+}

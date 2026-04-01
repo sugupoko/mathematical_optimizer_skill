@@ -1,0 +1,90 @@
+project:
+  name: ticket_assignment
+  type: resource_constrained_assignment
+  created_at: "2026-04-01"
+  version: v1
+
+data:
+  engineers: data/engineers.csv
+  tickets: data/tickets.csv
+  resolution_history: data/resolution_history.csv
+  constraints: data/constraints.csv
+
+status:
+  assess: completed
+  baseline: completed
+  improve: completed
+  report: completed
+  deploy: not_started
+
+current_phase: report_completed
+
+assess:
+  problem_type: multi_objective_assignment
+  engineers: 20
+  tickets: 80
+  unassigned: 25
+  blocked: 8
+  stagnant: 33
+  sla_risk_tickets: 8
+  key_hypothesis:
+    - "スロット枯渇が主要ボトルネック"
+    - "ブロック中チケットによるスロット無駄遣い"
+    - "停滞チケットの放置"
+
+baseline:
+  methods:
+    - round_robin
+    - greedy
+    - cpsat
+  best_method: cpsat
+  best_assignment_rate: 0.36
+  best_avg_score: 57.67
+  bottleneck: "空きスロット不足（全手法で9/25件のみアサイン可能）"
+
+improve:
+  methods:
+    - improve_a_release_blocked
+    - improve_b_reassign_stagnant
+    - improve_c_combined
+  recommended: improve_c_combined
+  best_assignment_rate: 0.7414
+  best_avg_score: 61.12
+  improvements:
+    a_release_blocked:
+      assigned: 14
+      total: 25
+      rate: 0.56
+    b_reassign_stagnant:
+      assigned: 38
+      total: 58
+      rate: 0.6552
+      reassigned: 19
+    c_combined:
+      assigned: 43
+      total: 58
+      rate: 0.7414
+      reassigned: 20
+
+results:
+  optimization_results: results/optimization_results.json
+  comparison_summary: results/comparison_summary.json
+
+reports:
+  assess: reports/assess_report.md
+  baseline: reports/baseline_report.md
+  improve: reports/improve_report.md
+  proposal: reports/v1_proposal.md
+
+assumptions:
+  - "現在時刻: 2026-04-01 14:00"
+  - "nightシフトのエンジニアはoff_shift（L3のみP1でon_call）"
+  - "ブロック中チケットは外部要因であり停滞とは区別"
+  - "停滞判定: 経過6h超 かつ 進捗が期待の50%未満"
+  - "LLM推定は過去実績ベースのフォールバック推定"
+
+next_steps:
+  - "ブロック解放ルールの運用導入"
+  - "停滞検出ダッシュボードの構築"
+  - "CP-SATソルバーの定期実行自動化"
+  - "実運用データでのフィードバックループ"

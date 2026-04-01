@@ -1,0 +1,81 @@
+{
+  "label": "random",
+  "match_rate": 1.0,
+  "n_matched": 15,
+  "n_total": 15,
+  "hc_violations": 9,
+  "hc_detail": [
+    {
+      "receiver": "R007",
+      "caregiver": "C004",
+      "violations": [
+        "HC01",
+        "HC02"
+      ]
+    },
+    {
+      "receiver": "R015",
+      "caregiver": "C004",
+      "violations": [
+        "HC01",
+        "HC02"
+      ]
+    },
+    {
+      "receiver": "R004",
+      "caregiver": "C004",
+      "violations": [
+        "HC01",
+        "HC02",
+        "HC05"
+      ]
+    },
+    {
+      "receiver": "R002",
+      "caregiver": "C009",
+      "violations": [
+        "HC01",
+        "HC02"
+      ]
+    }
+  ],
+  "avg_compatibility": 47.42,
+  "gender_match_rate": 0.8,
+  "district_match_rate": 0.7333,
+  "district_same": 3,
+  "district_adjacent": 8,
+  "continuity_rate": 0.0,
+  "continuity_kept": 0,
+  "continuity_total": 7,
+  "workload_std": 1.118,
+  "workload_distribution": {
+    "C001": 3,
+    "C002": 1,
+    "C003": 0,
+    "C004": 3,
+    "C005": 1,
+    "C006": 1,
+    "C007": 0,
+    "C008": 1,
+    "C009": 3,
+    "C010": 2
+  },
+  "total_score": 711.25,
+  "assignments": {
+    "R009": "C001",
+    "R014": "C001",
+    "R008": "C002",
+    "R007": "C004",
+    "R015": "C004",
+    "R013": "C009",
+    "R006": "C010",
+    "R003": "C001",
+    "R010": "C009",
+    "R004": "C004",
+    "R005": "C010",
+    "R012": "C008",
+    "R001": "C005",
+    "R002": "C009",
+    "R011": "C006"
+  }
+}

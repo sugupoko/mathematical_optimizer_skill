@@ -1,7 +1,7 @@
 version: 1
 project_name: "shift_scheduling_example"
 created_at: "2026-03-30T12:00:00"
-updated_at: "2026-03-30T12:00:00"
+updated_at: "2026-03-30T15:00:00"
 
 assess:
   status: "completed"
@@ -29,6 +29,7 @@ assess:
     - id: "HC1"
       description: "各シフトの必要人数を満たす"
       source: "staffing_requirement"
+      note: "構造的に不可能（供給368h < 需要384h）。最低2枠の不足が理論下限"
     - id: "HC2"
       description: "週最大勤務時間を超えない"
       source: "labor_regulation"
@@ -44,21 +45,21 @@ assess:
   soft_constraints:
     - id: "SC1"
       description: "連続勤務最大5日"
-      weight: 3
+      weight: 10
     - id: "SC2"
       description: "勤務時間の公平性（標準偏差最小化）"
       weight: 5
     - id: "SC3"
       description: "最低勤務時間の確保"
-      weight: 4
+      weight: 3
     - id: "SC4"
       description: "夜勤は週2回以下"
-      weight: 3
+      weight: 8
     - id: "SC5"
       description: "training保持者を各日1シフト以上"
-      weight: 2
+      weight: 5
   hypotheses:
-    - "供給(368h) < 需要(384h) で稼働率104.3%。ほぼ限界でfeasibility自体がきつい"
+    - "供給(368h) < 需要(384h) で稼働率104.3%。HC1完全充足は不可能"
     - "夜勤14スロット÷週2回制限=7人必要だが、不可日考慮で実質足りない可能性"
     - "reception必須の朝勤(19スロット)に対しreception保持者8名。ここもタイト"
     - "HC5(夜勤→朝勤禁止)が連鎖的にスケジュールを制約し、ボトルネックになりそう"
@@ -78,3 +79,70 @@ assess:
     overall: "良好"
     issues:
       - "unavailable_daysのNULLは「制限なし」と解釈"
+
+baseline:
+  status: "completed"
+  completed_at: "2026-03-30T15:00:00"
+  methods:
+    - name: "random"
+      hard_violations: 8
+      soft_score: -62.29
+      feasible: false
+      note: "HC2違反4件、HC5違反4件。勤務偏差std=15.46h"
+    - name: "greedy"
+      hard_violations: 3
+      soft_score: -14.99
+      feasible: false
+      note: "HC1不足3枠。夜勤偏り(SC4=-16)"
+    - name: "cpsat_basic"
+      hard_violations: 2
+      soft_score: -8.97
+      feasible: false
+      note: "HC1緩和モードでOPTIMAL。不足を理論下限2枠に抑制。SC4=-16"
+  best_baseline: "cpsat_basic"
+  bottlenecks:
+    - "HC1: 構造的供給不足（368h < 384h、最低2枠不足）"
+    - "SC4: 夜勤が特定従業員に集中（基本版では目的関数に未反映）"
+    - "SC2: 勤務時間偏差5.59h（E008の24h上限等が原因で構造的）"
+
+improve:
+  status: "completed"
+  completed_at: "2026-03-30T15:00:00"
+  iterations:
+    - name: "cpsat_improved"
+      pattern: "パターン1: 目的関数精密一致"
+      hard_violations: 2
+      soft_score: 7.03
+      feasible: false
+      improvement_vs_baseline: "+16.00 (178%改善)"
+      note: "SC4(夜勤)を0に改善。SC2は構造的制約で同水準"
+    - name: "two_phase"
+      pattern: "パターン6: 制約優先→品質改善"
+      hard_violations: 2
+      soft_score: 7.03
+      feasible: false
+      improvement_vs_baseline: "+16.00 (178%改善)"
+      note: "5000回ローカルサーチでCP-SAT改善版と同等に到達"
+  best_method: "cpsat_improved"
+  remaining_issues:
+    - "HC1の2枠不足は人員追加なしでは解消不可"
+    - "SC2の時間偏差はE008/E003/E006の上限差が原因で改善困難"
+
+report:
+  status: "completed"
+  completed_at: "2026-03-30T15:00:00"
+  files:
+    - "reports/assess_report.md"
+    - "reports/baseline_report.md"
+    - "reports/improve_report.md"
+    - "reports/v1_proposal.md"
+  proposals:
+    - id: "A"
+      description: "現行10名体制での最適シフト（即時実施可能）"
+      impact: "制約違反を最小化（2枠不足のみ）"
+    - id: "B"
+      description: "夜勤の必要人数を調整（土日2→1名）"
+      impact: "全シフト充足可能に"
+    - id: "C"
+      description: "パート従業員の追加（中長期）"
+      impact: "構造的供給不足の根本解決"
