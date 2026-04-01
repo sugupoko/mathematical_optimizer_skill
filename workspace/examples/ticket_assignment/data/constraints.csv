@@ -1,0 +1,10 @@
+constraint_id,type,description,hard_or_soft,weight,details
+HC1,skill_match,チケットの必要スキルをエンジニアが保有していること,hard,,required_skill in engineer.skills
+HC2,tier_requirement,チケットの最低ティア要件を満たすこと,hard,,engineer.tier >= ticket.min_tier
+HC3,shift_available,アサイン先エンジニアが勤務中であること,hard,,engineer.on_shift == True
+HC4,capacity_limit,同時担当チケット数が上限を超えないこと,hard,,current_load + 1 <= max_concurrent
+SC1,sla_priority,SLA残時間が短いチケットを優先的にアサインする,soft,100,sla_remaining_hours が短いほど優先度高
+SC2,skill_proficiency,解決実績の多いスキルを持つエンジニアを優先する,soft,60,resolution_history の平均解決時間が短い方を優先
+SC3,load_balance,エンジニア間の負荷を均等にする,soft,40,担当件数の標準偏差を最小化
+SC4,minimize_reassignment,ブロック解除後は元の担当者に戻す,soft,30,assigned_to が既に設定されている場合は変更しない
+SC5,tier_efficiency,可能な限り低いティアで解決する（L3は重要案件に温存）,soft,20,min_tier を満たす最低ティアのエンジニアを優先

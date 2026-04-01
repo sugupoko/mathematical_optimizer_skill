@@ -102,9 +102,12 @@ mathematical_optimizer_skill/
 │   ├── hearing_templates.md       <- Hearing guide (intent behind each question)
 │   ├── matching_template.py        <- Matching problem template (Gale-Shapley + CP-SAT)
 │   ├── matching_guide.md           <- Matching problem guide
+│   ├── ticket_assignment_template.py <- Ticket assignment template (LLM estimation + stagnation)
+│   ├── ticket_assignment_guide.md <- Ticket assignment guide (ITSM, tiers, dynamic)
 │   ├── hearing_sheet_shift.md     <- Fill-in sheet (shift scheduling)
 │   ├── hearing_sheet_routing.md   <- Fill-in sheet (delivery routing)
-│   └── hearing_sheet_matching.md  <- Fill-in sheet (matching problems)
+│   ├── hearing_sheet_matching.md  <- Fill-in sheet (matching problems)
+│   └── hearing_sheet_ticket.md    <- Fill-in sheet (ticket assignment)
 └── workspace/                     <- Working directory
     └── examples/                  <- Sample data for E2E demos (shift, routing, matching)
 ```
@@ -115,6 +118,7 @@ mathematical_optimizer_skill/
 - **Routing**: Delivery routes, sales visits, pickup/delivery
 - **Packing**: Container loading, warehouse layout
 - **Matching**: Caregiver-patient, job placement, mentoring (bilateral preferences)
+- **Ticket Assignment**: ITSM, bug tracking, customer support (dynamic task allocation)
 - **Assignment**: Set cover, resource allocation, combinatorial selection
 
 ## Five Principles

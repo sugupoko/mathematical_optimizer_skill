@@ -1,0 +1,21 @@
+engineer_id,name,tier,skills,max_concurrent,experience_years,shift,on_shift
+E001,田中 健太,L1,"helpdesk,app_support",6,1,day,True
+E002,鈴木 美咲,L1,"helpdesk,monitoring",6,2,day,True
+E003,山本 翔太,L1,"app_support,helpdesk",6,1,day,True
+E004,佐藤 由美,L1,"helpdesk,infra",6,3,day,True
+E005,中村 大輔,L1,"monitoring,helpdesk",6,1,late,True
+E006,小林 愛,L1,"helpdesk,app_support",6,2,late,True
+E007,加藤 拓海,L1,"helpdesk,network",6,1,night,False
+E008,吉田 さくら,L1,"app_support,monitoring",6,2,night,False
+E009,渡辺 誠,L2,"app_support,database,cloud",4,5,day,True
+E010,伊藤 花,L2,"infra,network,monitoring",4,6,day,True
+E011,高橋 亮介,L2,"network,security,infra",4,4,day,True
+E012,松本 真由,L2,"database,app_support,cloud",4,7,day,True
+E013,木村 隼人,L2,"cloud,infra,monitoring",4,5,late,True
+E014,林 彩乃,L2,"security,network,app_support",4,4,late,True
+E015,山田 悠斗,L2,"app_support,infra,database",4,6,night,False
+E016,井上 理恵,L2,"monitoring,cloud,network",4,5,night,False
+E017,石川 徹,L3,"infra,network,security,database",3,12,day,True
+E018,藤田 恵子,L3,"cloud,app_support,security,database",3,10,day,True
+E019,中島 康平,L3,"network,infra,cloud,security",3,15,late,True
+E020,岡田 美穂,L3,"database,app_support,infra,cloud",3,9,night,False

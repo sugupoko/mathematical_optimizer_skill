@@ -99,6 +99,34 @@
 
 ---
 
+## チケットアサイン最適化（ticket_assignment/）
+
+**20名のエンジニア × 80件のチケットの動的チケットアサイン問題。**
+
+### データ
+- `data/engineers.csv` — エンジニア20名（L1×8, L2×8, L3×4、8種スキル）
+- `data/tickets.csv` — チケット80件（25件未アサイン、55件アサイン済み、一部ブロック中）
+- `data/resolution_history.csv` — 過去の解決実績300件
+- `data/constraints.csv` — 制約条件
+
+### 実行手順
+```
+/opt-assess workspace/examples/ticket_assignment/data/
+/opt-baseline workspace/examples/ticket_assignment/data/
+/opt-improve workspace/examples/ticket_assignment/data/
+/opt-report workspace/examples/ticket_assignment/results/
+/opt-deploy workspace/examples/ticket_assignment/
+```
+
+### 問題の特徴
+- **ティア階層制約**: L1(ヘルプデスク)→L2(運用)→L3(スペシャリスト)
+- **ブロック状態**: ベンダー待ち、顧客返答待ち、承認待ちなど5種
+- **滞留検知**: 進捗が遅れているチケットを自動検出し再アサイン提案
+- **LLM推定**: 過去実績から解決時間を推定（少量データでも動作）
+- **動的再最適化**: 15分ごとに状態変化を反映して再計算
+
+---
+
 ## 期待される結果
 
 各プロジェクトの `expected/` フォルダに、初期のベースライン結果のサンプルがあります。

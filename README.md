@@ -104,6 +104,8 @@ mathematical_optimizer_skill/
 │   ├── vrp_template.py            ← 配送ルートのコード雛形
 │   ├── matching_template.py        ← マッチング問題の雛形（Gale-Shapley + CP-SAT）
 │   ├── matching_guide.md           ← マッチング問題ガイド
+│   ├── ticket_assignment_template.py ← チケットアサイン最適化テンプレート
+│   ├── ticket_assignment_guide.md  ← チケットアサイン最適化ガイド
 │   ├── evaluator_template.py      ← 評価関数の雛形 + 一致検証
 │   ├── data_preprocessing.md      ← データ前処理の定石 + 大規模距離行列
 │   ├── improvement_patterns.md    ← 6つの改善定石パターン
@@ -111,12 +113,14 @@ mathematical_optimizer_skill/
 │   ├── hearing_templates.md       ← ヒアリングガイド（質問の意図）
 │   ├── hearing_sheet_shift.md     ← 記入用シート（シフト業務）
 │   ├── hearing_sheet_routing.md   ← 記入用シート（配送ルート）
-│   └── hearing_sheet_matching.md  ← 記入用シート（マッチング問題）
+│   ├── hearing_sheet_matching.md  ← 記入用シート（マッチング問題）
+│   └── hearing_sheet_ticket.md   ← 記入用シート（チケットアサイン）
 └── workspace/                     ← ここで作業する
     ├── examples/                  ← サンプルデータ（E2Eデモ用）
     │   ├── shift_scheduling/      ← シフト最適化サンプル（10人×7日）
     │   ├── delivery_routing/      ← 配送ルートサンプル（20地点×3台）
-    │   └── care_matching/         ← 介護マッチングサンプル（15利用者×10ヘルパー）
+    │   ├── care_matching/         ← 介護マッチングサンプル（15利用者×10ヘルパー）
+    │   └── ticket_assignment/    ← チケットアサインサンプル（20エンジニア×80チケット）
     └── my_project/                ← プロジェクトごとにフォルダを作成
 ```
 
@@ -126,6 +130,7 @@ mathematical_optimizer_skill/
 - **巡回・配送**: 配送ルート、営業巡回、集配ルート
 - **パッキング**: コンテナ積載、倉庫配置
 - **マッチング**: 介護×ヘルパー、求人、メンタリング（双方向選好付き）
+- **チケットアサイン**: ITSM、バグトラッカー、カスタマーサポート（動的タスク割当）
 - **割当**: リソース配分、組合せ選択
 
 ## 5つの原則

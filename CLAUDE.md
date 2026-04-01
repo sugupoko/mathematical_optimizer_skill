@@ -53,15 +53,19 @@ mathematical_optimizer_skill/
 │   ├── hearing_templates.md       ← ヒアリングガイド
 │   ├── matching_template.py        ← マッチング問題のコード雛形（Gale-Shapley + CP-SAT）
 │   ├── matching_guide.md           ← マッチング問題ガイド（安定マッチング、介護等）
+│   ├── ticket_assignment_template.py ← チケットアサイン最適化テンプレート（LLM推定+滞留検知+再アサイン）
+│   ├── ticket_assignment_guide.md  ← チケットアサイン最適化ガイド（ITIL、ティア階層、動的再最適化）
 │   ├── literature_guide.md         ← 文献・既存手法の調査ガイド（問題クラス別）
 │   ├── hearing_sheet_shift.md     ← 記入用シート（シフト業務）
 │   ├── hearing_sheet_routing.md   ← 記入用シート（配送ルート）
-│   └── hearing_sheet_matching.md  ← 記入用シート（マッチング問題）
+│   ├── hearing_sheet_matching.md  ← 記入用シート（マッチング問題）
+│   └── hearing_sheet_ticket.md   ← 記入用シート（チケットアサイン）
 └── workspace/                     ← ★ここで作業する
     ├── examples/                  ← サンプルデータ（E2Eデモ用）
     │   ├── shift_scheduling/      ← シフト最適化サンプル（10人×7日）
     │   ├── delivery_routing/      ← 配送ルートサンプル（20地点×3台）
-    │   └── care_matching/         ← 介護マッチングサンプル（15利用者×10ヘルパー）
+    │   ├── care_matching/         ← 介護マッチングサンプル（15利用者×10ヘルパー）
+    │   └── ticket_assignment/    ← チケットアサインサンプル（20エンジニア×80チケット）
     └── my_project/                ← プロジェクトごとにフォルダを作成
         ├── data/                  ← クライアントから受け取ったデータ
         ├── .opt_state.yaml        ← スキル間の状態管理ファイル
@@ -77,6 +81,7 @@ mathematical_optimizer_skill/
 reference/hearing_sheet_shift.md     ← シフト業務の場合
 reference/hearing_sheet_routing.md   ← 配送ルートの場合
 reference/hearing_sheet_matching.md  ← マッチング問題の場合
+reference/hearing_sheet_ticket.md   ← チケットアサインの場合
 → 印刷して現場で記入。暗黙の制約を引き出す。
 ```
 
@@ -247,6 +252,7 @@ git diff opt/client-name/v1..opt/client-name/v2 -- workspace/
 - 巡回・配送（TSP、VRP、配送ルート）
 - パッキング（ビンパッキング、2Dカッティング）
 - マッチング（介護×ヘルパー、求人、メンタリング等の双方向選好付き割当）
+- チケットアサイン（ITSM、バグトラッカー、カスタマーサポート等の動的タスク割当）
 - 割当（集合被覆、リソース配分）
 - 組合せ最適化全般
 

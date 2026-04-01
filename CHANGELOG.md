@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v2.2.0] - 2026-04-01
+
+### Added / 新規追加
+
+#### Ticket Assignment Support / チケットアサイン問題対応
+- `reference/ticket_assignment_template.py` — CP-SAT + LLM推定 + 滞留検知 + 再アサインの統合テンプレート (937行)
+- `reference/ticket_assignment_guide.md` — チケットアサイン最適化ガイド（ITIL、ティア階層、動的再最適化、ブロック状態）
+- `reference/hearing_sheet_ticket.md` — チケットアサイン固有のヒアリングシート
+
+#### Ticket Assignment Example / チケットアサインサンプル
+- `workspace/examples/ticket_assignment/` — 20エンジニア×80チケットのサンプルデータ
+- L1/L2/L3ティア階層、8種スキル、ブロック状態、ITIL分類
+
+#### Skill Output Rules / スキル出力ルール
+- 全6スキルに結果ドキュメント保存の指示を追加
+- CLAUDE.md に「出力ルール（全スキル共通）」セクション追加
+
+---
+
 ## [v2.1.0] - 2026-03-30
 
 ### Added / 新規追加
