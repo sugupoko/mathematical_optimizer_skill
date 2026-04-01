@@ -1,0 +1,132 @@
+version: 1
+project_name: "structural_design_example"
+created_at: "2026-03-30T08:00:00"
+updated_at: "2026-03-30T17:00:00"
+
+assess:
+  status: "completed"
+  completed_at: "2026-03-30T09:00:00"
+  problem_type: "continuous_optimization"
+  problem_subtype: "structural_beam_topology"
+  scale:
+    variables: 2  # 幅(b) と 高さ(h)
+    constraints: 4  # 応力、たわみ、幅範囲、高さ範囲
+    size_class: "small"
+  entities:
+    - name: "structure"
+      count: 1
+      source_file: "structure.json"
+    - name: "constraints"
+      count: 1
+      source_file: "constraints.json"
+  objectives:
+    primary: "重量（断面積）の最小化"
+    secondary: "トポロジー最適化による材料配置の参考案"
+  hard_constraints:
+    - id: "HC1"
+      description: "応力 <= 許容応力（降伏応力/安全率1.5 = 163.3MPa）"
+    - id: "HC2"
+      description: "たわみ <= 5mm（L/400）"
+    - id: "HC3"
+      description: "幅: 50-300mm, 高さ: 100-500mm"
+  hypotheses:
+    - "現行の最大断面設計は過剰（応力利用率0.9%）"
+    - "SLSQP で96%の重量削減が可能"
+    - "たわみ制約が支配的（たわみ比91.5% > 応力比100%でアクティブ）"
+    - "トポロジー最適化でトラス構造パターンが得られる"
+  assumptions:
+    - key: "loading"
+      value: "静的荷重のみ"
+      confidence: "medium"
+      note: "動的荷重は安全率1.5で考慮"
+    - key: "material"
+      value: "SS400"
+      confidence: "high"
+      note: "標準材料特性を使用"
+    - key: "buckling"
+      value: "未考慮"
+      confidence: "low"
+      note: "薄い断面では横座屈が支配的になる可能性あり"
+
+baseline:
+  status: "completed"
+  completed_at: "2026-03-30T11:00:00"
+  results:
+    max_section:
+      weight_kg: 2355.0
+      stress_ratio: 0.009
+      deflection_ratio: 0.002
+      feasible: true
+      note: "過剰設計。材料の99%以上が無駄"
+    min_section:
+      weight_kg: 157.0
+      feasible: false
+      note: "応力・たわみとも制約違反"
+    mid_section:
+      weight_kg: 706.5
+      feasible: true
+      note: "制約は満たすが過剰"
+  bottlenecks:
+    - "たわみ制約がボトルネック（L/400 = 5mm は搬送ライン向けとしては厳しめ）"
+
+improve:
+  status: "completed"
+  iterations:
+    - iteration: 1
+      strategy: "SLSQP 断面最適化"
+      result:
+        weight_kg: 89.0
+        optimal_width_m: 0.0500
+        optimal_height_m: 0.1134
+        stress_ratio: 1.000
+        deflection_ratio: 0.915
+        reduction_pct: 96.2
+      what_worked: "2変数の連続最適化で大幅な重量削減"
+    - iteration: 2
+      strategy: "SIMP トポロジー最適化（vf=30%,40%,50%）"
+      result:
+        note: "トラス状の最適構造パターンを取得。製造設計の参考用"
+  best:
+    iteration: 1
+    method: "SLSQP 断面最適化"
+    weight_kg: 89.0
+    reduction_pct: 96.2
+
+report:
+  status: "completed"
+  completed_at: "2026-03-30T15:00:00"
+  output_file: "reports/v1_proposal.md"
+  files:
+    - "reports/assess_report.md"
+    - "reports/baseline_report.md"
+    - "reports/improve_report.md"
+    - "reports/v1_proposal.md"
+
+deploy:
+  status: "completed"
+  completed_at: "2026-03-30T17:00:00"
+  execution_frequency: "per_project"
+  pipeline_script: "scripts/run_pipeline.py"
+  design_doc: "reports/deploy_design.md"
+  pipeline_steps:
+    - "データ読み込み（structure.json + constraints.json）"
+    - "バリデーション（材料特性・荷重・制約チェック）"
+    - "断面最適化（SLSQP）"
+    - "トポロジー最適化（SIMP法）"
+    - "結果検証（応力・たわみ制約の充足確認）"
+    - "設計JSON + トポロジー密度出力"
+  monitoring_metrics:
+    - "応力比"
+    - "たわみ比"
+    - "重量削減率"
+  note: "定期実行ではなく、新規構造設計のツールとして使用"
+
+data_files:
+  - "data/structure.json"
+  - "data/constraints.json"
+
+result_files:
+  - "results/all_results.json"
+  - "results/topology_vf_30.npy"
+  - "results/topology_vf_40.npy"
+  - "results/topology_vf_50.npy"

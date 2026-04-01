@@ -1,0 +1,161 @@
+version: 1
+project_name: "facility_location_example"
+created_at: "2026-03-30T08:00:00"
+updated_at: "2026-03-30T17:00:00"
+
+assess:
+  status: "completed"
+  completed_at: "2026-03-30T09:00:00"
+  problem_type: "facility_location"
+  problem_subtype: "cfl"
+  scale:
+    variables: 310  # y=10, x=10x30=300
+    constraints: 340  # 30 assign + 300 open + 10 capacity
+    size_class: "small"
+  entities:
+    - name: "candidates"
+      count: 10
+      source_file: "candidates.csv"
+    - name: "customers"
+      count: 30
+      source_file: "customers.csv"
+    - name: "constraints"
+      count: 5
+      source_file: "constraints.csv"
+  objectives:
+    primary: "固定費+輸送費の合計コスト最小化"
+    secondary: "全顧客のカバレッジ（50km以内）"
+  hard_constraints:
+    - id: "HC1"
+      description: "各顧客はちょうど1施設に割当"
+    - id: "HC2"
+      description: "開設施設からのみサービス可能"
+    - id: "HC3"
+      description: "各施設の容量を超えない（CFL）"
+  soft_constraints:
+    - id: "SC1"
+      description: "カバレッジ要件（全顧客が50km以内）"
+      note: "S21水戸ショップが全候補から50km超のため100%は達成不可"
+  hypotheses:
+    - "容量制約を考慮しないと1施設集約（UFL）が最安だが容量4.8倍超過"
+    - "CFL（容量制約付き）が唯一の実用的な解"
+    - "4施設体制で月額312万円。全施設開設比62%削減"
+    - "水戸ショップ（S21）のカバレッジが課題"
+  assumptions:
+    - key: "distance"
+      value: "Haversine x 1.3"
+      confidence: "medium"
+      note: "実走行距離ではなく概算"
+    - key: "transport_cost"
+      value: 150
+      unit: "円/km"
+      confidence: "low"
+      note: "車種・頻度によらず一律"
+    - key: "demand"
+      value: "月間固定"
+      confidence: "medium"
+      note: "季節変動は未考慮"
+  data_quality:
+    overall: "良好"
+    issues:
+      - "距離がHaversine概算。API距離で精度向上可能"
+      - "輸送コストが一律150円/km。実績データで検証が必要"
+
+baseline:
+  status: "completed"
+  completed_at: "2026-03-30T11:00:00"
+  results:
+    open_all:
+      feasible: false
+      total_cost: 8188436
+      num_opened: 10
+      capacity_violations: 1
+      note: "全施設開設。容量違反あり"
+    greedy:
+      feasible: false
+      total_cost: 849871
+      num_opened: 1
+      capacity_violations: 1
+      note: "1施設集約。容量4.8倍超過"
+    ufl_solver:
+      feasible: false
+      total_cost: 849871
+      num_opened: 1
+      capacity_violations: 1
+      note: "貪欲法と同じ結果。容量制約なし"
+  best_baseline: "ufl_solver"
+  bottlenecks:
+    - "容量制約: 1施設では需要3820を賄えない（最大容量1500）"
+    - "カバレッジ: S21水戸ショップが全候補から50km超"
+
+improve:
+  status: "completed"
+  iterations:
+    - iteration: 1
+      strategy: "CFL ソルバー（容量制約付き）"
+      result:
+        feasible: true
+        total_cost: 3124407
+        num_opened: 4
+        opened: ["W01", "W06", "W09", "W10"]
+        capacity_violations: 0
+        avg_distance_km: 38.8
+        max_distance_km: 104.8
+      what_worked: "容量制約で実用的な4施設体制を導出"
+    - iteration: 2
+      strategy: "P-median（施設数の感度分析）"
+      result:
+        note: "P=3,4,5。距離は改善するが全て容量違反あり"
+    - iteration: 3
+      strategy: "CFL + カバレッジ制約（50km以内）"
+      result:
+        feasible: false
+        note: "S21が全候補から50km超のためInfeasible"
+  best:
+    iteration: 1
+    method: "CFL ソルバー（4施設）"
+    feasible: true
+    total_cost: 3124407
+    opened: ["W01", "W06", "W09", "W10"]
+
+report:
+  status: "completed"
+  completed_at: "2026-03-30T15:00:00"
+  output_file: "reports/v1_proposal.md"
+  files:
+    - "reports/assess_report.md"
+    - "reports/baseline_report.md"
+    - "reports/improve_report.md"
+    - "reports/v1_proposal.md"
+
+deploy:
+  status: "completed"
+  completed_at: "2026-03-30T17:00:00"
+  execution_frequency: "quarterly_or_on_demand"
+  pipeline_script: "scripts/run_pipeline.py"
+  design_doc: "reports/deploy_design.md"
+  pipeline_steps:
+    - "データ取得（candidates/customers/constraints CSV）"
+    - "バリデーション（座標・需要・容量チェック）"
+    - "CFL ソルバー実行（PuLP）"
+    - "結果検証（全顧客割当・容量違反・カバレッジ）"
+    - "施設計画JSON出力"
+  monitoring_metrics:
+    - "月額コスト（固定費+輸送費）"
+    - "カバレッジ率（50km以内）"
+    - "容量稼働率"
+    - "平均配送距離"
+  fallback_plan: "CFL infeasible -> UFL フォールバック"
+  reoptimization_triggers:
+    - "新規店舗の出店"
+    - "需要が20%以上変動"
+    - "施設の固定費変更"
+    - "候補地の追加・閉鎖"
+
+data_files:
+  - "data/candidates.csv"
+  - "data/customers.csv"
+  - "data/constraints.csv"
+
+result_files:
+  - "results/all_results.json"
