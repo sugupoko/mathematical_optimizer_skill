@@ -1,0 +1,6 @@
+constraint_id,description,type,value
+CON01,最大開設倉庫数,max_facilities,5
+CON02,カバレッジ要件（全顧客が最寄り倉庫から50km以内）,max_distance_km,50
+CON03,最低カバレッジ率,min_coverage_pct,100
+CON04,月間予算上限（固定費+輸送費）,max_monthly_budget,5000000
+CON05,各倉庫の最低稼働率,min_utilization_pct,30

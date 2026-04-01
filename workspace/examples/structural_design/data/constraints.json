@@ -1,0 +1,44 @@
+{
+  "description": "片持ち梁の設計制約条件",
+  "note": "合成データ。安全率は一般的な建築基準を参考にした架空の値。",
+
+  "stress_constraints": {
+    "safety_factor": 1.5,
+    "allowable_stress_comment": "許容応力 = 降伏応力 / 安全率 = 245 / 1.5 = 163.3 MPa",
+    "check_locations": ["fixed_end", "mid_span"]
+  },
+
+  "deflection_constraints": {
+    "max_deflection": 0.005,
+    "max_deflection_ratio": "L/400",
+    "comment": "最大たわみ 5mm（スパン2mの1/400。搬送ラインの精度要求）"
+  },
+
+  "dimension_constraints": {
+    "min_width": 0.05,
+    "max_width": 0.30,
+    "min_height": 0.10,
+    "max_height": 0.50,
+    "aspect_ratio_max": 5.0,
+    "comment": "幅50-300mm, 高さ100-500mm, アスペクト比5以下"
+  },
+
+  "weight_constraints": {
+    "max_weight": null,
+    "target_weight": 50.0,
+    "comment": "目標重量50kg以下（hard制約ではないがソフト目標）"
+  },
+
+  "manufacturing_constraints": {
+    "min_thickness": 0.006,
+    "standard_sizes": [0.05, 0.06, 0.08, 0.10, 0.12, 0.15, 0.20, 0.25, 0.30],
+    "comment": "最小板厚6mm。最適化後は標準サイズに丸める。"
+  },
+
+  "topology_constraints": {
+    "volume_fraction": 0.4,
+    "symmetry": false,
+    "min_feature_size": 2,
+    "comment": "体積率40%。片持ち梁は非対称。最小特徴サイズはメッシュ2要素分。"
+  }
+}

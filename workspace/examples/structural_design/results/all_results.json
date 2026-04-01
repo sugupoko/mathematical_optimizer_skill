@@ -1,0 +1,75 @@
+{
+  "timestamp": "2026-04-01T16:39:50.082568",
+  "baseline": {
+    "最大断面（過剰設計）": {
+      "label": "最大断面（過剰設計）",
+      "width": 0.3,
+      "height": 0.5,
+      "weight_kg": 2355.0,
+      "max_stress_MPa": 1.4,
+      "max_deflection_mm": 0.0089,
+      "stress_ratio": 0.0086,
+      "deflection_ratio": 0.0018,
+      "feasible": true
+    },
+    "最小断面（不足）": {
+      "label": "最小断面（不足）",
+      "width": 0.05,
+      "height": 0.1,
+      "weight_kg": 78.5,
+      "max_stress_MPa": 210.0,
+      "max_deflection_mm": 6.6667,
+      "stress_ratio": 1.2857,
+      "deflection_ratio": 1.3333,
+      "feasible": false
+    },
+    "中間断面": {
+      "label": "中間断面",
+      "width": 0.15,
+      "height": 0.3,
+      "weight_kg": 706.5,
+      "max_stress_MPa": 7.78,
+      "max_deflection_mm": 0.0823,
+      "stress_ratio": 0.0476,
+      "deflection_ratio": 0.0165,
+      "feasible": true
+    }
+  },
+  "beam_optimization": {
+    "optimal_width": 0.05,
+    "optimal_height": 0.113389,
+    "weight": 89.011,
+    "max_stress": 163333326.7,
+    "max_deflection": 0.004573,
+    "allowable_stress": 163333333.3,
+    "stress_ratio": 1.0,
+    "deflection_ratio": 0.9146,
+    "success": true,
+    "message": "Optimization terminated successfully",
+    "iterations": 11,
+    "elapsed_sec": 0.0025
+  },
+  "topology_optimization": {
+    "vf_30": {
+      "volume_fraction_target": 0.3,
+      "volume_fraction_actual": 0.3,
+      "compliance": 295.963733,
+      "iterations": 45,
+      "elapsed_sec": 6.7423
+    },
+    "vf_40": {
+      "volume_fraction_target": 0.4,
+      "volume_fraction_actual": 0.4,
+      "compliance": 190.176744,
+      "iterations": 30,
+      "elapsed_sec": 6.3195
+    },
+    "vf_50": {
+      "volume_fraction_target": 0.5,
+      "volume_fraction_actual": 0.5001,
+      "compliance": 144.039941,
+      "iterations": 38,
+      "elapsed_sec": 5.6747
+    }
+  }
+}

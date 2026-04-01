@@ -2,7 +2,7 @@
 
 > **注意**: このフォルダのデータは全て**合成データ（架空）**です。実在の人物・組織・住所とは一切関係ありません。ワークフローの動作確認とスキルの体験を目的としています。
 
-このフォルダには3つのサンプルプロジェクトが含まれています。
+このフォルダには6つのサンプルプロジェクトが含まれています。
 全スキル（assess → baseline → improve → report → deploy）の一連のワークフローを体験できます。
 
 ---
@@ -127,8 +127,126 @@
 
 ---
 
+## 施設配置最適化（facility_location/）
+
+**関東エリア10候補地 × 30小売店の倉庫配置最適化問題。**
+
+### データ
+- `data/candidates.csv` — 候補施設10箇所（埼玉2、千葉2、神奈川2、東京西部2、茨城1、群馬1）
+- `data/customers.csv` — 小売店30店舗（関東広域に分布、需要50-250 units/月）
+- `data/constraints.csv` — 制約条件（最大施設数5、カバレッジ50km以内、予算上限500万円/月）
+
+### 実行手順
+```bash
+python workspace/examples/facility_location/scripts/solve_all.py
+```
+
+またはスキルを使って:
+```
+/opt-assess workspace/examples/facility_location/data/
+/opt-baseline workspace/examples/facility_location/data/
+/opt-improve workspace/examples/facility_location/data/
+/opt-report workspace/examples/facility_location/results/
+```
+
+### 主要な発見
+- **UFL（容量制約なし）では1施設に全集約される**: 固定費が支配的で施設増加のコストが輸送費削減を上回る
+- **CFL（容量制約付き）で4施設が最適**: W01(さいたま)、W06(厚木)、W09(土浦)、W10(太田)
+- **月額312万円で全30店舗をカバー**: 全施設開設（819万円）から62%削減
+- **水戸ショップ（S21）が50km要件を満たさない**: 追加候補地 or 要件緩和が必要
+- PuLP + CBC で全手法0.1秒以内に求解
+
+### サンプル結果
+- `results/all_results.json` — 全7手法の数値結果
+- `reports/v1_proposal.md` — 改善提案書（4施設体制推奨）
+- `expected/baseline_summary.md` — ベースライン比較サマリ
+
+### 参照テンプレート
+- `reference/facility_location_template.py` — 施設配置テンプレート（UFL/CFL/P-median）
+- `reference/facility_location_guide.md` — 施設配置ガイド
+
+---
+
+## 構造最適化（structural_design/）
+
+**片持ち梁の断面最適化 + トポロジー最適化（SIMP法）。**
+
+離散（組合せ）最適化ではなく、連続変数の最適化問題のサンプル。
+scipy.optimize と numpy のみで構造設計の最適化ワークフローを体験できる。
+
+### データ
+- `data/structure.json` — 構造定義（片持ち梁、SS400、荷重条件）
+- `data/constraints.json` — 設計制約（応力、たわみ、寸法範囲）
+
+### 実行手順
+```bash
+python workspace/examples/structural_design/scripts/solve_all.py
+```
+
+### 主要な発見
+- **最大断面（300x500mm）は過剰設計**: 応力利用率わずか0.9%
+- **SLSQP最適化で重量96.2%削減**: 2,355kg → 89kg
+- **応力制約がアクティブ**（応力比1.00）、たわみには余裕あり
+- **トポロジー最適化**: 体積率30-50%で典型的なトラス状構造が出現
+- 全計算が約20秒で完了（scipy + numpy のみ）
+
+### サンプル結果
+- `results/all_results.json` — 全手法の数値結果
+- `results/topology_vf_*.png` — トポロジー最適化の密度分布画像
+- `results/convergence_vf_*.png` — 収束曲線
+- `reports/v1_proposal.md` — 改善提案書（3案比較）
+
+### 参照テンプレート
+- `reference/continuous_optimization_template.py` — 連続最適化テンプレート
+- `reference/continuous_optimization_guide.md` — 連続最適化ガイド
+
+---
+
 ## 期待される結果
 
 各プロジェクトの `expected/` フォルダに、初期のベースライン結果のサンプルがあります。
 `results/` フォルダには、全ワークフロー実行後の実際の結果が含まれています。
 実行環境やソルバーのバージョンにより多少の差異が出る場合があります。
+
+---
+
+## 施設配置最適化（facility_location/）
+
+**関東圏10候補地 × 30小売店の倉庫配置問題。**
+
+### データ
+- `data/candidates.csv` — 候補地10箇所（埼玉、千葉、神奈川、東京西部、茨城、群馬）
+- `data/customers.csv` — 小売店30店舗（関東圏に分散）
+- `data/constraints.csv` — 制約条件
+
+### 実行手順
+```
+python workspace/examples/facility_location/scripts/solve_all.py
+```
+
+### 問題の特徴
+- **非容量制約付き施設配置（UFL）**: 固定費+輸送費の最小化
+- **容量制約付き施設配置（CFL）**: 倉庫容量の制限あり
+- **P-median**: 開設数を固定して距離最小化
+- PuLP + HiGHS で解くMIP問題
+
+---
+
+## 構造最適化（structural_design/）
+
+**片持ち梁の断面設計 + 2Dトポロジー最適化。**
+
+### データ
+- `data/structure.json` — 構造定義（荷重、材料、境界条件）
+- `data/constraints.json` — 設計制約（応力、変位、寸法）
+
+### 実行手順
+```
+python workspace/examples/structural_design/scripts/solve_all.py
+```
+
+### 問題の特徴
+- **連続最適化**: scipy.optimizeによるビーム断面の最適設計
+- **トポロジー最適化**: SIMP法による材料配置の最適化
+- 離散最適化（CP-SAT/MIP）ではなく、連続変数の非線形最適化
+- NumPyによる簡易FEM（有限要素法）実装

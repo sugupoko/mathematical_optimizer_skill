@@ -1,0 +1,67 @@
+{
+  "problem_name": "片持ち梁の断面・トポロジー最適化",
+  "description": "工場の搬送ラインで使用する片持ち梁を対象に、断面寸法の最適化とトポロジー最適化を行う。先端に集中荷重が作用し、重量を最小化しつつ強度・たわみの制約を満たす設計を求める。",
+  "note": "合成データ（架空）。実在の構造物とは無関係。教育・デモ用途。",
+
+  "structure_type": "cantilever_beam",
+  "dimensions": {
+    "length": 2.0,
+    "comment": "梁の全長 [m]"
+  },
+
+  "material": {
+    "name": "SS400 (一般構造用圧延鋼材)",
+    "E": 210e9,
+    "density": 7850,
+    "yield_stress": 245e6,
+    "poisson_ratio": 0.3,
+    "comment": "E: ヤング率[Pa], density: 密度[kg/m^3], yield_stress: 降伏応力[Pa]"
+  },
+
+  "loads": [
+    {
+      "id": "L1",
+      "description": "搬送物の自重 + 衝撃荷重",
+      "position": 1.0,
+      "magnitude": 30000,
+      "type": "point",
+      "comment": "梁先端に30kN（搬送物20kN + 動的係数1.5）"
+    },
+    {
+      "id": "L2",
+      "description": "梁の自重（分布荷重を等価集中荷重に変換）",
+      "position": 0.5,
+      "magnitude": 5000,
+      "type": "point",
+      "comment": "梁中央に5kN相当"
+    }
+  ],
+
+  "supports": {
+    "type": "cantilever",
+    "fixed_end": "left",
+    "comment": "左端を壁に完全固定（固定端）"
+  },
+
+  "topology_optimization": {
+    "nx": 80,
+    "ny": 30,
+    "volume_fractions": [0.3, 0.4, 0.5],
+    "comment": "80x30要素のグリッド。3種類の体積率で比較する。"
+  },
+
+  "design_variables": [
+    {
+      "name": "width",
+      "symbol": "b",
+      "unit": "m",
+      "description": "梁の幅（矩形断面）"
+    },
+    {
+      "name": "height",
+      "symbol": "h",
+      "unit": "m",
+      "description": "梁の高さ（矩形断面）"
+    }
+  ]
+}

@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v2.4.0] - 2026-04-01
+
+### Added / 新規追加
+
+#### Facility Location / 施設配置問題
+- `reference/facility_location_template.py` (606行) — UFL/CFL/P-medianの3手法
+- `reference/facility_location_guide.md` — 倉庫配置、EV充電、基地局の使い分けガイド
+- `workspace/examples/facility_location/` — 関東圏10候補×30店舗のサンプル+結果
+
+#### Continuous Optimization / 連続最適化
+- `reference/continuous_optimization_template.py` (886行) — 構造設計、形状最適化、トポロジー最適化(SIMP法)
+- `reference/continuous_optimization_guide.md` — scipy.optimize、FEM接続、商用ツールとの使い分け
+- `workspace/examples/structural_design/` — 片持ち梁の断面設計+2Dトポロジー最適化サンプル+結果
+
+#### README大幅拡充
+- 実社会の課題マップ（製造/物流/IT/医療/金融/エネルギー/教育/エンジニアリング）
+- テンプレート+サンプルあり/ガイドのみの対応状況表
+
+---
+
 ## [v2.2.0] - 2026-04-01
 
 ### Added / 新規追加

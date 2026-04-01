@@ -56,6 +56,10 @@ mathematical_optimizer_skill/
 │   ├── ticket_assignment_template.py ← チケットアサイン最適化テンプレート（LLM推定+滞留検知+再アサイン）
 │   ├── ticket_assignment_guide.md  ← チケットアサイン最適化ガイド（ITIL、ティア階層、動的再最適化）
 │   ├── literature_guide.md         ← 文献・既存手法の調査ガイド（問題クラス別）
+│   ├── facility_location_template.py ← 施設配置問題のコード雛形（UFL/CFL/P-median）
+│   ├── facility_location_guide.md  ← 施設配置問題ガイド（倉庫配置、EV充電等）
+│   ├── continuous_optimization_template.py ← 連続最適化テンプレート（構造設計・形状・トポロジー）
+│   ├── continuous_optimization_guide.md ← 連続最適化ガイド（scipy.optimize・SIMP法）
 │   ├── hearing_sheet_shift.md     ← 記入用シート（シフト業務）
 │   ├── hearing_sheet_routing.md   ← 記入用シート（配送ルート）
 │   ├── hearing_sheet_matching.md  ← 記入用シート（マッチング問題）
@@ -65,7 +69,9 @@ mathematical_optimizer_skill/
     │   ├── shift_scheduling/      ← シフト最適化サンプル（10人×7日）
     │   ├── delivery_routing/      ← 配送ルートサンプル（20地点×3台）
     │   ├── care_matching/         ← 介護マッチングサンプル（15利用者×10ヘルパー）
-    │   └── ticket_assignment/    ← チケットアサインサンプル（20エンジニア×80チケット）
+    │   ├── ticket_assignment/    ← チケットアサインサンプル（20エンジニア×80チケット）
+    │   ├── facility_location/    ← 施設配置サンプル（10候補×30小売店）
+    │   └── structural_design/    ← 構造最適化サンプル（片持ち梁・トポロジー）
     └── my_project/                ← プロジェクトごとにフォルダを作成
         ├── data/                  ← クライアントから受け取ったデータ
         ├── .opt_state.yaml        ← スキル間の状態管理ファイル
@@ -253,6 +259,7 @@ git diff opt/client-name/v1..opt/client-name/v2 -- workspace/
 - パッキング（ビンパッキング、2Dカッティング）
 - マッチング（介護×ヘルパー、求人、メンタリング等の双方向選好付き割当）
 - チケットアサイン（ITSM、バグトラッカー、カスタマーサポート等の動的タスク割当）
+- 施設配置（倉庫配置、店舗立地、EV充電ステーション、病院配置）
 - 割当（集合被覆、リソース配分）
 - 組合せ最適化全般
 
