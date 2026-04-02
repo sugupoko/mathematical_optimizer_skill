@@ -86,6 +86,48 @@
 | **NTTデータ** | 日 | 2023年記事 | プリント基板製造最適化 | 数理最適化 | 製造プロセスの効率化 | [NTT DATA](https://www.nttdata.com/jp/ja/trends/data-insight/2023/0912/) |
 | **Gurobi調査** | 国際 | 2024年 | 440社の最適化活用状況 | 調査レポート | 企業の最適化投資は年々増加。コスト削減・利益最大化・効率化が主な目的 | [Gurobi](https://www.gurobi.com/resources/report-state-of-mathematical-optimization-2024/) |
 
+## LLM × 数理最適化（最先端研究+実務事例）
+
+**LLMが「問題を解く」のではなく「問題の解き方を設計する」** — このスキルパックの思想と同じアプローチが、世界中で研究・実用化されている。
+
+### 研究・フレームワーク
+
+| プロジェクト | 時期 | アプローチ | 内容 | 出典 |
+|------------|------|----------|------|------|
+| **FunSearch** (Google DeepMind) | 2024年Nature論文 | LLMでスコア関数を進化 | LLMがプログラムを生成→評価→選択→進化のループで数学的発見。ビンパッキングで既知の最良解を超えた | [Nature](https://www.nature.com/articles/s41586-023-06924-6) |
+| **ReEvo** | 2024年NeurIPS | LLMで反省的ヒューリスティクス進化 | LLMが「なぜダメだったか」を分析し改良。TSP/CVRP/MKP等で従来手法を上回る。**サンプル効率がEoHより高い** | [NeurIPS](https://proceedings.neurips.cc/paper_files/paper/2024/file/4ced59d480e07d290b6f29fc8798f195-Paper-Conference.pdf), [GitHub](https://github.com/ai4co/reevo) |
+| **OptiMUS** (Stanford) | 2023〜2024年 | LLMで自然言語→MIP自動定式化 | 自然言語の問題記述からMIPモデルを自動生成+ソルバー実行+結果検証。基本LLMプロンプトの**約2倍**の正答率 | [arXiv](https://arxiv.org/abs/2310.06116), [GitHub](https://github.com/teshnizi/OptiMUS) |
+| **EoH** (Evolution of Heuristics) | 2024年 | LLMで複数戦略を同時進化 | 複数のヒューリスティクスを集団として進化。FunSearchの発展版 | [arXiv](https://arxiv.org/html/2508.03082) |
+| **ICML Autoformulation** | 2025年ICML | モンテカルロ木探索+LLM | 自然言語→最適化モデルの変換をMCTSで探索。記号ツールで冗長な定式化を枝刈り | [ICML](https://icml.cc/virtual/2025/poster/46554) |
+| **LLM4Solver** | 2024〜2025年 | LLMでソルバーアルゴリズム自体を設計 | LLMが組合せ最適化ソルバーの内部アルゴリズムを設計。手作業の専門知識を自動化 | [OpenReview](https://openreview.net/forum?id=XTxdDEFR6D) |
+| **ORLM / LLMOPT** | 2024年 | 最適化特化型LLM | 最適化問題のモデリングに特化したLLMのファインチューニング | [Survey](https://arxiv.org/abs/2503.17726) |
+
+### 実務応用
+
+| 企業/機関 | 国 | 時期 | アプローチ | 内容 | 出典 |
+|----------|-----|------|----------|------|------|
+| **NTTドコモ** | 日 | 2025年 | LLMエージェント群で最適化支援 | 定式化エージェント+データ設計エージェント+コード生成エージェントの3段構成で業務設計を自動化 | [NTT Engineers Blog](https://engineers.ntt.com/entry/202511-genai_opt/entry) |
+| **富士通** (Composite AI) | 日 | 2024年5月 | 最適化AI自動生成 | 生成AIで最適化モデルを自動構築する「Composite AI」を発表。非専門家でも最適化を活用可能に | [富士通研究所](https://blog.fltech.dev/entry/2024/05/30/intriducing-fujitsu-composite-ai-ja) |
+| **Ubie** | 日 | 2024年記事 | LLM+数理最適化の実務連携 | 医療系スタートアップでLLMと数理最適化を組み合わせた実装事例を公開 | [Zenn](https://zenn.dev/ubie_dev/articles/opt_with_llm) |
+| **Insight Edge** | 日 | 2024年 | OpenAI o1でMIPモデリング | 推論特化型LLM(o1)が数理最適化の定式化をどこまでできるか検証。「ちょっとできる」段階 | [Insight Edge](https://techblog.insightedge.jp/entry/llm_support_for_mip_modeling) |
+| **BMW + Zapata** | 独/米 | 2023年 | 量子インスパイア生成AI+最適化 | GEO(Generator-Enhanced Optimization)で車両生産計画を最適化。従来ソルバーを上回る | [Zapata AI](https://zapata.ai/news/bmw-optimizes-vehicle-production-planning-using-quantum-inspired-generative-ai-techniques/) |
+
+### LLM × 最適化の3つの使い方（研究から見える分類）
+
+```
+① LLMが定式化する（OptiMUS, 富士通, NTTドコモ）
+   自然言語の問題記述 → LLMがMIP/CP-SATのコードを生成 → ソルバーが解く
+   → 本スキルパックの /opt-assess + /opt-baseline がまさにこれ
+
+② LLMがヒューリスティクスを進化させる（FunSearch, ReEvo, EoH）
+   LLMがアルゴリズムを生成 → 実行・評価 → 分析 → 改良のループ
+   → 本スキルパックの /opt-improve のLLMヒューリスティック進化と同じ
+
+③ LLMが解を評価・フィルタリングする
+   ソルバーが複数解を生成 → LLMが「現場で使えるか」を判定
+   → ml_optimization_guide.md のパターン2
+```
+
 ---
 
 ## 効果の相場感
