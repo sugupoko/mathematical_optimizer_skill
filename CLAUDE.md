@@ -56,6 +56,7 @@ mathematical_optimizer_skill/
 │   ├── ticket_assignment_template.py ← チケットアサイン最適化テンプレート（LLM推定+滞留検知+再アサイン）
 │   ├── ticket_assignment_guide.md  ← チケットアサイン最適化ガイド（ITIL、ティア階層、動的再最適化）
 │   ├── ml_optimization_guide.md    ← ML×最適化の組合せガイド（4パターン+実装例）
+│   ├── awesome_optimization_cases.md ← 世界の数理最適化 実務事例集（UPS/Amazon/日本製鉄等）
 │   ├── literature_guide.md         ← 文献・既存手法の調査ガイド（問題クラス別）
 │   ├── facility_location_template.py ← 施設配置問題のコード雛形（UFL/CFL/P-median）
 │   ├── facility_location_guide.md  ← 施設配置問題ガイド（倉庫配置、EV充電等）
