@@ -51,14 +51,11 @@ Claude Code でこのフォルダを開いて使う。
 | `care_matching/` | 15利用者×10ヘルパーの介護マッチング | 継続担当7/7維持、同区100% |
 | `ticket_assignment/` | 20エンジニア×80チケットのITSM | ブロック解放+滞留再アサインで改善 |
 
-```
-# スキルを順に実行
-/opt-assess workspace/examples/shift_scheduling/data/
-/opt-baseline workspace/examples/shift_scheduling/data/
+## 実行
+claudeに、
+「workspace/examples/shift_scheduling/data/にあるデータで、最適化実行して」
+とお願いすればOKです。
 
-# または一括スクリプトで実行
-python workspace/examples/shift_scheduling/scripts/solve_all.py
-```
 
 詳しくは [workspace/examples/examples_readme.md](./workspace/examples/examples_readme.md) を参照。
 
