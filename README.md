@@ -52,9 +52,7 @@ Claude Code でこのフォルダを開いて使う。
 | `ticket_assignment/` | 20エンジニア×80チケットのITSM | ブロック解放+滞留再アサインで改善 |
 
 ## 実行
-claudeに、
-「workspace/examples/shift_scheduling/data/にあるデータで、最適化実行して」
-とお願いすればOKです。
+claudeに、「workspace/examples/shift_scheduling/data/にあるデータで、最適化実行して」とお願いすればOKです。
 
 
 詳しくは [workspace/examples/examples_readme.md](./workspace/examples/examples_readme.md) を参照。
@@ -77,7 +75,7 @@ mkdir -p workspace/my_project/data
 cp /path/to/client_data.xlsx workspace/my_project/data/
 ```
 
-Claude Code で以下のスキルを順に実行する:
+Claude Code で以下のスキルを順に実行する(claude codeにフォルダ指定して丸投げでもOKです。):
 
 ```
 /opt-assess workspace/my_project/data/     → 問題の分類と仮説
