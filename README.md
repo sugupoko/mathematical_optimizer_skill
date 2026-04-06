@@ -64,7 +64,7 @@ python workspace/examples/shift_scheduling/scripts/solve_all.py
 
 ## 使い方
 
-### 1. ヒアリング（データを受け取る前に）
+### 1. ヒアリング（データを受け取る前に。これは無くても実行できます。あるとよいです）
 
 `reference/` にヒアリングシートがある。印刷して現場で使う。
 
