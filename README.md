@@ -59,16 +59,18 @@ claudeに、「workspace/examples/shift_scheduling/data/にあるデータで、
 
 ## 使い方
 
-### 1. ヒアリング（データを受け取る前に。これは無くても実行できます。あるとよいです）
+### 1. ヒアリング（データを受け取る前に。ハード制約やソフト制約をヒアリング。）
 
-`reference/` にヒアリングシートがある。印刷して現場で使う。
+`reference/hearing_templates.md` にヒアリングシートがあるので記入してもらう。（すでに条件貰っている場合は不要）
 
+参考
 | シート | 対象 |
 |--------|------|
 | `hearing_sheet_shift.md` | シフト調整業務 |
 | `hearing_sheet_routing.md` | 配送ルート・集配業務 |
 
 ### 2. データを受け取ったら
+フォルダを作成し、ヒアリングシートと実際のシフトデータなど受領物を格納する。
 
 ```bash
 mkdir -p workspace/my_project/data
