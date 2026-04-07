@@ -20,14 +20,13 @@ Claude Code で数理最適化を行うためのスキルパック。
 
 ## 何ができるか
 
-1. **雑なデータを受け取って、問題の種類を分類**（シフト？配送ルート？割当？）
-2. **5分でベースラインを構築**し、何がボトルネックかを特定
-3. **ボトルネックに合った改善策を設計・検証**（コードテンプレート付き）
-4. **経営向けの改善提案書を生成**（コスト・効果・導入難易度の比較表）
-5. **追加データの依頼書を生成**（何が・なぜ・ないとどうなるかを説明）
-6. **運用設計**（自動化・監視・フォールバック）
+データと「最適化して」の一言で、ここまで自動で進みます:
 
-さらに、現場のヒアリングシート（記入欄付き）で**データに載っていない暗黙の制約**を引き出せる。
+1. 問題の種類を分類（シフト？配送？割当？）
+2. ベースラインを構築し、ボトルネックを特定
+3. 改善策を設計・検証
+4. 経営向けの改善提案書を生成
+5. 足りないデータがあれば依頼書も生成
 
 ## セットアップ
 
@@ -39,104 +38,68 @@ pip install ortools omegaconf matplotlib numpy pandas pulp scipy
 
 Claude Code でこのフォルダを開いて使う。
 
-## クイックスタート（サンプルデータで体験）
+## クイックスタート — 3ステップで動く
 
-`workspace/examples/` に4つのサンプルプロジェクト（合成データ）があります。
-各サンプルには `solve_all.py`（一括実行スクリプト）と `reports/`（全スキルの出力ドキュメント）が含まれています。
+### ① データを置く
 
-| サンプル | 内容 | 主要な発見 |
-|---------|------|-----------|
-| `shift_scheduling/` | 10人×7日のシフト最適化 | 供給<需要で構造的不足を証明 |
-| `delivery_routing/` | 20顧客×3台の配送ルート | AM/PM分割で全顧客カバー |
-| `care_matching/` | 15利用者×10ヘルパーの介護マッチング | 継続担当7/7維持、同区100% |
-| `ticket_assignment/` | 20エンジニア×80チケットのITSM | ブロック解放+滞留再アサインで改善 |
-
-## 実行
-claudeに、「workspace/examples/shift_scheduling/data/にあるデータで、最適化実行して」とお願いすればOKです。
-
-
-詳しくは [workspace/examples/examples_readme.md](./workspace/examples/examples_readme.md) を参照。
-
-## 使い方
-
-### 1. ヒアリング（データを受け取る前に。ハード制約やソフト制約をヒアリング。）
-
-`reference/hearing_templates.md` にヒアリングシートがあるので記入してもらう。（すでに条件貰っている場合は不要）
-
-参考
-| シート | 対象 |
-|--------|------|
-| `hearing_sheet_shift.md` | シフト調整業務 |
-| `hearing_sheet_routing.md` | 配送ルート・集配業務 |
-
-### 2. データを受け取ったら
-フォルダを作成し、ヒアリングシートと実際のシフトデータなど受領物を格納する。
+`workspace/my_project/data/` にファイルを入れるだけ。
+ヒアリングした内容や、既存のシフト表など。Excel でも CSV でも OK。
+これからヒアリングする場合は `reference/hearing_templates.md` を参照。
 
 ```bash
 mkdir -p workspace/my_project/data
-cp /path/to/client_data.xlsx workspace/my_project/data/
+cp あなたのデータ.xlsx workspace/my_project/data/
 ```
 
-Claude Code で以下のスキルを順に実行する(claude codeにフォルダ指定して丸投げでもOKです。):
+### ② Claude Code に指示する
 
 ```
-/opt-assess workspace/my_project/data/     → 問題の分類と仮説
-/opt-baseline workspace/my_project/data/   → 3ベースライン + ボトルネック特定
-/opt-improve workspace/my_project/data/    → 改善策の設計と検証（繰り返し）
-/opt-report workspace/my_project/results/  → 経営向け提案書
-/opt-deploy workspace/my_project/          → 運用設計（自動化・監視）
+workspace/my_project/data/ にあるデータで、最適化して
 ```
 
-途中でデータが足りなければ `/opt-request` で依頼書を生成。
+これだけ。あとは Claude が問題の種類を判断して、分析→ベースライン→改善まで進めます。
+
+> **もっと細かく制御したい場合** は `/opt-assess`, `/opt-baseline` 等のスキルを個別に呼べます（→[使い方](#使い方)を参照）
+
+### ③ 結果を見る
+
+完了すると以下が生成されます:
+
+```
+workspace/my_project/
+├── reports/    ← 提案書・分析レポート（これをクライアントに渡す）
+├── results/    ← 数値結果（JSON）
+└── scripts/    ← 実行スクリプト（再実行・カスタマイズ用）
+```
+
+---
+
+### サンプルで試したい場合
+
+サンプルデータも用意してあります。Claude Code で以下を入力するだけ:
+
+```
+workspace/examples/shift_scheduling/data/ にあるデータで、最適化して
+```
+
+| サンプル | 内容 | 一言 |
+|---------|------|------|
+| `shift_scheduling/` | 10人×7日のシフト表 | 人手不足を数字で証明 |
+| `delivery_routing/` | 20顧客×3台の配送 | AM/PM分割で全件カバー |
+| `care_matching/` | 15利用者×10ヘルパー | 継続担当を維持しつつ最適化 |
+| `ticket_assignment/` | 20名×80チケット | 滞留チケットの自動再アサイン |
+
+詳しくは [workspace/examples/examples_readme.md](./workspace/examples/examples_readme.md) を参照。
 
 ## ディレクトリ構成
 
 ```
 mathematical_optimizer_skill/
-├── README.md                      ← このファイル（日本語）
-├── README_en.md                   ← 英語版README
-├── CHANGELOG.md                   ← 変更履歴（日英バイリンガル）
-├── CLAUDE.md                      ← Claude Code 向けの詳細ガイド
-├── OPTIMIZATION_MINDSET.md        ← 7つの思考回路 + LLM向けチェックリスト
-├── .claude/skills/                ← 6つのスキル
-│   ├── opt-assess/                ← 問題アセスメント
-│   ├── opt-baseline/              ← ベースライン構築
-│   ├── opt-improve/               ← 改善策の設計・検証
-│   ├── opt-report/                ← 提案書作成
-│   ├── opt-request/               ← 追加データ依頼書
-│   └── opt-deploy/               ← 運用設計（自動化・監視・フォールバック）
-├── reference/                     ← 実装テンプレート集
-│   ├── ortools_guide.md           ← OR-Tools の使い分け（CP-SAT vs Routing）
-│   ├── pulp_highs_guide.md        ← PuLP + HiGHS（LP/MIP向け）
-│   ├── multiobjective_guide.md    ← 多目的最適化（パレートフロント等）
-│   ├── scheduling_template.py     ← シフト最適化のコード雛形
-│   ├── vrp_template.py            ← 配送ルートのコード雛形
-│   ├── matching_template.py        ← マッチング問題の雛形（Gale-Shapley + CP-SAT）
-│   ├── matching_guide.md           ← マッチング問題ガイド
-│   ├── ticket_assignment_template.py ← チケットアサイン最適化テンプレート
-│   ├── ticket_assignment_guide.md  ← チケットアサイン最適化ガイド
-│   ├── facility_location_template.py ← 施設配置テンプレート（UFL/CFL/P-median）
-│   ├── facility_location_guide.md  ← 施設配置ガイド
-│   ├── continuous_optimization_template.py ← 連続最適化テンプレート（構造設計・トポロジー）
-│   ├── continuous_optimization_guide.md ← 連続最適化ガイド（scipy.optimize）
-│   ├── evaluator_template.py      ← 評価関数の雛形 + 一致検証
-│   ├── data_preprocessing.md      ← データ前処理の定石 + 大規模距離行列
-│   ├── improvement_patterns.md    ← 6つの改善定石パターン
-│   ├── state_schema.md            ← スキル間状態管理スキーマ
-│   ├── hearing_templates.md       ← ヒアリングガイド（質問の意図）
-│   ├── hearing_sheet_shift.md     ← 記入用シート（シフト業務）
-│   ├── hearing_sheet_routing.md   ← 記入用シート（配送ルート）
-│   ├── hearing_sheet_matching.md  ← 記入用シート（マッチング問題）
-│   └── hearing_sheet_ticket.md   ← 記入用シート（チケットアサイン）
-└── workspace/                     ← ここで作業する
-    ├── examples/                  ← サンプルデータ（E2Eデモ用）
-    │   ├── shift_scheduling/      ← シフト最適化サンプル（10人×7日）
-    │   ├── delivery_routing/      ← 配送ルートサンプル（20地点×3台）
-    │   ├── care_matching/         ← 介護マッチングサンプル（15利用者×10ヘルパー）
-    │   ├── ticket_assignment/    ← チケットアサインサンプル（20エンジニア×80チケット）
-    │   ├── facility_location/    ← 施設配置サンプル（10候補×30小売店）
-    │   └── structural_design/    ← 構造最適化サンプル（梁設計+トポロジー）
-    └── my_project/                ← プロジェクトごとにフォルダを作成
+├── .claude/skills/    ← 6つのスキル（Claude が自動で参照）
+├── reference/         ← テンプレート集・ヒアリングシート・ガイド
+└── workspace/         ← ★ ここで作業する
+    ├── examples/      ← サンプルデータ（すぐ試せる）
+    └── my_project/    ← あなたのプロジェクトをここに作る
 ```
 
 ## 対応する問題
