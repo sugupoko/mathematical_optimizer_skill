@@ -85,6 +85,7 @@ mathematical_optimizer_skill/
         │   └── reports/           ← 提案書・レポート
         └── v2/                    ← 追加データや制約変更で新バージョン
             ├── spec.md            ← 更新された仕様書
+            ├── delivery/          ← 納品物（Excel/PDF/Webアプリ等、ケースバイケース）
             └── ...
 ```
 
