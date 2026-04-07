@@ -65,7 +65,8 @@ mathematical_optimizer_skill/
 │   ├── hearing_sheet_shift.md     ← 記入用シート（シフト業務）
 │   ├── hearing_sheet_routing.md   ← 記入用シート（配送ルート）
 │   ├── hearing_sheet_matching.md  ← 記入用シート（マッチング問題）
-│   └── hearing_sheet_ticket.md   ← 記入用シート（チケットアサイン）
+│   ├── hearing_sheet_ticket.md   ← 記入用シート（チケットアサイン）
+│   └── spec_template.md          ← 仕様書テンプレート（プロジェクトの「今の正」）
 └── workspace/                     ← ★ここで作業する
     ├── examples/                  ← サンプルデータ（E2Eデモ用）
     │   ├── shift_scheduling/      ← シフト最適化サンプル（10人×7日）
@@ -75,11 +76,16 @@ mathematical_optimizer_skill/
     │   ├── facility_location/    ← 施設配置サンプル（10候補×30小売店）
     │   └── structural_design/    ← 構造最適化サンプル（片持ち梁・トポロジー）
     └── my_project/                ← プロジェクトごとにフォルダを作成
-        ├── data/                  ← クライアントから受け取ったデータ
-        ├── .opt_state.yaml        ← スキル間の状態管理ファイル
-        ├── scripts/               ← 作成したスクリプト
-        ├── results/               ← 実験結果
-        └── reports/               ← 提案書・レポート
+        ├── v1/                    ← バージョンごとに一式まとまる
+        │   ├── spec.md            ← ★ 仕様書（このバージョンの条件）
+        │   ├── data/              ← 入力データ
+        │   ├── .opt_state.yaml    ← スキル間の状態管理ファイル
+        │   ├── scripts/           ← 作成したスクリプト
+        │   ├── results/           ← 実験結果
+        │   └── reports/           ← 提案書・レポート
+        └── v2/                    ← 追加データや制約変更で新バージョン
+            ├── spec.md            ← 更新された仕様書
+            └── ...
 ```
 
 ## 使い方
@@ -121,22 +127,23 @@ reference/hearing_sheet_ticket.md   ← チケットアサインの場合
 
 ## 出力ルール（全スキル共通）
 
-**各スキルは結果をMarkdownドキュメントとして `reports/` に保存すること。**
-スクリプトは `scripts/`、数値結果は `results/` に保存する。
+**全成果物はバージョンフォルダ（`v1/`, `v2/`, ...）内に出力する。**
+最新バージョンの `spec.md` が「今の正」。テンプレートは `reference/spec_template.md` を参照。
 
-| スキル | 出力ファイル |
+| スキル | 出力ファイル（vN/ 内） |
 |--------|-----------|
-| opt-assess | `reports/assess_report.md` |
+| opt-assess | `spec.md`（初版生成） + `reports/assess_report.md` |
 | opt-baseline | `reports/baseline_report.md` + `scripts/baseline.py` + `results/baseline_results.json` |
-| opt-improve | `reports/improve_report.md` + `scripts/improve.py` + `results/improve_results.json` |
-| opt-report | `reports/v1_proposal.md`（バージョン連番） |
+| opt-improve | `spec.md`（変更があれば更新） + `reports/improve_report.md` + `scripts/improve.py` + `results/improve_results.json` |
+| opt-report | `reports/proposal.md` |
 | opt-request | `reports/data_request.md` |
 | opt-deploy | `reports/deploy_design.md` + `scripts/run_*.py`（本番パイプライン） |
 
 これにより:
-- 後続スキルが前のスキルの結果を参照できる
+- **spec.md を見れば「今どの条件で動いているか」が常にわかる**
+- バージョン間の spec.md を比較すれば変更点がわかる
+- 各バージョンが独立しているので、いつでも再実行できる
 - クライアントに成果物として渡せる
-- Git で変更履歴を追跡できる
 
 ## スキル一覧
 
@@ -185,39 +192,28 @@ reference/hearing_sheet_ticket.md   ← チケットアサインの場合
 
 ### workspace のバージョン管理
 
-前の結果は消さない。追加が来るたびにバージョンを分けて、Before/Afterを出せるようにする。
+バージョンごとに一式をまとめる。spec.md が各バージョンの仕様書。
 
 ```
 workspace/my_project/
-├── data/
-│   ├── v1_initial/            ← 最初にもらったデータ
-│   ├── v2_with_gps/           ← 追加で来たGPSログ
-│   └── v3_constraint_change/  ← 制約変更後
-├── results/
-│   ├── v1/                    ← 初回の結果
-│   ├── v2/                    ← 追加データ反映後
-│   └── v3/                    ← 制約変更後
-├── reports/
-│   ├── v1_proposal.md         ← 初回提案
-│   ├── v2_update.md           ← 「データ追加で精度向上」
-│   └── v3_final.md            ← 最終提案
-└── changelog.md               ← 何が変わって何をやり直したか
+├── v1/
+│   ├── spec.md                ← v1 の仕様書
+│   ├── data/                  ← 最初にもらったデータ
+│   ├── scripts/
+│   ├── results/
+│   └── reports/
+├── v2/
+│   ├── spec.md                ← v2 の仕様書（v1 からの変更点を記載）
+│   ├── data/                  ← 追加で来たデータ
+│   ├── scripts/
+│   ├── results/
+│   └── reports/
+└── ...
 ```
 
-### changelog.md の書き方
-
-```markdown
-## v2 (日付) — GPSログ追加
-- 追加データ: gps_log.csv（直近3ヶ月の走行実績）
-- 修正した仮定: 移動速度 30km/h → 実測22km/h
-- やり直した範囲: /opt-baseline からやり直し
-- 結果: 違反5件→2件に改善
-- 新たにわかったこと: 朝の渋滞が想定以上
-```
-
-前の結果を残す理由:
-- 「追加データでどれだけ改善したか」のBefore/Afterが出せる
-- 「制約変更で何が犠牲になったか」のトレードオフが見える
+前のバージョンを残す理由:
+- v1 と v2 の spec.md を比較すれば「何が変わったか」がわかる
+- 各バージョンの results/ を比較すれば Before/After が出せる
 - クライアントに変化の経緯を説明できる
 
 ### Git ベースのバージョン管理（推奨）

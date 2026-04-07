@@ -196,10 +196,11 @@ pending → in_progress → completed
 
 ### バージョン管理との連携
 ```
-追加データが来た場合:
-  1. 現在の .opt_state.yaml を .opt_state.v1.yaml にコピー
-  2. 新しいサイクルを .opt_state.yaml で開始
-  → Before/After の比較が可能
+追加データや制約変更が来た場合:
+  1. 新しいバージョンフォルダ（`v2/`）を作成
+  2. 前バージョンの `spec.md` を複製して更新
+  3. 新しい `.opt_state.yaml` で `/opt-assess` から開始
+  → `v1/.opt_state.yaml` と `v2/.opt_state.yaml` で Before/After の比較が可能
 ```
 
 ## スキルでの参照方法

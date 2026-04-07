@@ -117,7 +117,8 @@ user_invocable: true
 
 ### 6. 出力
 
-**提案書を `reports/v1_proposal.md` に保存すること。** バージョンが進んだら `v2_proposal.md` 等に連番する。
+バージョンフォルダ内に以下を保存する:
+- `reports/proposal.md`
 
 - Markdown形式の提案書
 - 必要に応じてPowerPoint（/pptxスキルと連携）
@@ -127,11 +128,11 @@ user_invocable: true
 ## 状態管理
 
 ### 読み込み
-- `.opt_state.yaml` の全セクション（assess, baseline, improve）を読み込む
+- バージョンフォルダ内の `.opt_state.yaml` の全セクション（assess, baseline, improve）を読み込む
 - 問題の分類、ベースライン、改善結果の全履歴を参照
 
 ### 書き込み
-- 実行完了時に `.opt_state.yaml` の `report` セクションを書き込む
+- 実行完了時にバージョンフォルダ内の `.opt_state.yaml` の `report` セクションを書き込む
 - 出力ファイルパス、提案リスト、不可能性の発見を記録
 - スキーマは `reference/state_schema.md` を参照
 

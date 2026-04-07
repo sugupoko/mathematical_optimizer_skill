@@ -199,7 +199,18 @@ user_invocable: true
 
 ## Phase 4: 出力
 
-**以下のMarkdownを `reports/assess_report.md` に保存すること。** 後続スキルが参照する。
+### 仕様書（spec.md）の生成
+
+**バージョンフォルダ（`v1/`）内に `spec.md` を生成すること。** これがこのバージョンの仕様書になる。
+テンプレートは `reference/spec_template.md` を参照。
+
+- 目的・ハード制約・ソフト制約・仮定をここに集約する
+- 後続スキル（baseline, improve）はこの仕様書を参照して実行する
+- 追加データや制約変更が来たら、新バージョンフォルダ（`v2/`）を作り、spec.md を複製して更新する
+
+### assess レポート
+
+**以下のMarkdownをバージョンフォルダ内の `reports/assess_report.md` に保存すること。** 後続スキルが参照する。
 
 ```markdown
 ## 問題アセスメント
@@ -256,11 +267,11 @@ user_invocable: true
 ## 状態管理
 
 ### 読み込み
-- `.opt_state.yaml` が存在すれば読み込み、前回の assess 結果を確認する
-- 追加データが来た場合は既存の assess を参照して差分を分析する
+- バージョンフォルダ内の `.opt_state.yaml` が存在すれば読み込み、前回の assess 結果を確認する
+- 追加データが来た場合は前バージョンの assess を参照して差分を分析する
 
 ### 書き込み
-- 実行完了時に `.opt_state.yaml` の `assess` セクションを書き込む
+- 実行完了時にバージョンフォルダ内の `.opt_state.yaml` の `assess` セクションを書き込む
 - スキーマは `reference/state_schema.md` を参照
 
 ---

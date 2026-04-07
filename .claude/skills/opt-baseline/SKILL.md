@@ -70,7 +70,10 @@ feasible?     x(50違反)   x(5違反)  o(0違反)
 
 ### 5. 出力
 
-**以下のMarkdownを `reports/baseline_report.md` に保存すること。** 実験スクリプトは `scripts/` に、数値結果は `results/` に保存する。
+バージョンフォルダ内に以下を保存する:
+- `reports/baseline_report.md`（ベースライン結果・ボトルネック分析・次のステップ）
+- `scripts/baseline.py`
+- `results/baseline_results.json`
 
 ```markdown
 ## ベースライン結果
@@ -98,11 +101,11 @@ feasible?     x(50違反)   x(5違反)  o(0違反)
 ## 状態管理
 
 ### 読み込み
-- `.opt_state.yaml` の `assess` セクションを読み込む
+- バージョンフォルダ内の `.opt_state.yaml` の `assess` セクションを読み込む
 - 問題の分類、仮定、データ品質の情報を引き継ぐ
 
 ### 書き込み
-- 実行完了時に `.opt_state.yaml` の `baseline` セクションを書き込む
+- 実行完了時にバージョンフォルダ内の `.opt_state.yaml` の `baseline` セクションを書き込む
 - 3つのベースライン結果、ボトルネック分析、改善余地を記録
 - スキーマは `reference/state_schema.md` を参照
 

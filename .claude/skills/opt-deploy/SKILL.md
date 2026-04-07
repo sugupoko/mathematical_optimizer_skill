@@ -197,7 +197,9 @@ def main():
 
 ## Phase 5: 出力
 
-**以下のMarkdownを `reports/deploy_design.md` に保存すること。** 本番パイプラインスクリプトは `scripts/` に保存する。
+バージョンフォルダ内に以下を保存する:
+- `reports/deploy_design.md`（実行概要、パイプライン構成、バリデーションルール、監視指標、フォールバック手順、モデル見直しトリガー）
+- `scripts/run_*.py`（本番パイプライン）
 
 ```markdown
 ## 運用設計書
@@ -246,11 +248,11 @@ def main():
 ## 状態管理
 
 ### 読み込み
-- `.opt_state.yaml` の全セクション（assess, baseline, improve, report）を読み込む
+- バージョンフォルダ内の `.opt_state.yaml` の全セクション（assess, baseline, improve, report）を読み込む
 - 最適化の全履歴を参照して運用設計に反映
 
 ### 書き込み
-- 実行完了時に `.opt_state.yaml` の `deploy` セクションを書き込む
+- 実行完了時にバージョンフォルダ内の `.opt_state.yaml` の `deploy` セクションを書き込む
 - スキーマは `reference/state_schema.md` を参照
 
 ---
