@@ -1,0 +1,178 @@
+version: 1
+project_name: "shift_scheduling_example"
+created_at: "2026-04-07T00:00:00"
+updated_at: "2026-04-07T00:00:00"
+
+assess:
+  status: "completed"
+  completed_at: "2026-04-07T00:00:00"
+  problem_type: "scheduling"
+  problem_subtype: "shift_scheduling"
+  scale:
+    variables: 210
+    constraints: 50
+    size_class: "small"
+  entities:
+    - name: "employees"
+      count: 10
+      source_file: "employees.csv"
+    - name: "shifts"
+      count: 21
+      source_file: "shifts.csv"
+  objectives:
+    primary: "全シフトの人員充足（不足最小化）"
+    secondary: "勤務時間の公平性（標準偏差最小化）"
+  hard_constraints:
+    - id: "HC1"
+      description: "各シフトの必要人数を満たす"
+      source: "業務要件"
+    - id: "HC2"
+      description: "週あたり最大勤務時間を超えない"
+      source: "労務管理"
+    - id: "HC3"
+      description: "利用不可日にはシフトを割り当てない"
+      source: "従業員都合"
+    - id: "HC4"
+      description: "必要スキルを持つ従業員のみ割り当て"
+      source: "業務要件"
+    - id: "HC5"
+      description: "夜勤翌日に朝勤を割り当てない（休息11h）"
+      source: "労働安全"
+  soft_constraints:
+    - id: "SC1"
+      description: "連続勤務は最大5日まで"
+      weight: 3
+    - id: "SC2"
+      description: "勤務時間の偏りを最小化"
+      weight: 5
+    - id: "SC3"
+      description: "最低勤務時間をなるべく確保"
+      weight: 3
+    - id: "SC4"
+      description: "夜勤は週2回以下"
+      weight: 3
+    - id: "SC5"
+      description: "trainingスキル保持者を各日1シフト以上に配置"
+      weight: 2
+  hypotheses:
+    - "構造的人手不足が最大のボトルネック（需要384h > 供給368h）"
+    - "夜勤の人員確保が特にきつい（HC5の連鎖制約）"
+    - "CP-SATで不足最小化アプローチが有効"
+  assumptions:
+    - key: "shift_duration"
+      value: 8
+      unit: "hours"
+      confidence: "high"
+      note: "データから計算済"
+    - key: "one_shift_per_day"
+      value: 1
+      unit: "shifts/day"
+      confidence: "medium"
+      note: "制約に明記なし、一般的な運用として仮定"
+  missing_data:
+    - "1日に複数シフト担当可能か"
+    - "シフト間の引き継ぎ時間"
+    - "人員不足時のシフト優先順位"
+  data_quality:
+    overall: "良好"
+    issues: []
+
+baseline:
+  status: "completed"
+  completed_at: "2026-04-07T00:00:00"
+  results:
+    random:
+      feasible: false
+      violations: 14
+      violation_breakdown:
+        HC1: 0
+        HC2: 3
+        HC3: 3
+        HC4: 6
+        HC5: 2
+      score_fairness_sd: 14.99
+    greedy:
+      feasible: false
+      violations: 3
+      violation_breakdown:
+        HC1: 3
+      score_fairness_sd: 6.80
+      method: "skill-fit + remaining-hours priority"
+    solver:
+      feasible: false
+      violations: 2
+      violation_breakdown:
+        HC1: 2
+      score_fairness_sd: 5.59
+      solve_time_sec: 0.10
+      method: "CP-SAT (OPTIMAL, time_limit=30s)"
+  bottleneck:
+    constraint_id: "HC1"
+    description: "構造的人手不足: 需要384h > 供給368h（全員フル稼働でも16h=2シフト不足）"
+    evidence: "ソルバーOPTIMALで不足2。HC2-HC5は完全解消。"
+    slack_ratio: 0.96
+  improvement_potential:
+    greedy_vs_solver_gap_pct: 33.3
+    assessment: "small"
+    note: "アルゴリズム改善余地は小さい。根本解決は人員追加 or 制約緩和"
+  scripts:
+    - path: "scripts/baseline.py"
+
+improve:
+  status: "completed"
+  iterations:
+    - iteration: 1
+      completed_at: "2026-04-07T00:00:00"
+      strategy: "不可能性の定量化 + 制約緩和 + 公平性強化"
+      result:
+        improve_a_add_1_staff:
+          feasible: true
+          shortage: 0
+          fairness_sd: 6.47
+          note: "reception+phone スキルの1人追加で全充足"
+        improve_b_night_1:
+          feasible: true
+          shortage: 0
+          fairness_sd: 6.59
+          note: "夜勤2→1で緩和基準では全充足"
+        improve_c_fairness:
+          feasible: false
+          shortage: 2
+          fairness_sd: 5.59
+          note: "公平性強化しても不足は構造的に解消不可"
+      what_worked: "1人追加で全シフト充足可能という定量的証明"
+      remaining_issues: "追加人員のコスト判断、夜勤削減の可否"
+  best:
+    method: "CP-SAT + 1人追加"
+    feasible: true
+    shortage: 0
+    fairness_sd: 6.47
+    vs_baseline: "不足2→0（完全解消）"
+  additional_data_needed:
+    - "人員追加の可否とコスト"
+    - "夜勤人数削減の可否"
+
+report:
+  status: "completed"
+  completed_at: "2026-04-07T00:00:00"
+  output_file: "reports/proposal.md"
+  proposals:
+    - name: "A. 最適配置（現行人員）"
+      cost: 0
+      effect: "不足を最小の2シフトに抑制、全ルール遵守"
+      difficulty: "すぐできる"
+      recommended: true
+    - name: "B. 1名追加採用"
+      cost: "人件費1名分（パート可）"
+      effect: "全シフト充足（不足ゼロ）"
+      difficulty: "採用次第"
+      recommended: true
+    - name: "C. 夜勤体制見直し（2→1名）"
+      cost: 0
+      effect: "現行人員で全シフト充足"
+      difficulty: "要安全検討"
+      recommended: false
+  impossibility_findings:
+    - "現行10名では全シフト充足は数学的に不可能（需要384h > 供給368h）"
+    - "配置の工夫だけでは不足2は解消不可（OPTIMAL解で証明）"
+    - "1名追加で解消可能（これも数学的に確認済み）"

@@ -1,9 +1,0 @@
-{
-  "best_baseline": "cpsat_basic",
-  "bottlenecks": [
-    "ハード制約違反: HC1_required_count = 2",
-    "ソフト制約ペナルティ: SC2_fairness = -27.97",
-    "ソフト制約ペナルティ: SC4_night_limit = -16"
-  ],
-  "best_method_overall": "cpsat_improved"
-}

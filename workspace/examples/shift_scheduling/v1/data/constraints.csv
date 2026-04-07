@@ -1,0 +1,11 @@
+constraint_id,type,description,parameter
+HC1,hard,1シフトあたりの必要人数を満たすこと,required_count
+HC2,hard,従業員の週あたり最大勤務時間を超えないこと,max_hours_per_week
+HC3,hard,従業員の利用不可日にはシフトを割り当てないこと,unavailable_days
+HC4,hard,シフトに必要なスキルを持つ従業員のみ割り当てること,required_skills
+HC5,hard,夜勤の翌日に朝勤を割り当てないこと（最低11時間の休息）,11
+SC1,soft,連続勤務は最大5日までとする,5
+SC2,soft,従業員間の総勤務時間の偏りを最小化する（公平性）,std_dev
+SC3,soft,従業員の週あたり最低勤務時間をなるべく確保する,min_hours_per_week
+SC4,soft,夜勤は週2回以下が望ましい,2
+SC5,soft,トレーニングスキル保持者を各日1シフト以上に配置する,1
