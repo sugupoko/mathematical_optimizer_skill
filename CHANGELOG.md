@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v3.0.0] - 2026-04-07
+
+### Changed / 大幅変更
+
+#### Versioned Folder Structure / バージョンフォルダ構成
+- All project outputs now live under `v1/`, `v2/`, etc. / 全成果物をバージョンフォルダ（v1/, v2/, ...）に格納
+- Each version is a complete snapshot: spec.md + data + scripts + results + reports / 各バージョンが独立した一式
+- `spec.md` in the latest version folder is the single source of truth for constraints / 最新版の spec.md が「今の正」
+
+#### Specification Document / 仕様書（spec.md）導入
+- `reference/spec_template.md` — New template for per-version specs / バージョンごとの仕様書テンプレート
+- opt-assess generates initial spec.md; opt-improve updates it on changes / assess で初版生成、improve で変更時に更新
+- Tracks objectives, hard/soft constraints, assumptions, and change diffs / 目的・制約・仮定・変更差分を一元管理
+
+#### README Simplified / README 簡素化
+- Quick start rewritten as 3 clear steps: place data, give instruction, see results / クイックスタートを3ステップに
+- Removed redundant "使い方" section / 重複セクション削除
+- Directory tree condensed to essentials / ディレクトリ構成を簡潔化
+
+#### Examples Re-run / サンプル再実行
+- Deleted old flat outputs from all 6 examples / 旧フラット出力を全削除
+- Re-ran shift_scheduling through full workflow under v1/ structure / shift_scheduling を v1/ 構成で再実行
+- Key finding: 1 additional staff member resolves all shortages / 1名追加で全シフト充足
+
+#### All Skills Updated / 全スキル更新
+- All 6 skills now output to versioned folders / 全6スキルがバージョンフォルダに出力
+- State management (.opt_state.yaml) scoped to version folder / 状態管理もバージョンフォルダ内に
+- opt-report output changed: `v1_proposal.md` → `proposal.md` (folder handles versioning) / フォルダでバージョン管理
+
+---
+
 ## [v2.4.0] - 2026-04-01
 
 ### Added / 新規追加

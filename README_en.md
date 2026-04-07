@@ -20,14 +20,13 @@ When asked to "optimize a shift schedule" or "improve delivery routes," these sk
 
 ## What It Does
 
-1. **Classifies messy input data** into problem types (scheduling? routing? assignment?)
-2. **Builds a baseline in 5 minutes** and identifies the bottleneck
-3. **Designs and tests improvements** matched to the bottleneck (with code templates)
-4. **Generates management-ready proposals** (cost, impact, and implementation difficulty comparisons)
-5. **Produces data request documents** explaining what's needed, why, and the consequences of not having it
-6. **Designs operations** (automation, monitoring, fallback procedures)
+With your data and a single instruction like "optimize this," the following happens automatically:
 
-Additionally, on-site hearing sheets (with fill-in fields) help **surface implicit constraints not captured in the data**.
+1. Classifies the problem type (scheduling? routing? assignment?)
+2. Builds a baseline and identifies the bottleneck
+3. Designs and tests improvements
+4. Generates a management-ready proposal
+5. Produces data request documents if anything is missing
 
 ## Language
 
@@ -45,108 +44,72 @@ pip install ortools omegaconf matplotlib numpy pandas pulp scipy
 
 Open this folder in Claude Code to get started.
 
-## Quick Start (try with sample data)
+## Quick Start — 3 Steps
 
-`workspace/examples/` contains 6 sample projects (synthetic data). Each includes `solve_all.py` (single script) and `reports/` (full documentation).
+### 1. Place your data
 
-| Example | Description | Key Finding |
-|---------|-------------|-------------|
-| `shift_scheduling/` | 10 employees x 7 days | Supply < demand: structural shortage proven |
-| `delivery_routing/` | 20 customers x 3 vehicles | AM/PM split covers all customers |
-| `care_matching/` | 15 receivers x 10 caregivers | 7/7 continuity maintained, 100% same-district |
-| `ticket_assignment/` | 20 engineers x 80 tickets | Blocked slot release + stagnation detection |
-| `facility_location/` | 10 candidates x 30 stores | CFL optimal: 4 warehouses, 62% cost reduction |
-| `structural_design/` | Cantilever beam + topology | 96.2% weight reduction via SLSQP + SIMP |
-
-```bash
-# Run skills sequentially
-/opt-assess workspace/examples/shift_scheduling/data/
-/opt-baseline workspace/examples/shift_scheduling/data/
-
-# Or run the all-in-one script
-python workspace/examples/shift_scheduling/scripts/solve_all.py
-```
-
-See [workspace/examples/examples_readme.md](./workspace/examples/examples_readme.md) for details.
-
-## Usage
-
-### 1. Hearing (before receiving data)
-
-Hearing sheets are available under `reference/`. Print them out and use them on-site.
-
-| Sheet | Target |
-|-------|--------|
-| `hearing_sheet_shift.md` | Shift scheduling operations |
-| `hearing_sheet_routing.md` | Delivery routes and collection operations |
-| `hearing_sheet_matching.md` | Matching problems (caregiving, hiring, etc.) |
-| `hearing_sheet_ticket.md` | Ticket assignment (ITSM, support, etc.) |
-
-### 2. Once you receive the data
+Put your files in `workspace/my_project/data/`. Hearing notes, existing schedules, etc. Excel or CSV.
+If you need to conduct hearings first, see `reference/hearing_templates.md`.
 
 ```bash
 mkdir -p workspace/my_project/data
-cp /path/to/client_data.xlsx workspace/my_project/data/
+cp your_data.xlsx workspace/my_project/data/
 ```
 
-Run the following skills in order within Claude Code:
+### 2. Tell Claude Code
 
 ```
-/opt-assess workspace/my_project/data/     -> Problem classification and hypotheses
-/opt-baseline workspace/my_project/data/   -> 3 baselines + bottleneck identification
-/opt-improve workspace/my_project/data/    -> Design and test improvements (iterative)
-/opt-report workspace/my_project/results/  -> Management-ready proposal
-/opt-deploy workspace/my_project/          -> Operations design (automation, monitoring)
+Optimize the data in workspace/my_project/data/
 ```
 
-If data is missing along the way, use `/opt-request` to generate a request document.
+That's it. Claude will determine the problem type and run analysis → baseline → improvement.
+
+> **For finer control**, call individual skills: `/opt-assess`, `/opt-baseline`, etc.
+
+### 3. See results
+
+```
+workspace/my_project/
+├── v1/                <- Each version is a complete snapshot
+│   ├── spec.md        <- Specification (constraints & assumptions for this version)
+│   ├── data/          <- Input data
+│   ├── scripts/       <- Execution scripts
+│   ├── results/       <- Numerical results
+│   └── reports/       <- Proposals & reports (deliver these to clients)
+├── v2/                <- New version when data/constraints change
+│   ├── spec.md        <- Updated spec (with diff from previous version)
+│   └── ...
+└── ...
+```
+
+---
+
+### Try with sample data
+
+Sample data is included. Just type this in Claude Code:
+
+```
+Optimize the data in workspace/examples/shift_scheduling/data/
+```
+
+| Example | Description | One-liner |
+|---------|-------------|-----------|
+| `shift_scheduling/` | 10 employees x 7 days | Proves staffing shortage with math |
+| `delivery_routing/` | 20 customers x 3 vehicles | AM/PM split covers all |
+| `care_matching/` | 15 receivers x 10 caregivers | Maintains continuity while optimizing |
+| `ticket_assignment/` | 20 engineers x 80 tickets | Auto-reassigns stagnant tickets |
+
+See [workspace/examples/examples_readme.md](./workspace/examples/examples_readme.md) for details.
 
 ## Directory Structure
 
 ```
 mathematical_optimizer_skill/
-├── README.md                      <- Japanese README (main)
-├── README_en.md                   <- This file (English)
-├── CHANGELOG.md                   <- Changelog (bilingual)
-├── CLAUDE.md                      <- Detailed guide for Claude Code (Japanese)
-├── OPTIMIZATION_MINDSET.md        <- 7 thinking patterns (Japanese + LLM checklists)
-├── .claude/skills/                <- 6 skills
-│   ├── opt-assess/                <- Problem assessment
-│   ├── opt-baseline/              <- Baseline construction
-│   ├── opt-improve/               <- Improvement design and testing
-│   ├── opt-report/                <- Proposal generation
-│   ├── opt-request/               <- Additional data request
-│   └── opt-deploy/               <- Operations design
-├── reference/                     <- Templates and guides (Japanese)
-│   ├── scheduling_template.py     <- Shift optimization (CP-SAT)
-│   ├── vrp_template.py            <- Delivery routing (OR-Tools Routing)
-│   ├── matching_template.py       <- Matching (Gale-Shapley + CP-SAT)
-│   ├── ticket_assignment_template.py <- Ticket assignment (LLM + stagnation)
-│   ├── facility_location_template.py <- Facility location (UFL/CFL/P-median)
-│   ├── continuous_optimization_template.py <- Structural design (scipy + SIMP)
-│   ├── evaluator_template.py      <- Evaluation function + alignment verification
-│   ├── ortools_guide.md           <- OR-Tools (CP-SAT vs Routing)
-│   ├── pulp_highs_guide.md        <- PuLP + HiGHS (LP/MIP)
-│   ├── multiobjective_guide.md    <- Multi-objective (Pareto, epsilon-constraint)
-│   ├── matching_guide.md          <- Matching problem guide
-│   ├── ticket_assignment_guide.md <- Ticket assignment guide
-│   ├── facility_location_guide.md <- Facility location guide
-│   ├── continuous_optimization_guide.md <- Continuous optimization guide
-│   ├── literature_guide.md        <- Literature survey guide (by problem class)
-│   ├── data_preprocessing.md      <- Data preprocessing + large-scale matrices
-│   ├── improvement_patterns.md    <- 6 proven improvement patterns
-│   ├── state_schema.md            <- Inter-skill state management
-│   ├── hearing_templates.md       <- Hearing guide
-│   └── hearing_sheet_*.md         <- Fill-in sheets (shift/routing/matching/ticket)
-└── workspace/
-    ├── examples/                  <- 6 E2E sample projects
-    │   ├── shift_scheduling/      <- 10 employees x 7 days
-    │   ├── delivery_routing/      <- 20 customers x 3 vehicles
-    │   ├── care_matching/         <- 15 receivers x 10 caregivers
-    │   ├── ticket_assignment/     <- 20 engineers x 80 tickets
-    │   ├── facility_location/     <- 10 candidates x 30 stores
-    │   └── structural_design/     <- Beam design + topology optimization
-    └── my_project/                <- Your project folder
+├── .claude/skills/    <- 6 skills (Claude references these automatically)
+├── reference/         <- Templates, guides, hearing sheets
+└── workspace/         <- Work here
+    ├── examples/      <- Sample data (ready to try)
+    └── my_project/    <- Create your project here
 ```
 
 ## Supported Problem Types
