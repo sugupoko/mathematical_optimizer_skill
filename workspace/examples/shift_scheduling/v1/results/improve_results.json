@@ -1,105 +1,143 @@
 {
-  "improve_a_add_staff": {
-    "staff_added": 1,
-    "result": {
-      "feasible": true,
-      "total_hard_violations": 0,
-      "hard_violations": {
-        "HC1": 0,
-        "HC2": 0,
-        "HC3": 0,
-        "HC4": 0,
-        "HC5": 0
-      },
-      "soft_violations": {
-        "SC1": 0,
-        "SC2": 6.47,
-        "SC3": 0,
-        "SC4": 0,
-        "SC5": 0
-      },
-      "total_shortage": 0,
-      "emp_hours": [
-        40,
-        40,
-        32,
-        40,
-        24,
-        32,
-        40,
-        24,
-        32,
-        40,
-        40
-      ],
-      "solver_status": "OPTIMAL",
-      "solve_time": 0.07
-    }
-  },
-  "improve_b_relax_night": {
+  "scenario_a_add_staff": {
+    "description": "1名追加（E011: reception+phone, max40h）",
     "feasible": true,
-    "total_hard_violations": 0,
-    "hard_violations": {
+    "hard_violations": 0,
+    "hard_violations_detail": {
       "HC1": 0,
       "HC2": 0,
       "HC3": 0,
       "HC4": 0,
       "HC5": 0
     },
-    "soft_violations": {
-      "SC1": 0,
-      "SC2": 6.59,
-      "SC3": 0,
-      "SC4": 0,
-      "SC5": 0
+    "soft_score_total": 83.6,
+    "soft_scores": {
+      "SC1_consecutive": 100.0,
+      "SC2_fairness": 18.0,
+      "SC3_min_hours": 100.0,
+      "SC4_night_limit": 100.0,
+      "SC5_training": 100.0
     },
-    "total_shortage": 0,
-    "emp_hours": [
-      40,
-      40,
-      32,
-      40,
-      40,
-      32,
-      40,
-      24,
-      32,
-      24
-    ],
-    "solver_status": "FEASIBLE",
-    "solve_time": 30.02
+    "total_assignments": 49,
+    "hours_std_dev": 6.56,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 32,
+      "E003": 32,
+      "E004": 40,
+      "E005": 40,
+      "E006": 24,
+      "E007": 40,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40,
+      "E011": 40
+    },
+    "objective_value": 100.0
   },
-  "improve_c_fairness": {
+  "scenario_b_night_relax": {
+    "description": "夜勤最低人数を2→1に緩和",
+    "feasible": true,
+    "hard_violations": 0,
+    "hard_violations_detail": {
+      "HC1": 0,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0
+    },
+    "soft_score_total": 83.1,
+    "soft_scores": {
+      "SC1_consecutive": 100.0,
+      "SC2_fairness": 15.7,
+      "SC3_min_hours": 100.0,
+      "SC4_night_limit": 100.0,
+      "SC5_training": 100.0
+    },
+    "total_assignments": 44,
+    "hours_std_dev": 6.75,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 40,
+      "E003": 32,
+      "E004": 32,
+      "E005": 40,
+      "E006": 24,
+      "E007": 40,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40
+    },
+    "objective_value": 100.0
+  },
+  "scenario_c_fairness": {
+    "description": "公平性重視の重み調整（現行10名）",
     "feasible": false,
-    "total_hard_violations": 2,
-    "hard_violations": {
+    "hard_violations": 2,
+    "hard_violations_detail": {
       "HC1": 2,
       "HC2": 0,
       "HC3": 0,
       "HC4": 0,
       "HC5": 0
     },
-    "soft_violations": {
-      "SC1": 0,
-      "SC2": 5.59,
-      "SC3": 0,
-      "SC4": 0,
-      "SC5": 0
+    "soft_score_total": 86.0,
+    "soft_scores": {
+      "SC1_consecutive": 100.0,
+      "SC2_fairness": 30.1,
+      "SC3_min_hours": 100.0,
+      "SC4_night_limit": 100.0,
+      "SC5_training": 100.0
     },
-    "total_shortage": 2,
-    "emp_hours": [
-      40,
-      40,
-      32,
-      40,
-      40,
-      32,
-      40,
-      24,
-      40,
-      40
-    ],
-    "solve_time": 0.01,
-    "solver_status": "OPTIMAL"
+    "total_assignments": 46,
+    "hours_std_dev": 5.59,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 40,
+      "E003": 32,
+      "E004": 40,
+      "E005": 40,
+      "E006": 32,
+      "E007": 40,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40
+    },
+    "objective_value": 2400.0
+  },
+  "baseline_cpsat": {
+    "description": "現行CP-SAT（ベースライン）",
+    "feasible": false,
+    "hard_violations": 2,
+    "hard_violations_detail": {
+      "HC1": 2,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0
+    },
+    "soft_score_total": 86.0,
+    "soft_scores": {
+      "SC1_consecutive": 100.0,
+      "SC2_fairness": 30.1,
+      "SC3_min_hours": 100.0,
+      "SC4_night_limit": 100.0,
+      "SC5_training": 100.0
+    },
+    "total_assignments": 46,
+    "hours_std_dev": 5.59,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 40,
+      "E003": 32,
+      "E004": 40,
+      "E005": 40,
+      "E006": 32,
+      "E007": 40,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40
+    },
+    "objective_value": 2100.0
   }
 }

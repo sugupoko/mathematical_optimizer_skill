@@ -1,100 +1,79 @@
 {
-  "random": {
-    "feasible": false,
-    "total_hard_violations": 14,
-    "hard_violations": {
-      "HC1": 0,
-      "HC2": 3,
-      "HC3": 3,
-      "HC4": 6,
-      "HC5": 2
+  "methods": {
+    "random": {
+      "feasible": false,
+      "hard_violations": 13,
+      "hard_violations_detail": {
+        "HC1": 2,
+        "HC2": 0,
+        "HC3": 3,
+        "HC4": 6,
+        "HC5": 2
+      },
+      "soft_score_total": 84.0,
+      "soft_scores": {
+        "SC1_consecutive": 100.0,
+        "SC2_fairness": 30.1,
+        "SC3_min_hours": 100.0,
+        "SC4_night_limit": 90.0,
+        "SC5_training": 100.0
+      },
+      "total_assignments": 46,
+      "total_demand": 48,
+      "hours_std_dev": 5.59
     },
-    "soft_violations": {
-      "SC1": 0,
-      "SC2": 14.99,
-      "SC3": 0,
-      "SC4": 2,
-      "SC5": 0
+    "greedy": {
+      "feasible": false,
+      "hard_violations": 3,
+      "hard_violations_detail": {
+        "HC1": 1,
+        "HC2": 0,
+        "HC3": 0,
+        "HC4": 0,
+        "HC5": 2
+      },
+      "soft_score_total": 86.0,
+      "soft_scores": {
+        "SC1_consecutive": 100.0,
+        "SC2_fairness": 30.1,
+        "SC3_min_hours": 100.0,
+        "SC4_night_limit": 100.0,
+        "SC5_training": 100.0
+      },
+      "total_assignments": 46,
+      "total_demand": 48,
+      "hours_std_dev": 5.59
     },
-    "total_assigned": 48,
-    "total_shortage": 0,
-    "emp_hours": [
-      40,
-      64,
-      24,
-      48,
-      40,
-      24,
-      40,
-      16,
-      56,
-      32
-    ]
+    "cpsat": {
+      "feasible": false,
+      "hard_violations": 2,
+      "hard_violations_detail": {
+        "HC1": 2,
+        "HC2": 0,
+        "HC3": 0,
+        "HC4": 0,
+        "HC5": 0
+      },
+      "soft_score_total": 86.0,
+      "soft_scores": {
+        "SC1_consecutive": 100.0,
+        "SC2_fairness": 30.1,
+        "SC3_min_hours": 100.0,
+        "SC4_night_limit": 100.0,
+        "SC5_training": 100.0
+      },
+      "total_assignments": 46,
+      "total_demand": 48,
+      "hours_std_dev": 5.59
+    }
   },
-  "greedy": {
-    "feasible": false,
-    "total_hard_violations": 3,
-    "hard_violations": {
-      "HC1": 3,
-      "HC2": 0,
-      "HC3": 0,
-      "HC4": 0,
-      "HC5": 0
-    },
-    "soft_violations": {
-      "SC1": 0,
-      "SC2": 6.8,
-      "SC3": 0,
-      "SC4": 0,
-      "SC5": 0
-    },
-    "total_assigned": 45,
-    "total_shortage": 3,
-    "emp_hours": [
-      40,
-      40,
-      32,
-      40,
-      40,
-      24,
-      40,
-      24,
-      40,
-      40
-    ]
-  },
-  "solver": {
-    "feasible": false,
-    "total_hard_violations": 2,
-    "hard_violations": {
-      "HC1": 2,
-      "HC2": 0,
-      "HC3": 0,
-      "HC4": 0,
-      "HC5": 0
-    },
-    "soft_violations": {
-      "SC1": 0,
-      "SC2": 5.59,
-      "SC3": 0,
-      "SC4": 0,
-      "SC5": 0
-    },
-    "total_assigned": 46,
-    "total_shortage": 2,
-    "emp_hours": [
-      40,
-      40,
-      32,
-      40,
-      40,
-      32,
-      40,
-      24,
-      40,
-      40
-    ],
-    "solver_status": "OPTIMAL",
-    "solve_time": 0.1
+  "comparison": {
+    "best_method": "cpsat",
+    "supply_demand_gap": {
+      "total_demand_shifts": 48,
+      "total_supply_max_shifts": 46,
+      "gap_shifts": 2,
+      "gap_hours": 16
+    }
   }
 }

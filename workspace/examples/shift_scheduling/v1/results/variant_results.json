@@ -1,287 +1,217 @@
 {
-  "A_バランス型": {
-    "description": "全ソフト制約を均等に考慮",
+  "V1_balanced": {
+    "description": "バランス型（デフォルト）",
     "weights": {
+      "underfill": 1000,
+      "fairness": 50,
+      "min_hours": 30,
+      "night_limit": 20,
+      "training": 15,
+      "consecutive": 25
+    },
+    "feasible": false,
+    "hard_violations": 2,
+    "hard_violations_detail": {
+      "HC1": 2,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0
+    },
+    "soft_score_total": 86.0,
+    "soft_scores": {
+      "SC1_consecutive": 100.0,
+      "SC2_fairness": 30.1,
+      "SC3_min_hours": 100.0,
+      "SC4_night_limit": 100.0,
+      "SC5_training": 100.0
+    },
+    "total_assignments": 46,
+    "hours_std_dev": 5.59,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 40,
+      "E003": 32,
+      "E004": 40,
+      "E005": 40,
+      "E006": 32,
+      "E007": 40,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40
+    },
+    "objective_value": 2100.0
+  },
+  "V2_fairness_max": {
+    "description": "公平性最重視",
+    "weights": {
+      "underfill": 1000,
+      "fairness": 300,
+      "min_hours": 100,
+      "night_limit": 20,
+      "training": 15,
+      "consecutive": 25
+    },
+    "feasible": false,
+    "hard_violations": 2,
+    "hard_violations_detail": {
+      "HC1": 2,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0
+    },
+    "soft_score_total": 86.0,
+    "soft_scores": {
+      "SC1_consecutive": 100.0,
+      "SC2_fairness": 30.1,
+      "SC3_min_hours": 100.0,
+      "SC4_night_limit": 100.0,
+      "SC5_training": 100.0
+    },
+    "total_assignments": 46,
+    "hours_std_dev": 5.59,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 40,
+      "E003": 32,
+      "E004": 40,
+      "E005": 40,
+      "E006": 32,
+      "E007": 40,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40
+    },
+    "objective_value": 2600.0
+  },
+  "V3_coverage_max": {
+    "description": "充足率最重視",
+    "weights": {
+      "underfill": 2000,
       "fairness": 10,
       "min_hours": 10,
-      "night": 10,
-      "trainer": 10
+      "night_limit": 5,
+      "training": 5,
+      "consecutive": 5
     },
-    "scores": {
-      "充足率": 95.8,
-      "SC1_連続勤務": 100.0,
-      "SC2_公平性": 69.6,
-      "SC3_最低時間": 100.0,
-      "SC4_夜勤制限": 100.0,
-      "SC5_トレーナー": 100.0,
-      "総合": 92.7
+    "feasible": false,
+    "hard_violations": 2,
+    "hard_violations_detail": {
+      "HC1": 2,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0
     },
-    "raw": {
-      "emp_hours": [
-        40,
-        40,
-        32,
-        40,
-        40,
-        32,
-        40,
-        24,
-        40,
-        40
-      ],
-      "emp_nights": [
-        1,
-        1,
-        2,
-        2,
-        2,
-        0,
-        2,
-        1,
-        2,
-        0
-      ],
-      "emp_consecutive": [
-        5,
-        4,
-        2,
-        2,
-        2,
-        4,
-        3,
-        2,
-        5,
-        3
-      ],
-      "fairness_sd": 5.59
-    }
+    "soft_score_total": 86.0,
+    "soft_scores": {
+      "SC1_consecutive": 100.0,
+      "SC2_fairness": 30.1,
+      "SC3_min_hours": 100.0,
+      "SC4_night_limit": 100.0,
+      "SC5_training": 100.0
+    },
+    "total_assignments": 46,
+    "hours_std_dev": 5.59,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 40,
+      "E003": 32,
+      "E004": 40,
+      "E005": 40,
+      "E006": 32,
+      "E007": 40,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40
+    },
+    "objective_value": 4020.0
   },
-  "B_公平性重視": {
-    "description": "従業員間の勤務時間の偏りを最小化",
+  "V4_welfare": {
+    "description": "従業員福利重視（夜勤・連勤制限強化）",
     "weights": {
-      "fairness": 50,
-      "min_hours": 10,
-      "night": 5,
-      "trainer": 5
-    },
-    "scores": {
-      "充足率": 95.8,
-      "SC1_連続勤務": 100.0,
-      "SC2_公平性": 69.6,
-      "SC3_最低時間": 100.0,
-      "SC4_夜勤制限": 100.0,
-      "SC5_トレーナー": 100.0,
-      "総合": 92.7
-    },
-    "raw": {
-      "emp_hours": [
-        40,
-        40,
-        32,
-        40,
-        40,
-        32,
-        40,
-        24,
-        40,
-        40
-      ],
-      "emp_nights": [
-        1,
-        1,
-        2,
-        0,
-        2,
-        1,
-        1,
-        1,
-        2,
-        2
-      ],
-      "emp_consecutive": [
-        3,
-        5,
-        3,
-        4,
-        5,
-        3,
-        4,
-        1,
-        3,
-        5
-      ],
-      "fairness_sd": 5.59
-    }
-  },
-  "C_夜勤制限重視": {
-    "description": "夜勤を週2回以下に強く誘導",
-    "weights": {
-      "fairness": 5,
-      "min_hours": 5,
-      "night": 50,
-      "trainer": 5
-    },
-    "scores": {
-      "充足率": 95.8,
-      "SC1_連続勤務": 100.0,
-      "SC2_公平性": 69.6,
-      "SC3_最低時間": 100.0,
-      "SC4_夜勤制限": 100.0,
-      "SC5_トレーナー": 100.0,
-      "総合": 92.7
-    },
-    "raw": {
-      "emp_hours": [
-        40,
-        40,
-        32,
-        40,
-        40,
-        32,
-        40,
-        24,
-        40,
-        40
-      ],
-      "emp_nights": [
-        1,
-        1,
-        2,
-        0,
-        2,
-        1,
-        1,
-        1,
-        2,
-        2
-      ],
-      "emp_consecutive": [
-        3,
-        5,
-        3,
-        4,
-        5,
-        3,
-        4,
-        1,
-        3,
-        5
-      ],
-      "fairness_sd": 5.59
-    }
-  },
-  "D_最低時間確保重視": {
-    "description": "全員の最低勤務時間をなるべく確保",
-    "weights": {
-      "fairness": 5,
+      "underfill": 1000,
+      "fairness": 80,
       "min_hours": 50,
-      "night": 5,
-      "trainer": 5
+      "night_limit": 100,
+      "training": 15,
+      "consecutive": 100
     },
-    "scores": {
-      "充足率": 95.8,
-      "SC1_連続勤務": 100.0,
-      "SC2_公平性": 69.6,
-      "SC3_最低時間": 100.0,
-      "SC4_夜勤制限": 100.0,
-      "SC5_トレーナー": 100.0,
-      "総合": 92.7
+    "feasible": false,
+    "hard_violations": 2,
+    "hard_violations_detail": {
+      "HC1": 2,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0
     },
-    "raw": {
-      "emp_hours": [
-        40,
-        40,
-        32,
-        40,
-        40,
-        32,
-        40,
-        24,
-        40,
-        40
-      ],
-      "emp_nights": [
-        1,
-        1,
-        2,
-        0,
-        2,
-        1,
-        1,
-        1,
-        2,
-        2
-      ],
-      "emp_consecutive": [
-        3,
-        5,
-        3,
-        4,
-        5,
-        3,
-        4,
-        1,
-        3,
-        5
-      ],
-      "fairness_sd": 5.59
-    }
+    "soft_score_total": 86.0,
+    "soft_scores": {
+      "SC1_consecutive": 100.0,
+      "SC2_fairness": 30.1,
+      "SC3_min_hours": 100.0,
+      "SC4_night_limit": 100.0,
+      "SC5_training": 100.0
+    },
+    "total_assignments": 46,
+    "hours_std_dev": 5.59,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 40,
+      "E003": 32,
+      "E004": 40,
+      "E005": 40,
+      "E006": 32,
+      "E007": 40,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40
+    },
+    "objective_value": 2160.0
   },
-  "E_トレーナー重視": {
-    "description": "毎日トレーニングスキル保持者を配置",
+  "V5_training_focus": {
+    "description": "研修体制重視",
     "weights": {
-      "fairness": 5,
-      "min_hours": 5,
-      "night": 5,
-      "trainer": 50
+      "underfill": 1000,
+      "fairness": 50,
+      "min_hours": 30,
+      "night_limit": 20,
+      "training": 200,
+      "consecutive": 25
     },
-    "scores": {
-      "充足率": 95.8,
-      "SC1_連続勤務": 100.0,
-      "SC2_公平性": 69.6,
-      "SC3_最低時間": 100.0,
-      "SC4_夜勤制限": 100.0,
-      "SC5_トレーナー": 100.0,
-      "総合": 92.7
+    "feasible": false,
+    "hard_violations": 2,
+    "hard_violations_detail": {
+      "HC1": 2,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0
     },
-    "raw": {
-      "emp_hours": [
-        40,
-        40,
-        32,
-        40,
-        40,
-        32,
-        40,
-        24,
-        40,
-        40
-      ],
-      "emp_nights": [
-        1,
-        1,
-        2,
-        0,
-        2,
-        1,
-        1,
-        1,
-        2,
-        2
-      ],
-      "emp_consecutive": [
-        3,
-        5,
-        3,
-        4,
-        5,
-        3,
-        4,
-        1,
-        3,
-        5
-      ],
-      "fairness_sd": 5.59
-    }
+    "soft_score_total": 86.0,
+    "soft_scores": {
+      "SC1_consecutive": 100.0,
+      "SC2_fairness": 30.1,
+      "SC3_min_hours": 100.0,
+      "SC4_night_limit": 100.0,
+      "SC5_training": 100.0
+    },
+    "total_assignments": 46,
+    "hours_std_dev": 5.59,
+    "hours_per_employee": {
+      "E001": 40,
+      "E002": 40,
+      "E003": 32,
+      "E004": 40,
+      "E005": 40,
+      "E006": 32,
+      "E007": 40,
+      "E008": 24,
+      "E009": 40,
+      "E010": 40
+    },
+    "objective_value": 2100.0
   }
 }

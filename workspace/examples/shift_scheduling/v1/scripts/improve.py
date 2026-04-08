@@ -1,14 +1,26 @@
+"""シフト最適化 改善策: 3シナリオの検証。
+
+シナリオA: 1名追加（E011: phone+reception, max40h）
+シナリオB: 夜勤最低人数を2→1に緩和
+シナリオC: 公平性重視の重み調整（現行10名のまま）
+
+Usage:
+    python improve.py
 """
-シフト最適化 改善策の実験:
-  改善策A: 不可能性の定量化（何人追加で全充足可能か）
-  改善策B: 制約緩和（夜勤を2名→1名に削減）
-  改善策C: 公平性の強化（現行人員のまま SC2 を最適化）
-"""
+
+from __future__ import annotations
+
 import csv
 import json
-import statistics
+import logging
+import copy
 from pathlib import Path
+from typing import Any
+
 from ortools.sat.python import cp_model
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
+logger = logging.getLogger(__name__)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
@@ -16,382 +28,311 @@ RESULTS_DIR = BASE_DIR / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
 DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-SHIFT_HOURS = 8
+SHIFTS = ["morning", "afternoon", "night"]
+HOURS_PER_SHIFT = 8
+DAY_INDEX = {d: i for i, d in enumerate(DAYS)}
 
 
-def load_data():
+def load_data() -> dict[str, Any]:
     employees = []
     with open(DATA_DIR / "employees.csv", encoding="utf-8") as f:
         for row in csv.DictReader(f):
-            row["skills"] = set(row["skills"].split(","))
-            row["max_hours"] = int(row["max_hours_per_week"])
-            row["min_hours"] = int(row["min_hours_per_week"])
-            row["unavailable"] = set(row["unavailable_days"].split(",")) - {""}
-            employees.append(row)
+            emp = {
+                "id": row["employee_id"],
+                "name": row["name"],
+                "skills": [s.strip() for s in row["skills"].split(",")],
+                "max_hours": int(row["max_hours_per_week"]),
+                "min_hours": int(row["min_hours_per_week"]),
+                "unavailable_days": [d.strip() for d in row["unavailable_days"].split(",") if d.strip()],
+            }
+            employees.append(emp)
 
     shifts = []
     with open(DATA_DIR / "shifts.csv", encoding="utf-8") as f:
         for row in csv.DictReader(f):
-            row["required_count"] = int(row["required_count"])
-            shifts.append(row)
+            s = {
+                "day": row["day"],
+                "shift": row["shift_name"],
+                "required": int(row["required_count"]),
+                "skill": row["required_skills"].strip(),
+            }
+            shifts.append(s)
 
-    return employees, shifts
-
-
-def evaluate(assignment, employees, shifts):
-    violations = {"HC1": 0, "HC2": 0, "HC3": 0, "HC4": 0, "HC5": 0}
-    soft_violations = {"SC1": 0, "SC2": 0, "SC3": 0, "SC4": 0, "SC5": 0}
-    n_emp = len(employees)
-    n_shift = len(shifts)
-
-    total_shortage = 0
-    for s_idx, shift in enumerate(shifts):
-        assigned = sum(assignment.get((e, s_idx), 0) for e in range(n_emp))
-        if assigned < shift["required_count"]:
-            violations["HC1"] += shift["required_count"] - assigned
-            total_shortage += shift["required_count"] - assigned
-
-    emp_hours = []
-    for e_idx, emp in enumerate(employees):
-        assigned_shifts = [s for s in range(n_shift) if assignment.get((e_idx, s), 0)]
-        hours = len(assigned_shifts) * SHIFT_HOURS
-        emp_hours.append(hours)
-        if hours > emp["max_hours"]:
-            violations["HC2"] += 1
-        for s_idx in assigned_shifts:
-            if shifts[s_idx]["day"] in emp["unavailable"]:
-                violations["HC3"] += 1
-            if shifts[s_idx]["required_skills"] not in emp["skills"]:
-                violations["HC4"] += 1
-        for d in range(len(DAYS) - 1):
-            night_idx = d * 3 + 2
-            next_morning_idx = (d + 1) * 3
-            if (assignment.get((e_idx, night_idx), 0) and
-                assignment.get((e_idx, next_morning_idx), 0)):
-                violations["HC5"] += 1
-
-        work_days = set()
-        for s_idx in assigned_shifts:
-            work_days.add(s_idx // 3)
-        max_consecutive = current = 0
-        for d in range(7):
-            if d in work_days:
-                current += 1
-                max_consecutive = max(max_consecutive, current)
-            else:
-                current = 0
-        if max_consecutive > 5:
-            soft_violations["SC1"] += max_consecutive - 5
-        if hours < emp["min_hours"]:
-            soft_violations["SC3"] += 1
-        night_count = sum(1 for s in assigned_shifts if s % 3 == 2)
-        if night_count > 2:
-            soft_violations["SC4"] += night_count - 2
-
-    if len(emp_hours) > 1:
-        soft_violations["SC2"] = round(statistics.stdev(emp_hours), 2)
-
-    training_emps = [i for i, e in enumerate(employees) if "training" in e["skills"]]
-    for d in range(7):
-        day_shifts = [d * 3 + t for t in range(3)]
-        has_trainer = any(
-            assignment.get((e_idx, s_idx), 0)
-            for s_idx in day_shifts for e_idx in training_emps
-        )
-        if not has_trainer:
-            soft_violations["SC5"] += 1
-
-    total_hard = sum(violations.values())
-    return {
-        "feasible": total_hard == 0,
-        "total_hard_violations": total_hard,
-        "hard_violations": violations,
-        "soft_violations": soft_violations,
-        "total_shortage": total_shortage,
-        "emp_hours": emp_hours,
-    }
+    return {"employees": employees, "shifts": shifts}
 
 
-def build_solver(employees, shifts, extra_employees=None, night_override=None):
-    """共通ソルバー構築。extra_employees: 追加従業員リスト、night_override: 夜勤人数上書き"""
-    all_employees = list(employees)
-    if extra_employees:
-        all_employees.extend(extra_employees)
+# Import evaluator from baseline
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from baseline import evaluate
+
+
+def solve_cpsat_improved(
+    data: dict,
+    time_limit: int = 60,
+    weights: dict[str, int] | None = None,
+) -> tuple[list[dict], float]:
+    """CP-SAT solver with configurable weights.
+
+    Returns (schedule, objective_value).
+    """
+    if weights is None:
+        weights = {
+            "underfill": 1000,
+            "fairness": 50,
+            "min_hours": 30,
+            "night_limit": 20,
+            "training": 15,
+            "consecutive": 25,
+        }
 
     model = cp_model.CpModel()
-    n_emp = len(all_employees)
-    n_shift = len(shifts)
+    employees = data["employees"]
+    shifts_def = data["shifts"]
+    training_emps = {e["id"] for e in employees if "training" in e["skills"]}
 
+    # Decision variables
     x = {}
-    for e in range(n_emp):
-        for s in range(n_shift):
-            x[(e, s)] = model.NewBoolVar(f"x_{e}_{s}")
+    for e in employees:
+        for sdef in shifts_def:
+            key = (e["id"], sdef["day"], sdef["shift"])
+            if sdef["skill"] not in e["skills"]:
+                continue
+            if sdef["day"] in e["unavailable_days"]:
+                continue
+            x[key] = model.new_bool_var(f'x_{e["id"]}_{sdef["day"]}_{sdef["shift"]}')
 
-    shortage = {}
-    for s in range(n_shift):
-        req = shifts[s]["required_count"]
-        if night_override is not None and s % 3 == 2:
-            req = night_override
-        shortage[s] = model.NewIntVar(0, req, f"short_{s}")
-        model.Add(sum(x[(e, s)] for e in range(n_emp)) + shortage[s] >= req)
+    # HC1: Required count (soft with penalty)
+    underfill_vars = {}
+    for sdef in shifts_def:
+        assigned_vars = [x[key] for key in x if key[1] == sdef["day"] and key[2] == sdef["shift"]]
+        if assigned_vars:
+            underfill = model.new_int_var(0, sdef["required"], f'underfill_{sdef["day"]}_{sdef["shift"]}')
+            model.add(sum(assigned_vars) + underfill >= sdef["required"])
+            underfill_vars[(sdef["day"], sdef["shift"])] = underfill
 
-    for e_idx, emp in enumerate(all_employees):
-        model.Add(sum(x[(e_idx, s)] for s in range(n_shift)) * SHIFT_HOURS <= emp["max_hours"])
-        for s_idx, shift in enumerate(shifts):
-            if shift["day"] in emp["unavailable"]:
-                model.Add(x[(e_idx, s_idx)] == 0)
-            if shift["required_skills"] not in emp["skills"]:
-                model.Add(x[(e_idx, s_idx)] == 0)
-        for d in range(len(DAYS) - 1):
-            model.Add(x[(e_idx, d * 3 + 2)] + x[(e_idx, (d + 1) * 3)] <= 1)
-        for d in range(len(DAYS)):
-            day_shifts = [d * 3 + t for t in range(3)]
-            model.Add(sum(x[(e_idx, s)] for s in day_shifts) <= 1)
+    # HC2: Max hours
+    for e in employees:
+        emp_vars = [x[key] for key in x if key[0] == e["id"]]
+        if emp_vars:
+            model.add(sum(emp_vars) * HOURS_PER_SHIFT <= e["max_hours"])
 
-    total_shortage = sum(shortage[s] for s in range(n_shift))
+    # HC5: No morning after night
+    for e in employees:
+        for i, day in enumerate(DAYS[:-1]):
+            next_day = DAYS[i + 1]
+            night_key = (e["id"], day, "night")
+            morning_key = (e["id"], next_day, "morning")
+            if night_key in x and morning_key in x:
+                model.add(x[night_key] + x[morning_key] <= 1)
 
-    emp_shift_counts = []
-    for e in range(n_emp):
-        cnt = model.NewIntVar(0, 21, f"cnt_{e}")
-        model.Add(cnt == sum(x[(e, s)] for s in range(n_shift)))
-        emp_shift_counts.append(cnt)
+    # A1: 1 shift per day
+    for e in employees:
+        for day in DAYS:
+            day_vars = [x[key] for key in x if key[0] == e["id"] and key[1] == day]
+            if day_vars:
+                model.add(sum(day_vars) <= 1)
 
-    max_shifts = model.NewIntVar(0, 21, "max_shifts")
-    min_shifts = model.NewIntVar(0, 21, "min_shifts")
-    model.AddMaxEquality(max_shifts, emp_shift_counts)
-    model.AddMinEquality(min_shifts, emp_shift_counts)
-    fairness_gap = model.NewIntVar(0, 21, "fairness_gap")
-    model.Add(fairness_gap == max_shifts - min_shifts)
+    # Objective
+    objective_terms = []
 
-    night_excess = []
-    for e in range(n_emp):
-        night_shifts = [d * 3 + 2 for d in range(7)]
-        night_cnt = model.NewIntVar(0, 7, f"night_{e}")
-        model.Add(night_cnt == sum(x[(e, s)] for s in night_shifts))
-        excess = model.NewIntVar(0, 7, f"night_excess_{e}")
-        model.AddMaxEquality(excess, [night_cnt - 2, model.NewConstant(0)])
-        night_excess.append(excess)
+    # Underfill penalty
+    for key, uvar in underfill_vars.items():
+        objective_terms.append(uvar * weights["underfill"])
 
-    model.Minimize(
-        total_shortage * 1000
-        + fairness_gap * 10
-        + sum(night_excess) * 5
-    )
+    # SC2: Fairness
+    emp_hour_vars = {}
+    for e in employees:
+        emp_vars = [x[key] for key in x if key[0] == e["id"]]
+        if emp_vars:
+            h = model.new_int_var(0, e["max_hours"] // HOURS_PER_SHIFT, f'shifts_{e["id"]}')
+            model.add(h == sum(emp_vars))
+            emp_hour_vars[e["id"]] = h
 
-    return model, x, n_emp, all_employees
+    if emp_hour_vars:
+        max_shifts = model.new_int_var(0, 7, "max_shifts")
+        min_shifts = model.new_int_var(0, 7, "min_shifts")
+        model.add_max_equality(max_shifts, list(emp_hour_vars.values()))
+        model.add_min_equality(min_shifts, list(emp_hour_vars.values()))
+        gap = model.new_int_var(0, 7, "gap")
+        model.add(gap == max_shifts - min_shifts)
+        objective_terms.append(gap * weights["fairness"])
 
+    # SC3: Min hours shortfall
+    for e in employees:
+        if e["id"] in emp_hour_vars:
+            min_shifts_needed = e["min_hours"] // HOURS_PER_SHIFT
+            shortfall = model.new_int_var(0, min_shifts_needed, f'shortfall_{e["id"]}')
+            model.add(shortfall >= min_shifts_needed - emp_hour_vars[e["id"]])
+            objective_terms.append(shortfall * weights["min_hours"])
 
-def solve_and_evaluate(model, x, n_emp, n_shift, all_employees, shifts, time_limit=30):
+    # SC4: Night shifts <= 2
+    for e in employees:
+        night_vars = [x[key] for key in x if key[0] == e["id"] and key[2] == "night"]
+        if night_vars:
+            excess_night = model.new_int_var(0, 5, f'excess_night_{e["id"]}')
+            model.add(excess_night >= sum(night_vars) - 2)
+            objective_terms.append(excess_night * weights["night_limit"])
+
+    # SC5: Training coverage
+    for day in DAYS:
+        trainer_vars = []
+        for shift in SHIFTS:
+            for eid in training_emps:
+                key = (eid, day, shift)
+                if key in x:
+                    trainer_vars.append(x[key])
+        if trainer_vars:
+            has_trainer = model.new_bool_var(f'has_trainer_{day}')
+            model.add(sum(trainer_vars) >= 1).only_enforce_if(has_trainer)
+            model.add(sum(trainer_vars) == 0).only_enforce_if(has_trainer.negated())
+            no_trainer = model.new_bool_var(f'no_trainer_{day}')
+            model.add(no_trainer == has_trainer.negated())
+            objective_terms.append(no_trainer * weights["training"])
+
+    # SC1: Consecutive days
+    for e in employees:
+        for start in range(len(DAYS) - 5):
+            window_vars = []
+            for di in range(6):
+                day = DAYS[start + di]
+                day_vars = [x[key] for key in x if key[0] == e["id"] and key[1] == day]
+                if day_vars:
+                    day_works = model.new_bool_var(f'works_{e["id"]}_{day}_w{start}')
+                    model.add(sum(day_vars) >= 1).only_enforce_if(day_works)
+                    model.add(sum(day_vars) == 0).only_enforce_if(day_works.negated())
+                    window_vars.append(day_works)
+            if len(window_vars) == 6:
+                all_six = model.new_bool_var(f'all6_{e["id"]}_{start}')
+                model.add(sum(window_vars) >= 6).only_enforce_if(all_six)
+                model.add(sum(window_vars) <= 5).only_enforce_if(all_six.negated())
+                objective_terms.append(all_six * weights["consecutive"])
+
+    model.minimize(sum(objective_terms))
+
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = time_limit
-    solver.parameters.num_workers = 4
-    status = solver.Solve(model)
+    solver.parameters.num_workers = 8
 
-    assignment = {}
-    if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-        for e in range(n_emp):
-            for s in range(n_shift):
-                if solver.Value(x[(e, s)]):
-                    assignment[(e, s)] = 1
+    status = solver.solve(model)
 
-    result = evaluate(assignment, all_employees, shifts)
-    status_name = {0: "UNKNOWN", 1: "MODEL_INVALID", 2: "FEASIBLE", 3: "INFEASIBLE", 4: "OPTIMAL"}
-    result["solver_status"] = status_name.get(status, str(status))
-    result["solve_time"] = round(solver.WallTime(), 2)
-    return result
+    if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+        return [], float("inf")
 
+    schedule = []
+    for key, var in x.items():
+        if solver.value(var) == 1:
+            schedule.append({"employee_id": key[0], "day": key[1], "shift": key[2]})
 
-# --- 改善策A: 人員追加シミュレーション ---
-def improve_a_add_staff(employees, shifts):
-    """1人ずつ追加して、何人で全充足できるか調べる"""
-    print("=== 改善策A: 人員追加シミュレーション ===")
-    n_shift = len(shifts)
-
-    for n_add in range(1, 5):
-        extra = []
-        for i in range(n_add):
-            extra.append({
-                "employee_id": f"NEW{i+1:03d}",
-                "name": f"追加従業員{i+1}",
-                "skills": {"reception", "phone"},
-                "max_hours": 40,
-                "min_hours": 24,
-                "unavailable": set(),
-            })
-
-        model, x, n_emp, all_emp = build_solver(employees, shifts, extra_employees=extra)
-        result = solve_and_evaluate(model, x, n_emp, n_shift, all_emp, shifts)
-        print(f"  +{n_add}人: feasible={result['feasible']}, "
-              f"shortage={result['total_shortage']}, "
-              f"hard={result['total_hard_violations']}, "
-              f"SD={result['soft_violations']['SC2']}h")
-
-        if result["feasible"]:
-            print(f"  → {n_add}人追加で全シフト充足可能！")
-            return n_add, result
-
-    return None, None
-
-
-# --- 改善策B: 夜勤人数削減 ---
-def improve_b_relax_night(employees, shifts):
-    """夜勤の必要人数を2→1に削減"""
-    print("\n=== 改善策B: 夜勤人数 2→1 に削減 ===")
-    n_shift = len(shifts)
-
-    model, x, n_emp, all_emp = build_solver(employees, shifts, night_override=1)
-    result = solve_and_evaluate(model, x, n_emp, n_shift, all_emp, shifts)
-
-    # 評価は元の required_count で行うので HC1 が出るが、
-    # 緩和後の基準で再評価する
-    # 夜勤を1名にした場合の充足状況を直接チェック
-    print(f"  feasible(元基準): {result['feasible']}, shortage(元基準): {result['total_shortage']}")
-    print(f"  hard violations: {result['hard_violations']}")
-    print(f"  soft violations: {result['soft_violations']}")
-    print(f"  emp_hours: {result['emp_hours']}")
-
-    # 緩和基準での再評価
-    relaxed_shifts = []
-    for s in shifts:
-        rs = dict(s)
-        if shifts.index(s) % 3 == 2:  # night
-            rs["required_count"] = 1
-        relaxed_shifts.append(rs)
-
-    # ソルバーを緩和基準で再度走らせる
-    model2, x2, n_emp2, all_emp2 = build_solver(employees, relaxed_shifts)
-    result_relaxed = solve_and_evaluate(model2, x2, n_emp2, len(relaxed_shifts), all_emp2, relaxed_shifts)
-    print(f"  feasible(緩和基準): {result_relaxed['feasible']}, "
-          f"shortage: {result_relaxed['total_shortage']}, "
-          f"SD: {result_relaxed['soft_violations']['SC2']}h")
-
-    return result_relaxed
-
-
-# --- 改善策C: 公平性の強化 ---
-def improve_c_fairness(employees, shifts):
-    """公平性（max-min gap）を最小化しつつ、不足も最小化"""
-    print("\n=== 改善策C: 公平性の強化 ===")
-    n_shift = len(shifts)
-
-    model = cp_model.CpModel()
-    n_emp = len(employees)
-
-    x = {}
-    for e in range(n_emp):
-        for s in range(n_shift):
-            x[(e, s)] = model.NewBoolVar(f"x_{e}_{s}")
-
-    shortage = {}
-    for s in range(n_shift):
-        shortage[s] = model.NewIntVar(0, shifts[s]["required_count"], f"short_{s}")
-        model.Add(sum(x[(e, s)] for e in range(n_emp)) + shortage[s] >= shifts[s]["required_count"])
-
-    for e_idx, emp in enumerate(employees):
-        model.Add(sum(x[(e_idx, s)] for s in range(n_shift)) * SHIFT_HOURS <= emp["max_hours"])
-        for s_idx, shift in enumerate(shifts):
-            if shift["day"] in emp["unavailable"]:
-                model.Add(x[(e_idx, s_idx)] == 0)
-            if shift["required_skills"] not in emp["skills"]:
-                model.Add(x[(e_idx, s_idx)] == 0)
-        for d in range(len(DAYS) - 1):
-            model.Add(x[(e_idx, d * 3 + 2)] + x[(e_idx, (d + 1) * 3)] <= 1)
-        for d in range(len(DAYS)):
-            day_shifts = [d * 3 + t for t in range(3)]
-            model.Add(sum(x[(e_idx, s)] for s in day_shifts) <= 1)
-
-    total_shortage = sum(shortage[s] for s in range(n_shift))
-
-    # 公平性: 各従業員のシフト数と上限の比率を揃える
-    # max_hours が異なるので、比率ベースで公平性を測る
-    # → シンプルに max-min gap を最小化
-    emp_shift_counts = []
-    for e in range(n_emp):
-        cnt = model.NewIntVar(0, 21, f"cnt_{e}")
-        model.Add(cnt == sum(x[(e, s)] for s in range(n_shift)))
-        emp_shift_counts.append(cnt)
-
-    max_shifts = model.NewIntVar(0, 21, "max_shifts")
-    min_shifts = model.NewIntVar(0, 21, "min_shifts")
-    model.AddMaxEquality(max_shifts, emp_shift_counts)
-    model.AddMinEquality(min_shifts, emp_shift_counts)
-    fairness_gap = model.NewIntVar(0, 21, "fairness_gap")
-    model.Add(fairness_gap == max_shifts - min_shifts)
-
-    # SC3: 最低勤務時間の不足
-    min_hours_deficit = []
-    for e_idx, emp in enumerate(employees):
-        min_shifts_needed = emp["min_hours"] // SHIFT_HOURS
-        deficit = model.NewIntVar(0, 10, f"min_deficit_{e_idx}")
-        model.AddMaxEquality(deficit, [min_shifts_needed - emp_shift_counts[e_idx], model.NewConstant(0)])
-        min_hours_deficit.append(deficit)
-
-    # 夜勤制限
-    night_excess = []
-    for e in range(n_emp):
-        night_shifts = [d * 3 + 2 for d in range(7)]
-        night_cnt = model.NewIntVar(0, 7, f"night_{e}")
-        model.Add(night_cnt == sum(x[(e, s)] for s in night_shifts))
-        excess = model.NewIntVar(0, 7, f"night_excess_{e}")
-        model.AddMaxEquality(excess, [night_cnt - 2, model.NewConstant(0)])
-        night_excess.append(excess)
-
-    # 目的関数: 不足最小化（最優先）→ 公平性（重み UP）→ 最低時間確保 → 夜勤制限
-    model.Minimize(
-        total_shortage * 1000
-        + fairness_gap * 50      # 公平性の重みを 10 → 50 に UP
-        + sum(min_hours_deficit) * 20  # 最低勤務時間も重視
-        + sum(night_excess) * 5
-    )
-
-    solver = cp_model.CpSolver()
-    solver.parameters.max_time_in_seconds = 30
-    solver.parameters.num_workers = 4
-    status = solver.Solve(model)
-
-    assignment = {}
-    if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-        for e in range(n_emp):
-            for s in range(n_shift):
-                if solver.Value(x[(e, s)]):
-                    assignment[(e, s)] = 1
-
-    result = evaluate(assignment, employees, shifts)
-    result["solve_time"] = round(solver.WallTime(), 2)
-    status_name = {0: "UNKNOWN", 1: "MODEL_INVALID", 2: "FEASIBLE", 3: "INFEASIBLE", 4: "OPTIMAL"}
-    result["solver_status"] = status_name.get(status, str(status))
-
-    print(f"  feasible: {result['feasible']}, shortage: {result['total_shortage']}")
-    print(f"  hard violations: {result['hard_violations']}")
-    print(f"  soft violations: {result['soft_violations']}")
-    print(f"  emp_hours: {result['emp_hours']}")
-
-    return result
+    return schedule, solver.objective_value
 
 
 def main():
-    employees, shifts = load_data()
+    data = load_data()
     results = {}
 
-    # 改善策A
-    n_add, result_a = improve_a_add_staff(employees, shifts)
-    results["improve_a_add_staff"] = {
-        "staff_added": n_add,
-        "result": result_a,
+    # ===== Scenario A: +1 staff =====
+    logger.info("=== Scenario A: +1 staff (E011) ===")
+    data_a = copy.deepcopy(data)
+    data_a["employees"].append({
+        "id": "E011",
+        "name": "新規 パート",
+        "skills": ["reception", "phone"],
+        "max_hours": 40,
+        "min_hours": 16,
+        "unavailable_days": [],
+    })
+    sched_a, obj_a = solve_cpsat_improved(data_a)
+    eval_a = evaluate(sched_a, data_a)
+    logger.info("Scenario A: HC violations=%d, soft_total=%.1f, obj=%.1f",
+                eval_a["hard_violations"], eval_a["soft_score_total"], obj_a)
+    results["scenario_a_add_staff"] = {
+        "description": "1名追加（E011: reception+phone, max40h）",
+        "schedule": sched_a,
+        "evaluation": eval_a,
+        "objective_value": obj_a,
     }
 
-    # 改善策B
-    result_b = improve_b_relax_night(employees, shifts)
-    results["improve_b_relax_night"] = result_b
+    # ===== Scenario B: Night min 1 =====
+    logger.info("=== Scenario B: Night min reduced to 1 ===")
+    data_b = copy.deepcopy(data)
+    for sdef in data_b["shifts"]:
+        if sdef["shift"] == "night":
+            sdef["required"] = 1
+    sched_b, obj_b = solve_cpsat_improved(data_b)
+    eval_b = evaluate(sched_b, data_b)
+    logger.info("Scenario B: HC violations=%d, soft_total=%.1f, obj=%.1f",
+                eval_b["hard_violations"], eval_b["soft_score_total"], obj_b)
+    results["scenario_b_night_relax"] = {
+        "description": "夜勤最低人数を2→1に緩和",
+        "schedule": sched_b,
+        "evaluation": eval_b,
+        "objective_value": obj_b,
+    }
 
-    # 改善策C
-    result_c = improve_c_fairness(employees, shifts)
-    results["improve_c_fairness"] = result_c
+    # ===== Scenario C: Fairness emphasis =====
+    logger.info("=== Scenario C: Fairness emphasis ===")
+    fairness_weights = {
+        "underfill": 1000,
+        "fairness": 200,  # 50 -> 200
+        "min_hours": 80,  # 30 -> 80
+        "night_limit": 40,  # 20 -> 40
+        "training": 15,
+        "consecutive": 25,
+    }
+    sched_c, obj_c = solve_cpsat_improved(data, weights=fairness_weights)
+    eval_c = evaluate(sched_c, data)
+    logger.info("Scenario C: HC violations=%d, soft_total=%.1f, obj=%.1f",
+                eval_c["hard_violations"], eval_c["soft_score_total"], obj_c)
+    results["scenario_c_fairness"] = {
+        "description": "公平性重視の重み調整（現行10名）",
+        "schedule": sched_c,
+        "evaluation": eval_c,
+        "objective_value": obj_c,
+    }
+
+    # ===== Baseline (current CP-SAT for comparison) =====
+    logger.info("=== Baseline (current) ===")
+    sched_base, obj_base = solve_cpsat_improved(data)
+    eval_base = evaluate(sched_base, data)
+    results["baseline_cpsat"] = {
+        "description": "現行CP-SAT（ベースライン）",
+        "schedule": sched_base,
+        "evaluation": eval_base,
+        "objective_value": obj_base,
+    }
+
+    # Save results
+    output = {}
+    for key, res in results.items():
+        ev = res["evaluation"]
+        output[key] = {
+            "description": res["description"],
+            "feasible": ev["feasible"],
+            "hard_violations": ev["hard_violations"],
+            "hard_violations_detail": ev["hard_violations_detail"],
+            "soft_score_total": ev["soft_score_total"],
+            "soft_scores": ev["soft_scores"],
+            "total_assignments": ev["stats"]["total_assignments"],
+            "hours_std_dev": ev["stats"]["hours_std_dev"],
+            "hours_per_employee": ev["stats"]["hours_per_employee"],
+            "objective_value": res["objective_value"],
+        }
 
     with open(RESULTS_DIR / "improve_results.json", "w", encoding="utf-8") as f:
-        json.dump(results, f, ensure_ascii=False, indent=2, default=str)
+        json.dump(output, f, ensure_ascii=False, indent=2)
 
-    print(f"\n結果を {RESULTS_DIR / 'improve_results.json'} に保存しました。")
+    logger.info("Results saved to %s", RESULTS_DIR / "improve_results.json")
+
+    # Print comparison table
+    print("\n" + "="*80)
+    print("  Improvement Scenario Comparison")
+    print("="*80)
+    print(f"{'Scenario':<30} {'HC Viol':>8} {'Soft Total':>10} {'Assignments':>12} {'Std Dev':>8}")
+    print("-"*80)
+    for key in ["baseline_cpsat", "scenario_a_add_staff", "scenario_b_night_relax", "scenario_c_fairness"]:
+        o = output[key]
+        print(f"{o['description']:<30} {o['hard_violations']:>8} {o['soft_score_total']:>10.1f} {o['total_assignments']:>12} {o['hours_std_dev']:>8.2f}")
 
 
 if __name__ == "__main__":

@@ -1,13 +1,25 @@
+"""シフト最適化ベースライン: ランダム / 貪欲法 / CP-SAT の3手法比較。
+
+Usage:
+    python baseline.py
 """
-シフト最適化ベースライン: ランダム / 貪欲法 / CP-SAT ソルバー
-"""
+
+from __future__ import annotations
+
 import csv
 import json
-import random
+import logging
+import math
 import os
+import random
 import statistics
 from pathlib import Path
+from typing import Any
+
 from ortools.sat.python import cp_model
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
+logger = logging.getLogger(__name__)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
@@ -15,359 +27,557 @@ RESULTS_DIR = BASE_DIR / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
 DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-SHIFT_NAMES = ["morning", "afternoon", "night"]
-SHIFT_HOURS = 8
+SHIFTS = ["morning", "afternoon", "night"]
+HOURS_PER_SHIFT = 8
+DAY_INDEX = {d: i for i, d in enumerate(DAYS)}
 
-# --- データ読み込み ---
-def load_data():
+
+# ============================================================
+# Data loading
+# ============================================================
+
+def load_data() -> dict[str, Any]:
     employees = []
     with open(DATA_DIR / "employees.csv", encoding="utf-8") as f:
         for row in csv.DictReader(f):
-            row["skills"] = set(row["skills"].split(","))
-            row["max_hours"] = int(row["max_hours_per_week"])
-            row["min_hours"] = int(row["min_hours_per_week"])
-            row["unavailable"] = set(row["unavailable_days"].split(",")) - {""}
-            employees.append(row)
+            emp = {
+                "id": row["employee_id"],
+                "name": row["name"],
+                "skills": [s.strip() for s in row["skills"].split(",")],
+                "max_hours": int(row["max_hours_per_week"]),
+                "min_hours": int(row["min_hours_per_week"]),
+                "unavailable_days": [d.strip() for d in row["unavailable_days"].split(",") if d.strip()],
+            }
+            employees.append(emp)
 
     shifts = []
     with open(DATA_DIR / "shifts.csv", encoding="utf-8") as f:
         for row in csv.DictReader(f):
-            row["required_count"] = int(row["required_count"])
-            shifts.append(row)
+            s = {
+                "day": row["day"],
+                "shift": row["shift_name"],
+                "required": int(row["required_count"]),
+                "skill": row["required_skills"].strip(),
+            }
+            shifts.append(s)
 
-    return employees, shifts
+    return {"employees": employees, "shifts": shifts}
 
 
-# --- 評価関数 ---
-def evaluate(assignment, employees, shifts):
-    """assignment: dict of (emp_idx, shift_idx) -> 1/0"""
-    violations = {"HC1": 0, "HC2": 0, "HC3": 0, "HC4": 0, "HC5": 0}
-    soft_violations = {"SC1": 0, "SC2": 0, "SC3": 0, "SC4": 0, "SC5": 0}
+# ============================================================
+# Evaluator — shared across all methods
+# ============================================================
 
-    n_emp = len(employees)
-    n_shift = len(shifts)
+def evaluate(schedule: list[dict], data: dict) -> dict[str, Any]:
+    """Evaluate a schedule against all HC and SC constraints.
 
-    # HC1: 各シフトの必要人数
-    total_shortage = 0
-    for s_idx, shift in enumerate(shifts):
-        assigned = sum(assignment.get((e, s_idx), 0) for e in range(n_emp))
-        if assigned < shift["required_count"]:
-            violations["HC1"] += shift["required_count"] - assigned
-            total_shortage += shift["required_count"] - assigned
+    schedule: list of {"employee_id", "day", "shift"}
+    Returns detailed evaluation with 0-100 scores for each SC.
+    """
+    employees = {e["id"]: e for e in data["employees"]}
+    shifts_def = data["shifts"]
 
-    # 従業員ごとのチェック
-    emp_hours = []
-    for e_idx, emp in enumerate(employees):
-        assigned_shifts = [s for s in range(n_shift) if assignment.get((e_idx, s), 0)]
-        hours = len(assigned_shifts) * SHIFT_HOURS
-        emp_hours.append(hours)
+    # Build lookup structures
+    # assigned[day][shift] = set of employee_ids
+    assigned: dict[str, dict[str, set]] = {d: {s: set() for s in SHIFTS} for d in DAYS}
+    # emp_shifts[emp_id] = list of (day, shift)
+    emp_shifts: dict[str, list[tuple[str, str]]] = {e["id"]: [] for e in data["employees"]}
 
-        # HC2: 最大勤務時間
-        if hours > emp["max_hours"]:
-            violations["HC2"] += 1
+    for entry in schedule:
+        eid = entry["employee_id"]
+        day = entry["day"]
+        shift = entry["shift"]
+        assigned[day][shift].add(eid)
+        emp_shifts[eid].append((day, shift))
 
-        # HC3: 利用不可日
-        for s_idx in assigned_shifts:
-            if shifts[s_idx]["day"] in emp["unavailable"]:
-                violations["HC3"] += 1
+    hc_violations = {}
 
-        # HC4: スキル
-        for s_idx in assigned_shifts:
-            if shifts[s_idx]["required_skills"] not in emp["skills"]:
-                violations["HC4"] += 1
+    # --- HC1: Required count per shift ---
+    hc1_violations = []
+    for sdef in shifts_def:
+        actual = len(assigned[sdef["day"]][sdef["shift"]])
+        if actual < sdef["required"]:
+            hc1_violations.append({
+                "day": sdef["day"], "shift": sdef["shift"],
+                "required": sdef["required"], "actual": actual,
+                "shortfall": sdef["required"] - actual,
+            })
+    hc_violations["HC1"] = len(hc1_violations)
 
-        # HC5: 夜勤翌日朝勤禁止
-        for d in range(len(DAYS) - 1):
-            night_idx = d * 3 + 2  # night
-            next_morning_idx = (d + 1) * 3  # next day morning
-            if (assignment.get((e_idx, night_idx), 0) and
-                assignment.get((e_idx, next_morning_idx), 0)):
-                violations["HC5"] += 1
+    # --- HC2: Max hours per week ---
+    hc2_violations = []
+    emp_hours = {}
+    for eid, shifts_list in emp_shifts.items():
+        hours = len(shifts_list) * HOURS_PER_SHIFT
+        emp_hours[eid] = hours
+        if hours > employees[eid]["max_hours"]:
+            hc2_violations.append({"employee": eid, "hours": hours, "max": employees[eid]["max_hours"]})
+    hc_violations["HC2"] = len(hc2_violations)
 
-        # SC1: 連続勤務5日以下
-        work_days = set()
-        for s_idx in assigned_shifts:
-            day_idx = s_idx // 3
-            work_days.add(day_idx)
+    # --- HC3: Unavailable days ---
+    hc3_violations = []
+    for eid, shifts_list in emp_shifts.items():
+        unavail = set(employees[eid]["unavailable_days"])
+        for day, shift in shifts_list:
+            if day in unavail:
+                hc3_violations.append({"employee": eid, "day": day, "shift": shift})
+    hc_violations["HC3"] = len(hc3_violations)
+
+    # --- HC4: Skill requirements ---
+    hc4_violations = []
+    for sdef in shifts_def:
+        req_skill = sdef["skill"]
+        for eid in assigned[sdef["day"]][sdef["shift"]]:
+            if req_skill not in employees[eid]["skills"]:
+                hc4_violations.append({"employee": eid, "day": sdef["day"], "shift": sdef["shift"], "missing_skill": req_skill})
+    hc_violations["HC4"] = len(hc4_violations)
+
+    # --- HC5: No morning after night (11h rest) ---
+    hc5_violations = []
+    for eid, shifts_list in emp_shifts.items():
+        night_days = {day for day, shift in shifts_list if shift == "night"}
+        for nd in night_days:
+            next_day_idx = DAY_INDEX[nd] + 1
+            if next_day_idx < len(DAYS):
+                next_day = DAYS[next_day_idx]
+                if any(d == next_day and s == "morning" for d, s in shifts_list):
+                    hc5_violations.append({"employee": eid, "night_day": nd, "morning_day": next_day})
+    hc_violations["HC5"] = len(hc5_violations)
+
+    total_hc = sum(hc_violations.values())
+
+    # --- SC1: Consecutive days <= 5 (0-100) ---
+    sc1_violations = 0
+    for eid, shifts_list in emp_shifts.items():
+        work_days = sorted(set(DAY_INDEX[d] for d, _ in shifts_list))
         max_consecutive = 0
-        current = 0
-        for d in range(7):
-            if d in work_days:
-                current += 1
-                max_consecutive = max(max_consecutive, current)
+        current_streak = 1
+        for i in range(1, len(work_days)):
+            if work_days[i] == work_days[i-1] + 1:
+                current_streak += 1
             else:
-                current = 0
+                max_consecutive = max(max_consecutive, current_streak)
+                current_streak = 1
+        max_consecutive = max(max_consecutive, current_streak)
         if max_consecutive > 5:
-            soft_violations["SC1"] += max_consecutive - 5
+            sc1_violations += 1
+    sc1_score = max(0, 100 - sc1_violations * (100 / len(data["employees"])))
 
-        # SC3: 最低勤務時間
-        if hours < emp["min_hours"]:
-            soft_violations["SC3"] += 1
+    # --- SC2: Fairness — std_dev of hours (0-100) ---
+    hours_list = [emp_hours.get(eid, 0) for eid in employees]
+    if len(hours_list) > 1:
+        std_dev = statistics.stdev(hours_list)
+    else:
+        std_dev = 0
+    # 100 at std=0, 0 at std>=8
+    sc2_score = max(0, min(100, 100 - std_dev * (100 / 8)))
 
-        # SC4: 夜勤週2回以下
-        night_count = sum(1 for s in assigned_shifts if s % 3 == 2)
+    # --- SC3: Min hours met (0-100) ---
+    sc3_violations = 0
+    for eid in employees:
+        hours = emp_hours.get(eid, 0)
+        if hours < employees[eid]["min_hours"]:
+            sc3_violations += 1
+    sc3_score = max(0, 100 - sc3_violations * (100 / len(data["employees"])))
+
+    # --- SC4: Night shifts <= 2 per person (0-100) ---
+    sc4_violations = 0
+    for eid, shifts_list in emp_shifts.items():
+        night_count = sum(1 for _, s in shifts_list if s == "night")
         if night_count > 2:
-            soft_violations["SC4"] += night_count - 2
+            sc4_violations += 1
+    sc4_score = max(0, 100 - sc4_violations * (100 / len(data["employees"])))
 
-    # SC2: 公平性（勤務時間の標準偏差）
-    if len(emp_hours) > 1:
-        soft_violations["SC2"] = round(statistics.stdev(emp_hours), 2)
-
-    # SC5: training保持者の配置
-    training_emps = [i for i, e in enumerate(employees) if "training" in e["skills"]]
-    for d in range(7):
-        day_shifts = [d * 3, d * 3 + 1, d * 3 + 2]
-        has_trainer = False
-        for s_idx in day_shifts:
-            for e_idx in training_emps:
-                if assignment.get((e_idx, s_idx), 0):
-                    has_trainer = True
+    # --- SC5: Training-skilled person on at least 1 shift/day (0-100) ---
+    training_employees = {e["id"] for e in data["employees"] if "training" in e["skills"]}
+    sc5_missing_days = 0
+    for day in DAYS:
+        day_has_trainer = False
+        for shift in SHIFTS:
+            for eid in assigned[day][shift]:
+                if eid in training_employees:
+                    day_has_trainer = True
                     break
-            if has_trainer:
+            if day_has_trainer:
                 break
-        if not has_trainer:
-            soft_violations["SC5"] += 1
+        if not day_has_trainer:
+            sc5_missing_days += 1
+    sc5_score = max(0, 100 - sc5_missing_days * (100 / 7))
 
-    total_hard = sum(violations.values())
-    feasible = total_hard == 0
-    total_assigned = sum(assignment.values())
+    soft_total = (sc1_score + sc2_score + sc3_score + sc4_score + sc5_score) / 5
 
     return {
-        "feasible": feasible,
-        "total_hard_violations": total_hard,
-        "hard_violations": violations,
-        "soft_violations": soft_violations,
-        "total_assigned": total_assigned,
-        "total_shortage": total_shortage,
-        "emp_hours": emp_hours,
+        "feasible": total_hc == 0,
+        "hard_violations": total_hc,
+        "hard_violations_detail": hc_violations,
+        "hc1_detail": hc1_violations,
+        "soft_score_total": round(soft_total, 1),
+        "soft_scores": {
+            "SC1_consecutive": round(sc1_score, 1),
+            "SC2_fairness": round(sc2_score, 1),
+            "SC3_min_hours": round(sc3_score, 1),
+            "SC4_night_limit": round(sc4_score, 1),
+            "SC5_training": round(sc5_score, 1),
+        },
+        "stats": {
+            "total_assignments": len(schedule),
+            "total_demand": sum(s["required"] for s in shifts_def),
+            "hours_per_employee": {eid: emp_hours.get(eid, 0) for eid in employees},
+            "hours_std_dev": round(std_dev, 2),
+        },
     }
 
 
-# --- ベースライン1: ランダム ---
-def baseline_random(employees, shifts, seed=42):
-    random.seed(seed)
-    n_emp = len(employees)
-    n_shift = len(shifts)
-    assignment = {}
-    for s_idx, shift in enumerate(shifts):
-        chosen = random.sample(range(n_emp), min(shift["required_count"], n_emp))
-        for e in chosen:
-            assignment[(e, s_idx)] = 1
-    return assignment
+# ============================================================
+# Method 1: Random
+# ============================================================
+
+def solve_random(data: dict, seed: int = 42) -> list[dict]:
+    """Random assignment: for each shift slot, randomly pick employees."""
+    rng = random.Random(seed)
+    schedule = []
+    emp_hours = {e["id"]: 0 for e in data["employees"]}
+
+    for sdef in data["shifts"]:
+        candidates = [e["id"] for e in data["employees"]]
+        rng.shuffle(candidates)
+        assigned = 0
+        for eid in candidates:
+            if assigned >= sdef["required"]:
+                break
+            if emp_hours[eid] + HOURS_PER_SHIFT <= data["employees"][[e["id"] for e in data["employees"]].index(eid)]["max_hours"]:
+                schedule.append({"employee_id": eid, "day": sdef["day"], "shift": sdef["shift"]})
+                emp_hours[eid] += HOURS_PER_SHIFT
+                assigned += 1
+
+    return schedule
 
 
-# --- ベースライン2: 貪欲法（スキル適合+余裕優先） ---
-def baseline_greedy(employees, shifts):
-    n_emp = len(employees)
-    assignment = {}
-    emp_hours_used = [0] * n_emp
-    emp_day_assigned = [set() for _ in range(n_emp)]  # 1日1シフト制約
-    emp_night = [0] * n_emp  # 夜勤カウント
+# ============================================================
+# Method 2: Greedy (skill-first, demand-priority)
+# ============================================================
 
-    for s_idx, shift in enumerate(shifts):
-        day = shift["day"]
-        day_idx = DAYS.index(day)
-        shift_type = s_idx % 3  # 0=morning, 1=afternoon, 2=night
-        required_skill = shift["required_skills"]
-        needed = shift["required_count"]
-        assigned_count = 0
+def solve_greedy(data: dict) -> list[dict]:
+    """Greedy: assign shifts in order of scarcity, picking best-fit employees."""
+    schedule = []
+    employees = {e["id"]: e for e in data["employees"]}
+    emp_hours = {e["id"]: 0 for e in data["employees"]}
+    emp_day_assigned = {e["id"]: set() for e in data["employees"]}  # days already assigned
+    emp_night_days = {e["id"]: set() for e in data["employees"]}  # days with night shift
 
-        # 候補をスコア順にソート（残り時間が多い人優先）
+    # Sort shifts by scarcity: fewer eligible employees = more scarce
+    def shift_scarcity(sdef):
+        eligible = sum(1 for e in data["employees"]
+                      if sdef["skill"] in e["skills"]
+                      and sdef["day"] not in e["unavailable_days"])
+        return eligible - sdef["required"]
+
+    sorted_shifts = sorted(data["shifts"], key=shift_scarcity)
+
+    for sdef in sorted_shifts:
+        needed = sdef["required"]
+        assigned_here = []
+
+        # Rank candidates
         candidates = []
-        for e_idx, emp in enumerate(employees):
-            # スキルチェック
-            if required_skill not in emp["skills"]:
+        for e in data["employees"]:
+            eid = e["id"]
+            # Hard constraint checks
+            if sdef["skill"] not in e["skills"]:
                 continue
-            # 利用不可日チェック
-            if day in emp["unavailable"]:
+            if sdef["day"] in e["unavailable_days"]:
                 continue
-            # 1日1シフトチェック
-            if day_idx in emp_day_assigned[e_idx]:
+            if emp_hours[eid] + HOURS_PER_SHIFT > e["max_hours"]:
                 continue
-            # 最大時間チェック
-            if emp_hours_used[e_idx] + SHIFT_HOURS > emp["max_hours"]:
-                continue
-            # HC5: 夜勤翌日朝勤チェック
-            if shift_type == 0 and day_idx > 0:
-                prev_night = (day_idx - 1) * 3 + 2
-                if assignment.get((e_idx, prev_night), 0):
-                    continue
-            if shift_type == 2 and day_idx < 6:
-                # この人が夜勤に入ると翌朝勤が使えなくなる（先読みはしない、貪欲なので）
-                pass
+            if sdef["day"] in emp_day_assigned[eid]:
+                continue  # already assigned this day
+            # HC5: no morning after night
+            if sdef["shift"] == "morning":
+                prev_day_idx = DAY_INDEX[sdef["day"]] - 1
+                if prev_day_idx >= 0:
+                    prev_day = DAYS[prev_day_idx]
+                    if prev_day in emp_night_days[eid]:
+                        continue
 
-            remaining = emp["max_hours"] - emp_hours_used[e_idx]
-            candidates.append((e_idx, remaining))
+            # Score: prefer employees with more remaining capacity
+            remaining = e["max_hours"] - emp_hours[eid]
+            min_gap = max(0, e["min_hours"] - emp_hours[eid])
+            score = min_gap * 10 + remaining  # prioritize those who need more hours
+            candidates.append((eid, score))
 
-        # 残り時間が多い順
+        # Sort by score descending
         candidates.sort(key=lambda x: -x[1])
-        for e_idx, _ in candidates[:needed]:
-            assignment[(e_idx, s_idx)] = 1
-            emp_hours_used[e_idx] += SHIFT_HOURS
-            emp_day_assigned[e_idx].add(day_idx)
-            if shift_type == 2:
-                emp_night[e_idx] += 1
-            assigned_count += 1
 
-    return assignment
+        for eid, _ in candidates[:needed]:
+            schedule.append({"employee_id": eid, "day": sdef["day"], "shift": sdef["shift"]})
+            emp_hours[eid] += HOURS_PER_SHIFT
+            emp_day_assigned[eid].add(sdef["day"])
+            if sdef["shift"] == "night":
+                emp_night_days[eid].add(sdef["day"])
+
+    return schedule
 
 
-# --- ベースライン3: CP-SAT ソルバー ---
-def baseline_solver(employees, shifts, time_limit=30):
+# ============================================================
+# Method 3: CP-SAT Solver
+# ============================================================
+
+def solve_cpsat(data: dict, time_limit: int = 60) -> list[dict]:
+    """CP-SAT solver with all HC as hard constraints, SC in objective."""
     model = cp_model.CpModel()
-    n_emp = len(employees)
-    n_shift = len(shifts)
+    employees = data["employees"]
+    shifts_def = data["shifts"]
+    emp_by_id = {e["id"]: e for e in employees}
+    training_emps = {e["id"] for e in employees if "training" in e["skills"]}
 
-    # 決定変数
+    # --- Decision variables: x[eid, day, shift] = 1 if assigned ---
     x = {}
-    for e in range(n_emp):
-        for s in range(n_shift):
-            x[(e, s)] = model.NewBoolVar(f"x_{e}_{s}")
+    for e in employees:
+        for sdef in shifts_def:
+            key = (e["id"], sdef["day"], sdef["shift"])
+            # Prune: skill check
+            if sdef["skill"] not in e["skills"]:
+                continue
+            # Prune: unavailable day
+            if sdef["day"] in e["unavailable_days"]:
+                continue
+            x[key] = model.new_bool_var(f'x_{e["id"]}_{sdef["day"]}_{sdef["shift"]}')
 
-    # HC1の不足を計る変数（HC1を完全充足できない可能性があるため）
-    shortage = {}
-    for s in range(n_shift):
-        shortage[s] = model.NewIntVar(0, shifts[s]["required_count"], f"short_{s}")
+    # --- HC1: Required count (as soft — allow underfill with penalty) ---
+    # Since supply < demand, we allow underfill but penalize it heavily
+    underfill_vars = {}
+    UNDERFILL_PENALTY = 1000  # heavy penalty per missing person
+    for sdef in shifts_def:
+        assigned_vars = [x[key] for key in x if key[1] == sdef["day"] and key[2] == sdef["shift"]]
+        if assigned_vars:
+            underfill = model.new_int_var(0, sdef["required"], f'underfill_{sdef["day"]}_{sdef["shift"]}')
+            model.add(sum(assigned_vars) + underfill >= sdef["required"])
+            underfill_vars[(sdef["day"], sdef["shift"])] = underfill
 
-    # HC1: 各シフトの人数（不足を許容）
-    for s_idx, shift in enumerate(shifts):
-        model.Add(
-            sum(x[(e, s_idx)] for e in range(n_emp)) + shortage[s_idx]
-            >= shift["required_count"]
-        )
+    # --- HC2: Max hours per week ---
+    for e in employees:
+        emp_vars = [x[key] for key in x if key[0] == e["id"]]
+        if emp_vars:
+            model.add(sum(emp_vars) * HOURS_PER_SHIFT <= e["max_hours"])
 
-    # HC2: 週あたり最大勤務時間
-    for e_idx, emp in enumerate(employees):
-        model.Add(
-            sum(x[(e_idx, s)] for s in range(n_shift)) * SHIFT_HOURS
-            <= emp["max_hours"]
-        )
+    # --- HC3: Unavailable days (already pruned in variable creation) ---
 
-    # HC3: 利用不可日
-    for e_idx, emp in enumerate(employees):
-        for s_idx, shift in enumerate(shifts):
-            if shift["day"] in emp["unavailable"]:
-                model.Add(x[(e_idx, s_idx)] == 0)
+    # --- HC4: Skill requirements (already pruned in variable creation) ---
 
-    # HC4: スキル
-    for e_idx, emp in enumerate(employees):
-        for s_idx, shift in enumerate(shifts):
-            if shift["required_skills"] not in emp["skills"]:
-                model.Add(x[(e_idx, s_idx)] == 0)
+    # --- HC5: No morning after night ---
+    for e in employees:
+        for i, day in enumerate(DAYS[:-1]):
+            next_day = DAYS[i + 1]
+            night_key = (e["id"], day, "night")
+            morning_key = (e["id"], next_day, "morning")
+            if night_key in x and morning_key in x:
+                model.add(x[night_key] + x[morning_key] <= 1)
 
-    # HC5: 夜勤翌日朝勤禁止
-    for e in range(n_emp):
-        for d in range(len(DAYS) - 1):
-            night = d * 3 + 2
-            next_morning = (d + 1) * 3
-            model.Add(x[(e, night)] + x[(e, next_morning)] <= 1)
+    # --- Assumption A1: 1 shift per day per employee ---
+    for e in employees:
+        for day in DAYS:
+            day_vars = [x[key] for key in x if key[0] == e["id"] and key[1] == day]
+            if day_vars:
+                model.add(sum(day_vars) <= 1)
 
-    # 1日1シフト（仮定A2）
-    for e in range(n_emp):
-        for d in range(len(DAYS)):
-            day_shifts = [d * 3 + t for t in range(3)]
-            model.Add(sum(x[(e, s)] for s in day_shifts) <= 1)
+    # --- Objective: minimize underfill + maximize soft scores ---
+    objective_terms = []
 
-    # 目的関数: 不足の最小化（最優先） + 公平性（副次）
-    # 不足最小化
-    total_shortage = sum(shortage[s] for s in range(n_shift))
+    # Underfill penalty (highest priority)
+    for key, uvar in underfill_vars.items():
+        objective_terms.append(uvar * UNDERFILL_PENALTY)
 
-    # 公平性: 各従業員の勤務シフト数の max - min を最小化
-    emp_shift_counts = []
-    for e in range(n_emp):
-        cnt = model.NewIntVar(0, 21, f"cnt_{e}")
-        model.Add(cnt == sum(x[(e, s)] for s in range(n_shift)))
-        emp_shift_counts.append(cnt)
+    # SC2: Fairness — minimize max-min hours gap
+    emp_hour_vars = {}
+    for e in employees:
+        emp_vars = [x[key] for key in x if key[0] == e["id"]]
+        if emp_vars:
+            h = model.new_int_var(0, e["max_hours"] // HOURS_PER_SHIFT, f'shifts_{e["id"]}')
+            model.add(h == sum(emp_vars))
+            emp_hour_vars[e["id"]] = h
 
-    max_shifts = model.NewIntVar(0, 21, "max_shifts")
-    min_shifts = model.NewIntVar(0, 21, "min_shifts")
-    model.AddMaxEquality(max_shifts, emp_shift_counts)
-    model.AddMinEquality(min_shifts, emp_shift_counts)
-    fairness_gap = model.NewIntVar(0, 21, "fairness_gap")
-    model.Add(fairness_gap == max_shifts - min_shifts)
+    if emp_hour_vars:
+        max_shifts = model.new_int_var(0, 7, "max_shifts")
+        min_shifts = model.new_int_var(0, 7, "min_shifts")
+        model.add_max_equality(max_shifts, list(emp_hour_vars.values()))
+        model.add_min_equality(min_shifts, list(emp_hour_vars.values()))
+        gap = model.new_int_var(0, 7, "gap")
+        model.add(gap == max_shifts - min_shifts)
+        objective_terms.append(gap * 50)  # SC2 weight
 
-    # SC4: 夜勤週2回以下（ソフト）
-    night_excess = []
-    for e in range(n_emp):
-        night_shifts = [d * 3 + 2 for d in range(7)]
-        night_cnt = model.NewIntVar(0, 7, f"night_{e}")
-        model.Add(night_cnt == sum(x[(e, s)] for s in night_shifts))
-        excess = model.NewIntVar(0, 7, f"night_excess_{e}")
-        model.AddMaxEquality(excess, [night_cnt - 2, model.NewConstant(0)])
-        night_excess.append(excess)
+    # SC3: Minimize min-hours shortfall
+    for e in employees:
+        if e["id"] in emp_hour_vars:
+            min_shifts_needed = e["min_hours"] // HOURS_PER_SHIFT
+            shortfall = model.new_int_var(0, min_shifts_needed, f'shortfall_{e["id"]}')
+            model.add(shortfall >= min_shifts_needed - emp_hour_vars[e["id"]])
+            objective_terms.append(shortfall * 30)  # SC3 weight
 
-    # 重み付き目的関数
-    model.Minimize(
-        total_shortage * 1000  # 不足は最優先
-        + fairness_gap * 10   # 公平性
-        + sum(night_excess) * 5  # 夜勤制限
-    )
+    # SC4: Night shifts <= 2 penalty
+    for e in employees:
+        night_vars = [x[key] for key in x if key[0] == e["id"] and key[2] == "night"]
+        if night_vars:
+            excess_night = model.new_int_var(0, 5, f'excess_night_{e["id"]}')
+            model.add(excess_night >= sum(night_vars) - 2)
+            objective_terms.append(excess_night * 20)  # SC4 weight
 
+    # SC5: Training coverage per day
+    for day in DAYS:
+        trainer_vars = []
+        for shift in SHIFTS:
+            for eid in training_emps:
+                key = (eid, day, shift)
+                if key in x:
+                    trainer_vars.append(x[key])
+        if trainer_vars:
+            has_trainer = model.new_bool_var(f'has_trainer_{day}')
+            model.add(sum(trainer_vars) >= 1).only_enforce_if(has_trainer)
+            model.add(sum(trainer_vars) == 0).only_enforce_if(has_trainer.negated())
+            no_trainer = model.new_bool_var(f'no_trainer_{day}')
+            model.add(no_trainer == has_trainer.negated())
+            objective_terms.append(no_trainer * 15)  # SC5 weight
+
+    # SC1: Consecutive days penalty (hard to linearize exactly, use proxy)
+    # Penalize working 6+ consecutive days using sliding window
+    for e in employees:
+        for start in range(len(DAYS) - 5):
+            window_vars = []
+            for di in range(6):
+                day = DAYS[start + di]
+                day_vars = [x[key] for key in x if key[0] == e["id"] and key[1] == day]
+                if day_vars:
+                    day_works = model.new_bool_var(f'works_{e["id"]}_{day}_w{start}')
+                    model.add(sum(day_vars) >= 1).only_enforce_if(day_works)
+                    model.add(sum(day_vars) == 0).only_enforce_if(day_works.negated())
+                    window_vars.append(day_works)
+                else:
+                    pass  # not possible to work this day
+            if len(window_vars) == 6:
+                all_six = model.new_bool_var(f'all6_{e["id"]}_{start}')
+                model.add(sum(window_vars) >= 6).only_enforce_if(all_six)
+                model.add(sum(window_vars) <= 5).only_enforce_if(all_six.negated())
+                objective_terms.append(all_six * 25)  # SC1 weight
+
+    model.minimize(sum(objective_terms))
+
+    # --- Solve ---
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = time_limit
-    solver.parameters.num_workers = 4
-    status = solver.Solve(model)
+    solver.parameters.num_workers = 8
 
-    assignment = {}
-    if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-        for e in range(n_emp):
-            for s in range(n_shift):
-                if solver.Value(x[(e, s)]):
-                    assignment[(e, s)] = 1
+    logger.info("Solving CP-SAT model...")
+    status = solver.solve(model)
+    status_name = {
+        cp_model.OPTIMAL: "OPTIMAL",
+        cp_model.FEASIBLE: "FEASIBLE",
+        cp_model.INFEASIBLE: "INFEASIBLE",
+        cp_model.MODEL_INVALID: "MODEL_INVALID",
+        cp_model.UNKNOWN: "UNKNOWN",
+    }.get(status, f"STATUS_{status}")
+    logger.info("Status: %s, Objective: %s", status_name, solver.objective_value if status in (cp_model.OPTIMAL, cp_model.FEASIBLE) else "N/A")
 
-    return assignment, status, solver
+    if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+        logger.error("No feasible solution found")
+        return []
+
+    schedule = []
+    for key, var in x.items():
+        if solver.value(var) == 1:
+            schedule.append({"employee_id": key[0], "day": key[1], "shift": key[2]})
+
+    return schedule
 
 
-# --- メイン ---
+# ============================================================
+# Main
+# ============================================================
+
+def print_schedule(schedule: list[dict], title: str):
+    """Pretty print a schedule."""
+    print(f"\n{'='*60}")
+    print(f"  {title}")
+    print(f"{'='*60}")
+
+    # Build grid
+    grid = {d: {s: [] for s in SHIFTS} for d in DAYS}
+    for entry in schedule:
+        grid[entry["day"]][entry["shift"]].append(entry["employee_id"])
+
+    print(f"{'':>10}", end="")
+    for day in DAYS:
+        print(f"{day:>12}", end="")
+    print()
+
+    for shift in SHIFTS:
+        print(f"{shift:>10}", end="")
+        for day in DAYS:
+            emps = grid[day][shift]
+            print(f"{'  '.join(emps) if emps else '-':>12}", end="")
+        print()
+
+
 def main():
-    employees, shifts = load_data()
+    data = load_data()
+    logger.info("Loaded %d employees, %d shift slots", len(data["employees"]), len(data["shifts"]))
+
     results = {}
 
-    # ベースライン1: ランダム
-    a_random = baseline_random(employees, shifts)
-    r_random = evaluate(a_random, employees, shifts)
-    results["random"] = r_random
-    print("=== ランダム ===")
-    print(f"  feasible: {r_random['feasible']}")
-    print(f"  hard violations: {r_random['total_hard_violations']} {r_random['hard_violations']}")
-    print(f"  shortage: {r_random['total_shortage']}")
-    print(f"  soft violations: {r_random['soft_violations']}")
-    print(f"  emp_hours: {r_random['emp_hours']}")
-    print()
+    # --- Random ---
+    logger.info("=== Method 1: Random ===")
+    sched_random = solve_random(data)
+    eval_random = evaluate(sched_random, data)
+    print_schedule(sched_random, "Random")
+    print(json.dumps(eval_random, ensure_ascii=False, indent=2))
+    results["random"] = {"schedule": sched_random, "evaluation": eval_random}
 
-    # ベースライン2: 貪欲法
-    a_greedy = baseline_greedy(employees, shifts)
-    r_greedy = evaluate(a_greedy, employees, shifts)
-    results["greedy"] = r_greedy
-    print("=== 貪欲法 ===")
-    print(f"  feasible: {r_greedy['feasible']}")
-    print(f"  hard violations: {r_greedy['total_hard_violations']} {r_greedy['hard_violations']}")
-    print(f"  shortage: {r_greedy['total_shortage']}")
-    print(f"  soft violations: {r_greedy['soft_violations']}")
-    print(f"  emp_hours: {r_greedy['emp_hours']}")
-    print()
+    # --- Greedy ---
+    logger.info("=== Method 2: Greedy ===")
+    sched_greedy = solve_greedy(data)
+    eval_greedy = evaluate(sched_greedy, data)
+    print_schedule(sched_greedy, "Greedy")
+    print(json.dumps(eval_greedy, ensure_ascii=False, indent=2))
+    results["greedy"] = {"schedule": sched_greedy, "evaluation": eval_greedy}
 
-    # ベースライン3: ソルバー
-    a_solver, status, solver_obj = baseline_solver(employees, shifts)
-    r_solver = evaluate(a_solver, employees, shifts)
-    status_name = {0: "UNKNOWN", 1: "MODEL_INVALID", 2: "FEASIBLE", 3: "INFEASIBLE", 4: "OPTIMAL"}
-    results["solver"] = r_solver
-    results["solver"]["solver_status"] = status_name.get(status, str(status))
-    results["solver"]["solve_time"] = round(solver_obj.WallTime(), 2)
-    print("=== ソルバー (CP-SAT) ===")
-    print(f"  status: {status_name.get(status, status)}")
-    print(f"  solve_time: {solver_obj.WallTime():.2f}s")
-    print(f"  feasible: {r_solver['feasible']}")
-    print(f"  hard violations: {r_solver['total_hard_violations']} {r_solver['hard_violations']}")
-    print(f"  shortage: {r_solver['total_shortage']}")
-    print(f"  soft violations: {r_solver['soft_violations']}")
-    print(f"  emp_hours: {r_solver['emp_hours']}")
+    # --- CP-SAT ---
+    logger.info("=== Method 3: CP-SAT ===")
+    sched_cpsat = solve_cpsat(data)
+    eval_cpsat = evaluate(sched_cpsat, data)
+    print_schedule(sched_cpsat, "CP-SAT Solver")
+    print(json.dumps(eval_cpsat, ensure_ascii=False, indent=2))
+    results["cpsat"] = {"schedule": sched_cpsat, "evaluation": eval_cpsat}
 
-    # 結果を保存
+    # --- Save results ---
+    output = {
+        "methods": {},
+        "comparison": {},
+    }
+    for method_name in ["random", "greedy", "cpsat"]:
+        ev = results[method_name]["evaluation"]
+        output["methods"][method_name] = {
+            "feasible": ev["feasible"],
+            "hard_violations": ev["hard_violations"],
+            "hard_violations_detail": ev["hard_violations_detail"],
+            "soft_score_total": ev["soft_score_total"],
+            "soft_scores": ev["soft_scores"],
+            "total_assignments": ev["stats"]["total_assignments"],
+            "total_demand": ev["stats"]["total_demand"],
+            "hours_std_dev": ev["stats"]["hours_std_dev"],
+        }
+
+    output["comparison"] = {
+        "best_method": "cpsat",
+        "supply_demand_gap": {
+            "total_demand_shifts": 48,
+            "total_supply_max_shifts": 46,
+            "gap_shifts": 2,
+            "gap_hours": 16,
+        },
+    }
+
     with open(RESULTS_DIR / "baseline_results.json", "w", encoding="utf-8") as f:
-        json.dump(results, f, ensure_ascii=False, indent=2)
+        json.dump(output, f, ensure_ascii=False, indent=2)
 
-    print(f"\n結果を {RESULTS_DIR / 'baseline_results.json'} に保存しました。")
+    logger.info("Results saved to %s", RESULTS_DIR / "baseline_results.json")
 
 
 if __name__ == "__main__":
