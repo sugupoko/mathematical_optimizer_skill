@@ -164,6 +164,17 @@ mathematical_optimizer_skill/
 └──────────────────────────────────────────────┘
 ```
 
+## Delivering Results (Experimental)
+
+Optimization is useless if the solution isn't adopted on-site.
+During hearings, ask "how do you manage today?", "how do you want to see results?", and "do you need manual edits?" to determine the right delivery format.
+
+- `reference/delivery_guide.md` — Delivery format selection guide (5 dimensions, 7 formats)
+- `reference/hearing_templates.md` — Acceptance/operations hearing template
+- `workspace/examples/shift_scheduling/v1/delivery/` — Excel delivery sample
+
+> This feature is experimental. We are improving it based on feedback.
+
 ## Five Principles
 
 1. **Try a solver first** -- Build a baseline in 5 minutes

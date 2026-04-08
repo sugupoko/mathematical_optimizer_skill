@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v3.1.0] - 2026-04-08
+
+### Added / 新規追加
+
+#### Source Traceability / 情報源トレーサビリティ
+- `spec_template.md` now includes a **情報源 (Ref) table** / 仕様書に情報源テーブルを追加
+- Every constraint, assumption, and change has a Ref column linking to its source / 全制約・仮定に参照番号（Ref）
+- Sources: data files, hearing notes, emails, regulations, analyst assumptions / データ・ヒアリング・メール・規則・仮定
+
+#### Confirmation-Style Questionnaire / 確認型質問書
+- opt-request rewritten: "we understand X — is this correct? A/B/C" format / 「こう理解していますが合っていますか？」形式に改訂
+- 4 question patterns: hard/soft, value, priority, operations / 4つの質問パターン
+- opt-assess also updated to use confirmation-style questions / opt-assess も同形式に統一
+
+#### QA Process / QA プロセス
+- opt-improve now includes 6 QA checks after spec updates / spec 更新後に6項目の QA チェック
+- Checks: HC↔code, SC↔objective, assumption values, eval↔objective, contradictions, source freshness / HC・SC・仮定・評価関数・矛盾・情報鮮度
+- Contradictions auto-generate confirmation-style questions / 矛盾検出時に確認型質問を自動生成
+
+#### SC Variant Comparison / ソフト制約バリエーション比較
+- opt-improve generates 3-5 weight variants and scores each SC 0-100 / SC 重み配分を変えた複数案を生成
+- opt-report includes variant comparison table for client decision / 提案書にバリエーション比較テーブル
+- shift_scheduling example: all 5 variants identical (proves zero slack) / 全5案同一＝余裕ゼロの証明
+
+#### shift_scheduling Example Re-run / シフト最適化サンプル再実行
+- Full workflow with all new features (Ref, confirmation questions, QA, variants, delivery) / 全新機能を反映して再実行
+
+---
+
 ## [v3.0.0] - 2026-04-07
 
 ### Changed / 大幅変更
