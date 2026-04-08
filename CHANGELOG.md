@@ -34,6 +34,14 @@ All notable changes to this project will be documented in this file.
 - State management (.opt_state.yaml) scoped to version folder / 状態管理もバージョンフォルダ内に
 - opt-report output changed: `v1_proposal.md` → `proposal.md` (folder handles versioning) / フォルダでバージョン管理
 
+### Added / 新規追加（実験的）
+
+#### Delivery Guide / 結果の届け方ガイド
+- `reference/delivery_guide.md` — Delivery format selection guide (5 dimensions, 7 formats) / 納品形態の選び方ガイド
+- `reference/hearing_templates.md` — Added shared acceptance/operations hearing template / 受け入れ・運用ヒアリングテンプレート追加
+- `reference/spec_template.md` — Added acceptance requirements section / 受け入れ要件セクション追加
+- `workspace/examples/shift_scheduling/v1/delivery/` — Excel delivery sample with constraint checker / Excel 納品サンプル
+
 ---
 
 ## [v2.4.0] - 2026-04-01
