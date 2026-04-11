@@ -5,6 +5,46 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v3.2.0] - 2026-04-11
+
+### Added / 新規追加
+
+#### Complexity-Driven Baseline Strategy / 複雑度判定によるbaseline戦略
+- `opt-assess` adds a 5-axis complexity evaluation (simple/medium/complex) / 5軸の複雑度評価を追加
+- `opt-baseline` branches strategy based on complexity / 複雑度に応じて戦略を切り替え
+  - simple: single-shot (random + greedy + solver)
+  - medium: single-shot first, staged as fallback
+  - complex: **staged baseline mandatory** / 段階的解法必須
+
+#### Staged Baseline with Active/Pending Split / 段階的baselineとactive/pending分離
+- HCs added incrementally phase-by-phase / HCを1つずつ段階的に追加
+- Independent HC verifier splits violations into: / 独立検証器が違反を2分類:
+  - **active**: HCs enforced in this phase (should be 0) / 強制中のHC違反 (0であるべき)
+  - **pending**: HCs not yet added (ok if > 0) / 未追加のHC違反 (許容)
+- Delta (Δ) between phases shows constraint interaction effects / Phase間の差分で制約追加の副作用を可視化
+
+#### Root Cause Analysis + Solution Options / 根本原因分析+解決策
+- When infeasibility is detected, opt-baseline mandates: / infeasibility検出時に必須:
+  - Numerical root cause via pigeonhole or supply-demand gap / 数値的な根本原因
+  - Exoneration of innocent constraints / 無実の制約の明示
+  - 3-category solution options (A input / B spec / C operations) / 3カテゴリの解決策
+
+#### Independent HC Verifier in opt-improve / opt-improveの独立HC検証器
+- `verify_hard_constraints()` re-checks all HCs from raw assignment / rawから全HCを再チェック
+- Does not trust solver's FEASIBLE flag for softened models / 緩和モデルのfeasibleは信用しない
+- Distinguishes `solver_feasible` from `hc_all_satisfied` / 両者を明確に区別
+
+#### New Example: clinic_nurse / 新サンプル: clinic_nurse
+- Multi-clinic nurse scheduling (18 nurses × 3 clinics × 2 weeks, 1,296 vars) / 複数クリニック看護師配置
+- Designed as solvable complex problem (16% slack) / 解ける複合問題として設計
+- All 8 phases feasible, Phase 7 reaches pending=0 / 全Phase feasible、Phase7で全HC充足
+- Complements worker_supervisor (unsolvable case) for contrast / worker_supervisorとの対比用
+
+### Fixed / 修正
+- Baseline phase output now clearly distinguishes correctness (active) from progress (pending) / Phase出力が明確に
+
+---
+
 ## [v3.1.0] - 2026-04-08
 
 ### Added / 新規追加
