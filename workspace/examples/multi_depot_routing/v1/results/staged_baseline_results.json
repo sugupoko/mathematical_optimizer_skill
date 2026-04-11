@@ -1,0 +1,322 @@
+{
+  "first_infeasible_phase": null,
+  "phases": [
+    {
+      "phase_num": 0,
+      "name": "Phase0_vars_only",
+      "active_hcs": [],
+      "newly_added": [],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.05,
+      "total_visits": 0,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC1": 30
+      },
+      "pending_hc_total": 30
+    },
+    {
+      "phase_num": 1,
+      "name": "Phase1_HC1",
+      "active_hcs": [
+        "HC1"
+      ],
+      "newly_added": [
+        "HC1"
+      ],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.01,
+      "total_visits": 30,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC2": 1,
+        "HC3": 1,
+        "HC4": 1,
+        "HC5": 8,
+        "HC6": 15,
+        "HC12": 30
+      },
+      "pending_hc_total": 56
+    },
+    {
+      "phase_num": 2,
+      "name": "Phase2_HC2",
+      "active_hcs": [
+        "HC1",
+        "HC2"
+      ],
+      "newly_added": [
+        "HC2"
+      ],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.05,
+      "total_visits": 30,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC3": 6,
+        "HC4": 3,
+        "HC5": 14,
+        "HC6": 15,
+        "HC9": 2,
+        "HC12": 30
+      },
+      "pending_hc_total": 70
+    },
+    {
+      "phase_num": 3,
+      "name": "Phase3_HC3",
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3"
+      ],
+      "newly_added": [
+        "HC3"
+      ],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.05,
+      "total_visits": 30,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC5": 16,
+        "HC6": 15,
+        "HC9": 1,
+        "HC12": 30
+      },
+      "pending_hc_total": 62
+    },
+    {
+      "phase_num": 4,
+      "name": "Phase4_HC4",
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4"
+      ],
+      "newly_added": [
+        "HC4"
+      ],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.05,
+      "total_visits": 30,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC5": 16,
+        "HC6": 15,
+        "HC9": 4,
+        "HC12": 30
+      },
+      "pending_hc_total": 65
+    },
+    {
+      "phase_num": 5,
+      "name": "Phase5_HC5",
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5"
+      ],
+      "newly_added": [
+        "HC5"
+      ],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.03,
+      "total_visits": 30,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC6": 15,
+        "HC9": 2,
+        "HC12": 30
+      },
+      "pending_hc_total": 47
+    },
+    {
+      "phase_num": 6,
+      "name": "Phase6_HC7",
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC7"
+      ],
+      "newly_added": [
+        "HC7"
+      ],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.03,
+      "total_visits": 30,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC6": 15,
+        "HC9": 2,
+        "HC12": 30
+      },
+      "pending_hc_total": 47
+    },
+    {
+      "phase_num": 7,
+      "name": "Phase7_HC6",
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7"
+      ],
+      "newly_added": [
+        "HC6"
+      ],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.04,
+      "total_visits": 30,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC8": 16,
+        "HC9": 11,
+        "HC11": 8,
+        "HC12": 80
+      },
+      "pending_hc_total": 115
+    },
+    {
+      "phase_num": 8,
+      "name": "Phase8_HC8_HC9",
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "newly_added": [
+        "HC8",
+        "HC9"
+      ],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.04,
+      "total_visits": 30,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC11": 8,
+        "HC12": 74
+      },
+      "pending_hc_total": 82
+    },
+    {
+      "phase_num": 9,
+      "name": "Phase9_HC11",
+      "active_hcs": [
+        "HC1",
+        "HC11",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "newly_added": [
+        "HC11"
+      ],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.05,
+      "total_visits": 30,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC12": 13
+      },
+      "pending_hc_total": 13
+    },
+    {
+      "phase_num": 10,
+      "name": "Phase10_HC12",
+      "active_hcs": [
+        "HC1",
+        "HC11",
+        "HC12",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "newly_added": [
+        "HC12"
+      ],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.06,
+      "total_visits": 30,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {},
+      "pending_hc_total": 0
+    },
+    {
+      "phase_num": 11,
+      "name": "Phase11_FULL",
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "newly_added": [
+        "HC13"
+      ],
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.06,
+      "total_visits": 30,
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {},
+      "pending_hc_total": 0
+    }
+  ]
+}

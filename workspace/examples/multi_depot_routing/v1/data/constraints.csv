@@ -1,0 +1,20 @@
+constraint_id,type,category,description,parameter
+HC1,hard,demand,各顧客は計画期間内に1回だけ訪問する,once_per_week
+HC2,hard,capacity,車両の重量容量を超えない (日次),capacity_kg
+HC3,hard,capacity,車両の体積容量を超えない (日次),capacity_m3
+HC4,hard,time,車両の日次最大稼働時間を超えない,max_daily_minutes
+HC5,hard,vehicle_type,顧客の必須車両タイプに一致する車両のみ割当,required_vehicle_type
+HC6,hard,driver_cert,ドライバーは顧客の必須認定資格を全て持つこと,required_driver_cert
+HC7,hard,vehicle_driver,ドライバーは車両タイプに対応する資格を持つこと,vehicle_cert
+HC8,hard,availability,ドライバーの利用不可日には割当しない,driver_unavailable_days
+HC9,hard,availability,車両の利用不可日には割当しない,vehicle_unavailable_days
+HC10,hard,depot_home,車両はホームデポからのみ出発・帰着,home_depot
+HC11,hard,driver_hours,ドライバーの週最大勤務時間を超えない,max_weekly_hours
+HC12,hard,assignment,同日に1人のドライバーは1台の車両のみ,one_vehicle_per_driver_per_day
+HC13,hard,time_window,顧客の時間枠要望 (morning/afternoon) を守る,tw_day_pref
+SC1,soft,cost,総走行距離を最小化,total_distance
+SC2,soft,fairness,ドライバー間の勤務時間の偏りを最小化,std_dev
+SC3,soft,priority,高優先度顧客は計画週の前半に配送,priority_early
+SC4,soft,utilization,車両の稼働率を高める (使う車両数の最小化),vehicle_count
+SC5,soft,preference,ドライバーはホームデポ周辺の顧客を優先,home_zone
+SC6,soft,balance,デポ間のシフト負担を均等化,depot_balance

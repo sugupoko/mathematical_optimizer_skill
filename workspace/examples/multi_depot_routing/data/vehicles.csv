@@ -1,0 +1,9 @@
+vehicle_id,home_depot,type,capacity_kg,capacity_m3,max_daily_minutes,cost_per_km,unavailable_days
+V01,D1,standard_small,500,3,480,80,
+V02,D1,refrigerated,1000,5,480,120,Fri
+V03,D1,standard_large,2000,10,540,150,
+V04,D2,standard_medium,1000,5,480,100,
+V05,D2,refrigerated,1000,5,480,120,
+V06,D3,standard_large,2000,10,540,150,Wed
+V07,D3,refrigerated,1500,7,480,130,
+V08,D3,standard_medium,1000,5,480,100,

@@ -1,0 +1,13 @@
+driver_id,name,home_depot,certifications,max_daily_hours,max_weekly_hours,unavailable_days
+DR01,田中 太郎,D1,"standard",10,50,
+DR02,佐藤 花子,D1,"standard,refrigerated",10,50,
+DR03,鈴木 一郎,D1,"standard,dangerous_goods",10,50,Mon
+DR04,高橋 美咲,D1,"standard,refrigerated",10,45,
+DR05,伊藤 健太,D2,"standard",10,50,
+DR06,渡辺 由美,D2,"standard,dangerous_goods",10,50,
+DR07,山本 大輔,D2,"standard,refrigerated",10,50,Tue
+DR08,中村 さくら,D3,"standard",10,50,
+DR09,小林 裕二,D3,"standard,refrigerated,dangerous_goods",10,50,
+DR10,加藤 真理,D3,"standard,refrigerated",10,45,Thu
+DR11,吉田 健,D3,"standard",10,50,
+DR12,松本 翔,D2,"standard,dangerous_goods",10,50,Fri

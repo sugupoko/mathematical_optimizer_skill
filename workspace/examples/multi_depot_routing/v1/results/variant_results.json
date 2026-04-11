@@ -1,0 +1,187 @@
+{
+  "V1_balanced": {
+    "scenario": "V1_balanced",
+    "weights": {
+      "sc1_distance": 1,
+      "sc2_fairness": 50,
+      "sc3_priority": 20,
+      "sc4_vehicle_count": 100,
+      "sc5_off_home": 5,
+      "sc6_depot_balance": 10
+    },
+    "solver_status": "OPTIMAL",
+    "solver_feasible": true,
+    "time_sec": 0.37,
+    "objective": 17598.0,
+    "hc_all_satisfied": true,
+    "hc_total_violations": 0,
+    "hc_violations_by_constraint": {},
+    "sc_evaluation": {
+      "scores": {
+        "SC1_distance": 15.3,
+        "SC2_fairness": 100,
+        "SC3_priority": 100.0,
+        "SC4_vehicle_count": 45.0,
+        "SC5_off_home": 60.0,
+        "SC6_depot_balance": 100,
+        "overall": 70.1
+      },
+      "raw": {
+        "total_km": 1693.7,
+        "driver_days_spread": 0,
+        "high_prio_late_pct": 0.0,
+        "used_vehicles": 6,
+        "off_home_pct": 40.0,
+        "depot_spread": 0
+      }
+    }
+  },
+  "V2_distance_max": {
+    "scenario": "V2_distance_max",
+    "weights": {
+      "sc1_distance": 10,
+      "sc2_fairness": 50,
+      "sc3_priority": 20,
+      "sc4_vehicle_count": 100,
+      "sc5_off_home": 5,
+      "sc6_depot_balance": 10
+    },
+    "solver_status": "OPTIMAL",
+    "solver_feasible": true,
+    "time_sec": 0.29,
+    "objective": 170040.0,
+    "hc_all_satisfied": true,
+    "hc_total_violations": 0,
+    "hc_violations_by_constraint": {},
+    "sc_evaluation": {
+      "scores": {
+        "SC1_distance": 15.3,
+        "SC2_fairness": 100,
+        "SC3_priority": 100.0,
+        "SC4_vehicle_count": 45.0,
+        "SC5_off_home": 60.0,
+        "SC6_depot_balance": 100,
+        "overall": 70.1
+      },
+      "raw": {
+        "total_km": 1693.7,
+        "driver_days_spread": 0,
+        "high_prio_late_pct": 0.0,
+        "used_vehicles": 6,
+        "off_home_pct": 40.0,
+        "depot_spread": 0
+      }
+    }
+  },
+  "V3_few_vehicles": {
+    "scenario": "V3_few_vehicles",
+    "weights": {
+      "sc1_distance": 1,
+      "sc2_fairness": 50,
+      "sc3_priority": 20,
+      "sc4_vehicle_count": 1000,
+      "sc5_off_home": 5,
+      "sc6_depot_balance": 10
+    },
+    "solver_status": "OPTIMAL",
+    "solver_feasible": true,
+    "time_sec": 0.31,
+    "objective": 22333.0,
+    "hc_all_satisfied": true,
+    "hc_total_violations": 0,
+    "hc_violations_by_constraint": {},
+    "sc_evaluation": {
+      "scores": {
+        "SC1_distance": 13.7,
+        "SC2_fairness": 100,
+        "SC3_priority": 100.0,
+        "SC4_vehicle_count": 57.5,
+        "SC5_off_home": 56.7,
+        "SC6_depot_balance": 100,
+        "overall": 71.3
+      },
+      "raw": {
+        "total_km": 1726.5,
+        "driver_days_spread": 0,
+        "high_prio_late_pct": 0.0,
+        "used_vehicles": 5,
+        "off_home_pct": 43.3,
+        "depot_spread": 0
+      }
+    }
+  },
+  "V4_home_zone": {
+    "scenario": "V4_home_zone",
+    "weights": {
+      "sc1_distance": 1,
+      "sc2_fairness": 50,
+      "sc3_priority": 20,
+      "sc4_vehicle_count": 100,
+      "sc5_off_home": 50,
+      "sc6_depot_balance": 10
+    },
+    "solver_status": "OPTIMAL",
+    "solver_feasible": true,
+    "time_sec": 0.37,
+    "objective": 18102.0,
+    "hc_all_satisfied": true,
+    "hc_total_violations": 0,
+    "hc_violations_by_constraint": {},
+    "sc_evaluation": {
+      "scores": {
+        "SC1_distance": 15.3,
+        "SC2_fairness": 100,
+        "SC3_priority": 100.0,
+        "SC4_vehicle_count": 45.0,
+        "SC5_off_home": 63.3,
+        "SC6_depot_balance": 100,
+        "overall": 70.6
+      },
+      "raw": {
+        "total_km": 1694.9,
+        "driver_days_spread": 0,
+        "high_prio_late_pct": 0.0,
+        "used_vehicles": 6,
+        "off_home_pct": 36.7,
+        "depot_spread": 0
+      }
+    }
+  },
+  "V5_depot_balance": {
+    "scenario": "V5_depot_balance",
+    "weights": {
+      "sc1_distance": 1,
+      "sc2_fairness": 50,
+      "sc3_priority": 20,
+      "sc4_vehicle_count": 100,
+      "sc5_off_home": 5,
+      "sc6_depot_balance": 100
+    },
+    "solver_status": "OPTIMAL",
+    "solver_feasible": true,
+    "time_sec": 0.21,
+    "objective": 17598.0,
+    "hc_all_satisfied": true,
+    "hc_total_violations": 0,
+    "hc_violations_by_constraint": {},
+    "sc_evaluation": {
+      "scores": {
+        "SC1_distance": 15.3,
+        "SC2_fairness": 100,
+        "SC3_priority": 100.0,
+        "SC4_vehicle_count": 45.0,
+        "SC5_off_home": 60.0,
+        "SC6_depot_balance": 100,
+        "overall": 70.1
+      },
+      "raw": {
+        "total_km": 1693.7,
+        "driver_days_spread": 0,
+        "high_prio_late_pct": 0.0,
+        "used_vehicles": 6,
+        "off_home_pct": 40.0,
+        "depot_spread": 0
+      }
+    }
+  }
+}
