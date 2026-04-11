@@ -1,0 +1,20 @@
+{
+  "approach": "one_shot",
+  "solver_status": "OPTIMAL",
+  "solver_feasible": true,
+  "time_sec": 0.09,
+  "hc_verify": {
+    "total": 0,
+    "by_hc": {
+      "HC1": 0,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0,
+      "HC6": 0,
+      "HC7": 0,
+      "HC8": 0
+    },
+    "all_ok": true
+  }
+}
