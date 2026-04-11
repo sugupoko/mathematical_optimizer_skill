@@ -160,7 +160,7 @@
       ],
       "solver_status": "INFEASIBLE",
       "solver_feasible": false,
-      "time_sec": 0.0,
+      "time_sec": 0.01,
       "w_assigned": null,
       "v_assigned": null,
       "active_hc_violations": null,

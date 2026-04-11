@@ -1,16 +1,16 @@
 """
 Improve — worker_supervisor v1
 
-Baseline Phase 5 で HC7+HC8 の組合せで infeasible を検出。
-根本原因: en+reception を持つ作業者 4名 vs 5名要求 → 鳩の巣違反。
+Baseline: Phase 5 (HC7+HC8) で壁。en+reception 4名 vs 需要 5名/シフト の鳩の巣違反。
 
-シナリオ:
-  A: hire W021 (new bilingual + reception worker)
-  B: relax HC1 5→4 for bilingual+reception shifts
-  C: soften HC1 (penalty)
-  D: soften HC8 (allow non-en on bilingual shifts)
+4 シナリオで feasibility 回復を試みる:
+  A. W021 (en+reception) を 1 名追加採用 (入力変更)
+  B. HC1 を bilingual+reception シフトで 5→4 に緩和 (仕様変更)
+  C. HC1 を soft 化 (penalty 付き shortage 許容)
+  D. HC8 を soft 化 (非英語可を bilingual シフトに許容)
 
-各シナリオで独立 HC 検証器を実行し、元の12個の HC をどの程度満たすか記録。
+各シナリオで **独立 HC 検証器** を実行し、元の 12 HC をどの程度満たすか記録する。
+ソルバーの feasible フラグではなく、hc_all_satisfied を主として判定。
 """
 
 from __future__ import annotations
@@ -33,7 +33,7 @@ TIME_LIMIT = 60.0
 NUM_WORKERS = 4
 
 
-# ---------- Loaders (reuse from staged_baseline via import) ----------
+# ---------- Loaders (same as staged_baseline) ----------
 def _split(s): return [x.strip() for x in s.split(",") if x.strip()]
 
 
@@ -99,18 +99,19 @@ def shift_global_day(s):
     return (s["week"] - 1) * 7 + DAYS_ORDER.index(s["day"])
 
 
+# ---------- Default weights ----------
+DEFAULT_WEIGHTS = {
+    "sc1": 3, "sc2": 2, "sc3": 2, "sc4": 4, "sc5": 4,
+    "sc6": 2, "sc7": 3, "sc8": -2,
+    "shortage_hc1": 1000, "shortage_hc8": 1000,
+}
+
+
 # ---------- Full model builder with optional softening ----------
-def build_full_model(
-    workers, supervisors, shifts, forbidden, mentor, preferred,
-    soften_hc1=False, soften_hc8=False, relax_hc1_bilingual=False,
-    weights=None,
-):
-    DEFAULT_W = {
-        "sc1": 3, "sc2": 2, "sc3": 2, "sc4": 4, "sc5": 4,
-        "sc6": 2, "sc7": 3, "sc8": -2,
-        "shortage_hc1": 1000, "shortage_hc8": 1000,
-    }
-    w = dict(DEFAULT_W)
+def build_full_model(workers, supervisors, shifts, forbidden, mentor, preferred,
+                     soften_hc1=False, soften_hc8=False, relax_hc1_bilingual=False,
+                     weights=None):
+    w = dict(DEFAULT_WEIGHTS)
     if weights:
         w.update(weights)
 
@@ -146,10 +147,12 @@ def build_full_model(
     # ---- HC3, HC4 max hours ----
     for wi, wo in enumerate(workers):
         for wk in (1, 2):
-            m.Add(sum(wx[wi, s["idx"]] * 8 for s in shifts if s["week"] == wk) <= wo["max_h"])
+            m.Add(sum(wx[wi, s["idx"]] * 8 for s in shifts if s["week"] == wk)
+                  <= wo["max_h"])
     for vi, v in enumerate(supervisors):
         for wk in (1, 2):
-            m.Add(sum(vx[vi, s["idx"]] * 8 for s in shifts if s["week"] == wk) <= v["max_h"])
+            m.Add(sum(vx[vi, s["idx"]] * 8 for s in shifts if s["week"] == wk)
+                  <= v["max_h"])
 
     # ---- HC5, HC6 unavailable ----
     for wi, wo in enumerate(workers):
@@ -168,24 +171,24 @@ def build_full_model(
                 m.Add(wx[wi, s["idx"]] == 0)
 
     # ---- HC8 bilingual ----
-    nonbi_penalty_vars = []
+    nonbi_penalty = []
     for s in shifts:
         if not s["bilingual"]:
             continue
         for wi, wo in enumerate(workers):
             if "en" not in wo["langs"]:
                 if soften_hc8:
-                    nonbi_penalty_vars.append(wx[wi, s["idx"]])
+                    nonbi_penalty.append(wx[wi, s["idx"]])
                 else:
                     m.Add(wx[wi, s["idx"]] == 0)
         for vi, v in enumerate(supervisors):
             if "en" not in v["langs"]:
                 if soften_hc8:
-                    nonbi_penalty_vars.append(vx[vi, s["idx"]])
+                    nonbi_penalty.append(vx[vi, s["idx"]])
                 else:
                     m.Add(vx[vi, s["idx"]] == 0)
 
-    # ---- HC9, HC10 rest (night -> next morning) ----
+    # ---- HC9, HC10 rest ----
     for wi in range(nW):
         for s in shifts:
             if s["name"] != "night":
@@ -203,7 +206,7 @@ def build_full_model(
                 if s2["name"] == "morning" and day_of[s2["idx"]] == d + 1:
                     m.Add(vx[vi, s["idx"]] + vx[vi, s2["idx"]] <= 1)
 
-    # ---- HC11 forbidden ----
+    # ---- HC11 forbidden pairs ----
     for wid, vid in forbidden:
         if wid not in W_IDX or vid not in V_IDX:
             continue
@@ -218,7 +221,7 @@ def build_full_model(
         wi, vi = W_IDX[wid], V_IDX[vid]
         pair_vars = []
         for s in shifts:
-            p = m.NewBoolVar(f"pair_{wid}_{vid}_{s['idx']}")
+            p = m.NewBoolVar(f"mpair_{wid}_{vid}_{s['idx']}")
             m.Add(p <= wx[wi, s["idx"]])
             m.Add(p <= vx[vi, s["idx"]])
             m.Add(p >= wx[wi, s["idx"]] + vx[vi, s["idx"]] - 1)
@@ -229,10 +232,10 @@ def build_full_model(
     obj_terms = []
     if w_short:
         obj_terms.append((w["shortage_hc1"], sum(w_short.values())))
-    if nonbi_penalty_vars:
-        obj_terms.append((w["shortage_hc8"], sum(nonbi_penalty_vars)))
+    if nonbi_penalty:
+        obj_terms.append((w["shortage_hc8"], sum(nonbi_penalty)))
 
-    # SC2: worker fairness
+    # SC2 worker fairness (hours spread)
     w_hours = []
     for wi in range(nW):
         h = m.NewIntVar(0, 80, f"wh_{wi}")
@@ -246,7 +249,7 @@ def build_full_model(
     m.Add(spread_w == max_wh - min_wh)
     obj_terms.append((w["sc2"], spread_w))
 
-    # SC3: supervisor fairness
+    # SC3 supervisor fairness
     v_hours = []
     for vi in range(nV):
         h = m.NewIntVar(0, 80, f"vh_{vi}")
@@ -260,39 +263,39 @@ def build_full_model(
     m.Add(spread_v == max_vh - min_vh)
     obj_terms.append((w["sc3"], spread_v))
 
-    # SC4: worker night <= 4
-    sc4_exc = []
+    # SC4 worker night > 4
+    sc4 = []
     for wi in range(nW):
         nc = m.NewIntVar(0, 14, f"nc_{wi}")
         m.Add(nc == sum(wx[wi, s["idx"]] for s in shifts if s["name"] == "night"))
         exc = m.NewIntVar(0, 14, f"nexc_{wi}")
         m.Add(exc >= nc - 4)
         m.Add(exc >= 0)
-        sc4_exc.append(exc)
-    obj_terms.append((w["sc4"], sum(sc4_exc)))
+        sc4.append(exc)
+    obj_terms.append((w["sc4"], sum(sc4)))
 
-    # SC5: supervisor night <= 3
-    sc5_exc = []
+    # SC5 supervisor night > 3
+    sc5 = []
     for vi in range(nV):
         nc = m.NewIntVar(0, 14, f"vnc_{vi}")
         m.Add(nc == sum(vx[vi, s["idx"]] for s in shifts if s["name"] == "night"))
         exc = m.NewIntVar(0, 14, f"vnexc_{vi}")
         m.Add(exc >= nc - 3)
         m.Add(exc >= 0)
-        sc5_exc.append(exc)
-    obj_terms.append((w["sc5"], sum(sc5_exc)))
+        sc5.append(exc)
+    obj_terms.append((w["sc5"], sum(sc5)))
 
-    # SC6: min hours
-    sc6_sh = []
+    # SC6 min hours shortfall (over 2 weeks)
+    sc6 = []
     for wi, wo in enumerate(workers):
-        target = wo["min_h"] * 2  # 2 weeks
+        target = wo["min_h"] * 2
         sh = m.NewIntVar(0, target, f"sh_{wi}")
         m.Add(sh >= target - w_hours[wi])
         m.Add(sh >= 0)
-        sc6_sh.append(sh)
-    obj_terms.append((w["sc6"], sum(sc6_sh)))
+        sc6.append(sh)
+    obj_terms.append((w["sc6"], sum(sc6)))
 
-    # SC8: preferred pairs bonus (negative weight)
+    # SC8 preferred pairs bonus (negative weight)
     pref_pair_vars = []
     for wid, vid in preferred:
         if wid not in W_IDX or vid not in V_IDX:
@@ -310,15 +313,16 @@ def build_full_model(
     m.Minimize(sum(coef * term for coef, term in obj_terms))
 
     return m, {
-        "wx": wx, "vx": vx, "w_short": w_short, "nonbi_penalty": nonbi_penalty_vars,
+        "wx": wx, "vx": vx,
+        "w_short": w_short, "nonbi_penalty": nonbi_penalty,
         "spread_w": spread_w, "spread_v": spread_v,
-        "sc4_exc": sc4_exc, "sc5_exc": sc5_exc, "sc6_sh": sc6_sh,
+        "sc4": sc4, "sc5": sc5, "sc6": sc6,
         "pref_pair_vars": pref_pair_vars,
         "w_hours": w_hours, "v_hours": v_hours,
     }
 
 
-# ---------- Independent HC verifier ----------
+# ---------- Independent HC verifier (all 12 HCs from raw assignment) ----------
 def verify_all_hcs(solver, vars_d, workers, supervisors, shifts, forbidden, mentor):
     wx = vars_d["wx"]
     vx = vars_d["vx"]
@@ -332,54 +336,45 @@ def verify_all_hcs(solver, vars_d, workers, supervisors, shifts, forbidden, ment
     v_val = {(vi, s["idx"]): solver.Value(vx[vi, s["idx"]])
              for vi in range(nV) for s in shifts}
 
-    violations = {f"HC{i}": 0 for i in range(1, 13)}
+    viol = {f"HC{i}": 0 for i in range(1, 13)}
 
-    # HC1
     for s in shifts:
         if sum(w_val[wi, s["idx"]] for wi in range(nW)) != s["w_req"]:
-            violations["HC1"] += 1
-    # HC2
+            viol["HC1"] += 1
     for s in shifts:
         if sum(v_val[vi, s["idx"]] for vi in range(nV)) != s["v_req"]:
-            violations["HC2"] += 1
-    # HC3
+            viol["HC2"] += 1
     for wi, wo in enumerate(workers):
         for wk in (1, 2):
             h = sum(8 for s in shifts if s["week"] == wk and w_val[wi, s["idx"]])
             if h > wo["max_h"]:
-                violations["HC3"] += 1
-    # HC4
+                viol["HC3"] += 1
     for vi, v in enumerate(supervisors):
         for wk in (1, 2):
             h = sum(8 for s in shifts if s["week"] == wk and v_val[vi, s["idx"]])
             if h > v["max_h"]:
-                violations["HC4"] += 1
-    # HC5
+                viol["HC4"] += 1
     for wi, wo in enumerate(workers):
         for s in shifts:
             if s["day"] in wo["unavail"] and w_val[wi, s["idx"]]:
-                violations["HC5"] += 1
-    # HC6
+                viol["HC5"] += 1
     for vi, v in enumerate(supervisors):
         for s in shifts:
             if s["day"] in v["unavail"] and v_val[vi, s["idx"]]:
-                violations["HC6"] += 1
-    # HC7
+                viol["HC6"] += 1
     for wi, wo in enumerate(workers):
         for s in shifts:
             if w_val[wi, s["idx"]] and s["skills"] and not s["skills"].issubset(wo["skills"]):
-                violations["HC7"] += 1
-    # HC8
+                viol["HC7"] += 1
     for s in shifts:
         if not s["bilingual"]:
             continue
         for wi, wo in enumerate(workers):
             if w_val[wi, s["idx"]] and "en" not in wo["langs"]:
-                violations["HC8"] += 1
+                viol["HC8"] += 1
         for vi, v in enumerate(supervisors):
             if v_val[vi, s["idx"]] and "en" not in v["langs"]:
-                violations["HC8"] += 1
-    # HC9
+                viol["HC8"] += 1
     for wi in range(nW):
         for s in shifts:
             if s["name"] != "night" or not w_val[wi, s["idx"]]:
@@ -387,8 +382,7 @@ def verify_all_hcs(solver, vars_d, workers, supervisors, shifts, forbidden, ment
             d = day_of[s["idx"]]
             for s2 in shifts:
                 if s2["name"] == "morning" and day_of[s2["idx"]] == d + 1 and w_val[wi, s2["idx"]]:
-                    violations["HC9"] += 1
-    # HC10
+                    viol["HC9"] += 1
     for vi in range(nV):
         for s in shifts:
             if s["name"] != "night" or not v_val[vi, s["idx"]]:
@@ -396,16 +390,14 @@ def verify_all_hcs(solver, vars_d, workers, supervisors, shifts, forbidden, ment
             d = day_of[s["idx"]]
             for s2 in shifts:
                 if s2["name"] == "morning" and day_of[s2["idx"]] == d + 1 and v_val[vi, s2["idx"]]:
-                    violations["HC10"] += 1
-    # HC11
+                    viol["HC10"] += 1
     for wid, vid in forbidden:
         if wid not in W_IDX or vid not in V_IDX:
             continue
         wi, vi = W_IDX[wid], V_IDX[vid]
         for s in shifts:
             if w_val[wi, s["idx"]] and v_val[vi, s["idx"]]:
-                violations["HC11"] += 1
-    # HC12
+                viol["HC11"] += 1
     for wid, vid in mentor:
         if wid not in W_IDX or vid not in V_IDX:
             continue
@@ -413,17 +405,17 @@ def verify_all_hcs(solver, vars_d, workers, supervisors, shifts, forbidden, ment
         shared = sum(1 for s in shifts
                      if w_val[wi, s["idx"]] and v_val[vi, s["idx"]])
         if shared < 2:
-            violations["HC12"] += 1
+            viol["HC12"] += 1
 
     return {
-        "all_satisfied": all(n == 0 for n in violations.values()),
-        "total_violations": sum(violations.values()),
-        "by_constraint": violations,
+        "all_satisfied": all(n == 0 for n in viol.values()),
+        "total_violations": sum(viol.values()),
+        "by_constraint": viol,
     }
 
 
 # ---------- SC scoring (0-100) ----------
-def score_soft_constraints(solver, vars_d, workers, supervisors, shifts, forbidden, mentor, preferred):
+def score_scs(solver, vars_d, workers, supervisors, shifts, preferred):
     wx = vars_d["wx"]; vx = vars_d["vx"]
     nW, nV = len(workers), len(supervisors)
 
@@ -432,12 +424,12 @@ def score_soft_constraints(solver, vars_d, workers, supervisors, shifts, forbidd
     v_val = {(vi, s["idx"]): solver.Value(vx[vi, s["idx"]])
              for vi in range(nV) for s in shifts}
 
-    # Worker hours
     w_hours_per = [sum(8 for s in shifts if w_val[wi, s["idx"]]) for wi in range(nW)]
     v_hours_per = [sum(8 for s in shifts if v_val[vi, s["idx"]]) for vi in range(nV)]
 
-    # SC1: consecutive days > 5
     day_of = {s["idx"]: shift_global_day(s) for s in shifts}
+
+    # SC1 consecutive > 5
     sc1_viol = 0
     for wi in range(nW):
         work_days = sorted({day_of[s["idx"]] for s in shifts if w_val[wi, s["idx"]]})
@@ -452,90 +444,67 @@ def score_soft_constraints(solver, vars_d, workers, supervisors, shifts, forbidd
             prev = d
         if max_c > 5:
             sc1_viol += 1
-    sc1_score = max(0, 100 - sc1_viol * (100 / nW))
+    sc1 = max(0, 100 - sc1_viol * (100 / nW))
 
-    # SC2: worker fairness
+    # SC2 worker fairness
     spread_w = max(w_hours_per) - min(w_hours_per) if w_hours_per else 0
-    sc2_score = max(0, 100 - spread_w * (100 / 40))
+    sc2 = max(0, 100 - spread_w * (100 / 40))
 
-    # SC3: supervisor fairness
+    # SC3 supervisor fairness
     spread_v = max(v_hours_per) - min(v_hours_per) if v_hours_per else 0
-    sc3_score = max(0, 100 - spread_v * (100 / 40))
+    sc3 = max(0, 100 - spread_v * (100 / 40))
 
-    # SC4: worker night <= 4
-    sc4_viol = 0
-    for wi in range(nW):
-        nc = sum(1 for s in shifts if s["name"] == "night" and w_val[wi, s["idx"]])
-        if nc > 4:
-            sc4_viol += 1
-    sc4_score = max(0, 100 - sc4_viol * (100 / nW))
+    # SC4 worker night <= 4
+    sc4_v = sum(1 for wi in range(nW)
+                if sum(1 for s in shifts if s["name"] == "night" and w_val[wi, s["idx"]]) > 4)
+    sc4 = max(0, 100 - sc4_v * (100 / nW))
 
-    # SC5: supervisor night <= 3
-    sc5_viol = 0
-    for vi in range(nV):
-        nc = sum(1 for s in shifts if s["name"] == "night" and v_val[vi, s["idx"]])
-        if nc > 3:
-            sc5_viol += 1
-    sc5_score = max(0, 100 - sc5_viol * (100 / nV))
+    # SC5 supervisor night <= 3
+    sc5_v = sum(1 for vi in range(nV)
+                if sum(1 for s in shifts if s["name"] == "night" and v_val[vi, s["idx"]]) > 3)
+    sc5 = max(0, 100 - sc5_v * (100 / nV))
 
-    # SC6: min hours
-    sc6_missed = sum(1 for wi, wo in enumerate(workers) if w_hours_per[wi] < wo["min_h"] * 2)
-    sc6_score = max(0, 100 - sc6_missed * (100 / nW))
+    # SC6 min hours met
+    sc6_missed = sum(1 for wi, wo in enumerate(workers)
+                     if w_hours_per[wi] < wo["min_h"] * 2)
+    sc6 = max(0, 100 - sc6_missed * (100 / nW))
 
-    # SC7: senior per day
-    senior_ids = {wo["id"] for wo in workers if wo["level"] == "senior"}
-    senior_idx_set = {i for i, wo in enumerate(workers) if wo["id"] in senior_ids}
+    # SC7 daily senior presence
+    senior_idx = {i for i, wo in enumerate(workers) if wo["level"] == "senior"}
     sc7_missing = 0
     for d in range(14):
-        has = False
-        for wi in senior_idx_set:
-            for s in shifts:
-                if day_of[s["idx"]] == d and w_val[wi, s["idx"]]:
-                    has = True
-                    break
-            if has:
-                break
+        has = any(w_val[wi, s["idx"]] for wi in senior_idx for s in shifts if day_of[s["idx"]] == d)
         if not has:
             sc7_missing += 1
-    sc7_score = max(0, 100 - sc7_missing * (100 / 14))
+    sc7 = max(0, 100 - sc7_missing * (100 / 14))
 
-    # SC8: preferred pairs
+    # SC8 preferred pair bonus
     W_IDX = {wo["id"]: i for i, wo in enumerate(workers)}
     V_IDX = {v["id"]: i for i, v in enumerate(supervisors)}
-    pref_achieved = 0
-    pref_total = len(preferred) * len(shifts)
+    pref_count = 0
     for wid, vid in preferred:
         if wid not in W_IDX or vid not in V_IDX:
             continue
         wi, vi = W_IDX[wid], V_IDX[vid]
         for s in shifts:
             if w_val[wi, s["idx"]] and v_val[vi, s["idx"]]:
-                pref_achieved += 1
-    sc8_score = min(100, (pref_achieved / max(1, len(preferred) * 3)) * 100)  # target ~3 shared per pair
+                pref_count += 1
+    # target: each pair ~3 shared shifts
+    sc8 = min(100, (pref_count / max(1, len(preferred) * 3)) * 100)
 
-    overall = round(
-        (sc1_score + sc2_score + sc3_score + sc4_score + sc5_score + sc6_score + sc7_score + sc8_score) / 8,
-        1
-    )
-
+    overall = round((sc1 + sc2 + sc3 + sc4 + sc5 + sc6 + sc7 + sc8) / 8, 1)
     return {
         "scores": {
-            "SC1": round(sc1_score, 1),
-            "SC2": round(sc2_score, 1),
-            "SC3": round(sc3_score, 1),
-            "SC4": round(sc4_score, 1),
-            "SC5": round(sc5_score, 1),
-            "SC6": round(sc6_score, 1),
-            "SC7": round(sc7_score, 1),
-            "SC8": round(sc8_score, 1),
+            "SC1": round(sc1, 1), "SC2": round(sc2, 1),
+            "SC3": round(sc3, 1), "SC4": round(sc4, 1),
+            "SC5": round(sc5, 1), "SC6": round(sc6, 1),
+            "SC7": round(sc7, 1), "SC8": round(sc8, 1),
             "overall": overall,
         },
         "raw": {
-            "w_spread": spread_w,
-            "v_spread": spread_v,
-            "sc1_violators": sc1_viol,
-            "sc6_missed": sc6_missed,
-            "pref_achieved": pref_achieved,
+            "spread_w": spread_w, "spread_v": spread_v,
+            "sc1_violators": sc1_viol, "sc6_missed": sc6_missed,
+            "pref_achieved": pref_count,
         }
     }
 
@@ -561,16 +530,13 @@ def run_scenario(name, workers, supervisors, shifts, forbidden, mentor, preferre
         "solver_feasible": feasible,
         "time_sec": round(elapsed, 2),
     }
-
     if feasible:
         r["objective"] = solver.ObjectiveValue()
-        hc_verify = verify_all_hcs(solver, vars_d, workers, supervisors, shifts, forbidden, mentor)
-        r["hc_all_satisfied"] = hc_verify["all_satisfied"]
-        r["hc_total_violations"] = hc_verify["total_violations"]
-        r["hc_violations_by_constraint"] = hc_verify["by_constraint"]
-        r["sc_evaluation"] = score_soft_constraints(
-            solver, vars_d, workers, supervisors, shifts, forbidden, mentor, preferred
-        )
+        hc = verify_all_hcs(solver, vars_d, workers, supervisors, shifts, forbidden, mentor)
+        r["hc_all_satisfied"] = hc["all_satisfied"]
+        r["hc_total_violations"] = hc["total_violations"]
+        r["hc_violations_by_constraint"] = hc["by_constraint"]
+        r["sc_evaluation"] = score_scs(solver, vars_d, workers, supervisors, shifts, preferred)
     return r
 
 
@@ -583,46 +549,48 @@ def main():
     print("=" * 72)
     print("IMPROVE — worker_supervisor v1")
     print("=" * 72)
-    print(f"Baseline: Phase 5 (HC7+HC8) infeasible (en+reception pool < demand)")
+    print("Baseline: wall at Phase 5 (HC7+HC8). Root cause: en+reception 4 vs demand 5.")
     print()
 
     results = {}
 
-    # --- A: hire W021 ---
-    print("[A] Hire W021 (en+reception, mid, 40h)")
+    # --- A: Hire W021 ---
+    print("[A] Hire W021 (en+reception+phone+chat, mid, 40h)")
     w021 = {
-        "id": "W021", "name": "新規採用", "skills": {"reception", "phone", "chat"},
-        "level": "mid", "max_h": 40, "min_h": 24, "unavail": set(), "langs": {"ja", "en"},
+        "id": "W021", "name": "新規採用",
+        "skills": {"reception", "phone", "chat"},
+        "level": "mid", "max_h": 40, "min_h": 24,
+        "unavail": set(), "langs": {"ja", "en"},
     }
     workers_A = workers + [w021]
-    r_A = run_scenario("A_hire_W021", workers_A, supervisors, shifts, forbidden, mentor, preferred)
-    results["A_hire_W021"] = r_A
+    results["A_hire_W021"] = run_scenario(
+        "A_hire_W021", workers_A, supervisors, shifts, forbidden, mentor, preferred)
 
-    # --- B: relax HC1 5->4 on bilingual+reception ---
+    # --- B: Relax HC1 5->4 on bilingual+reception ---
     print("[B] Relax HC1 5->4 on bilingual+reception shifts")
-    r_B = run_scenario("B_relax_HC1", workers, supervisors, shifts, forbidden, mentor, preferred,
-                       relax_hc1_bilingual=True)
-    results["B_relax_HC1"] = r_B
+    results["B_relax_HC1"] = run_scenario(
+        "B_relax_HC1", workers, supervisors, shifts, forbidden, mentor, preferred,
+        relax_hc1_bilingual=True)
 
-    # --- C: soften HC1 ---
-    print("[C] Soften HC1 (allow shortage)")
-    r_C = run_scenario("C_soft_HC1", workers, supervisors, shifts, forbidden, mentor, preferred,
-                       soften_hc1=True)
-    results["C_soft_HC1"] = r_C
+    # --- C: Soften HC1 ---
+    print("[C] Soften HC1 (shortage with penalty)")
+    results["C_soft_HC1"] = run_scenario(
+        "C_soft_HC1", workers, supervisors, shifts, forbidden, mentor, preferred,
+        soften_hc1=True)
 
-    # --- D: soften HC8 ---
-    print("[D] Soften HC8 (allow non-en on bilingual shifts)")
-    r_D = run_scenario("D_soft_HC8", workers, supervisors, shifts, forbidden, mentor, preferred,
-                       soften_hc8=True)
-    results["D_soft_HC8"] = r_D
+    # --- D: Soften HC8 ---
+    print("[D] Soften HC8 (non-en on bilingual shifts)")
+    results["D_soft_HC8"] = run_scenario(
+        "D_soft_HC8", workers, supervisors, shifts, forbidden, mentor, preferred,
+        soften_hc8=True)
 
     def _print(label, r):
         if not r.get("solver_feasible"):
             print(f"   [{label}] {r['solver_status']} ({r['time_sec']}s)")
             return
-        hc_str = "HC ALL OK" if r["hc_all_satisfied"] else f"HC VIOL {r['hc_total_violations']}"
+        hc_str = "HC ALL OK ✓" if r["hc_all_satisfied"] else f"HC VIOL {r['hc_total_violations']} ✗"
         sc = r["sc_evaluation"]["scores"]
-        print(f"   [{label}] {r['solver_status']} | {hc_str} | obj={r['objective']:.0f} | "
+        print(f"   [{label}] solver={r['solver_status']} | {hc_str} | obj={r['objective']:.0f} | "
               f"overall SC={sc['overall']} ({r['time_sec']}s)")
         if not r["hc_all_satisfied"]:
             viol = {k: v for k, v in r["hc_violations_by_constraint"].items() if v > 0}

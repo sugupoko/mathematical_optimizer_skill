@@ -3,7 +3,7 @@
     "scenario": "A_hire_W021",
     "solver_status": "FEASIBLE",
     "solver_feasible": true,
-    "time_sec": 60.04,
+    "time_sec": 60.03,
     "objective": 16.0,
     "hc_all_satisfied": true,
     "hc_total_violations": 0,
@@ -34,8 +34,8 @@
         "overall": 92.5
       },
       "raw": {
-        "w_spread": 16,
-        "v_spread": 8,
+        "spread_w": 16,
+        "spread_v": 8,
         "sc1_violators": 0,
         "sc6_missed": 0,
         "pref_achieved": 16
@@ -44,9 +44,9 @@
   },
   "B_relax_HC1": {
     "scenario": "B_relax_HC1",
-    "solver_status": "FEASIBLE",
+    "solver_status": "OPTIMAL",
     "solver_feasible": true,
-    "time_sec": 60.02,
+    "time_sec": 54.49,
     "objective": 16.0,
     "hc_all_satisfied": false,
     "hc_total_violations": 4,
@@ -77,8 +77,8 @@
         "overall": 92.5
       },
       "raw": {
-        "w_spread": 16,
-        "v_spread": 8,
+        "spread_w": 16,
+        "spread_v": 8,
         "sc1_violators": 0,
         "sc6_missed": 0,
         "pref_achieved": 16
@@ -109,7 +109,7 @@
     },
     "sc_evaluation": {
       "scores": {
-        "SC1": 100.0,
+        "SC1": 95.0,
         "SC2": 60.0,
         "SC3": 80.0,
         "SC4": 100.0,
@@ -117,12 +117,12 @@
         "SC6": 100.0,
         "SC7": 100.0,
         "SC8": 100,
-        "overall": 92.5
+        "overall": 91.9
       },
       "raw": {
-        "w_spread": 16,
-        "v_spread": 8,
-        "sc1_violators": 0,
+        "spread_w": 16,
+        "spread_v": 8,
+        "sc1_violators": 1,
         "sc6_missed": 0,
         "pref_achieved": 16
       }
@@ -132,7 +132,7 @@
     "scenario": "D_soft_HC8",
     "solver_status": "FEASIBLE",
     "solver_feasible": true,
-    "time_sec": 60.01,
+    "time_sec": 60.03,
     "objective": 4030.0,
     "hc_all_satisfied": false,
     "hc_total_violations": 4,
@@ -163,8 +163,8 @@
         "overall": 90.0
       },
       "raw": {
-        "w_spread": 24,
-        "v_spread": 8,
+        "spread_w": 24,
+        "spread_v": 8,
         "sc1_violators": 0,
         "sc6_missed": 0,
         "pref_achieved": 17
