@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v3.5.0] - 2026-04-11
+
+### Added / 新規追加
+
+#### New Example: vaccine_allocation (COVID-19) / ワクチン配分 (コロナ禍)
+- **COVID-19 vaccine rollout problem with temporal coupling** / COVID-19ワクチン展開 (時系列連動)
+- 5 priority groups × 6 sites × 10 weeks × 3 vaccine types / 優先5群×6会場×10週×3ワクチン種
+- **1,801 integer decision variables + 18 HCs + 6 SCs**
+- Unique: **2-dose timing constraint** `dose2[w] = dose1[w-gap]` — not present in any other sample
+- 3 vaccine types: Pfizer (3w gap, ultracold −75℃), Moderna (4w gap, −20℃), Janssen (1-dose hypothetical)
+- Cold chain heterogeneity: only 2/6 sites can handle ultracold, 4/6 can handle standard
+- Priority rollout gates: groups start at fixed weeks
+- Independent HC verifier: all 18 HCs validated across all phases and scenarios
+- Data based on public statistics: 総務省国勢調査 (R6) + 厚労省ワクチン資料 (R7)
+- **Fictional municipality** (架空 M 市) to avoid misrepresentation of real facilities
+
+Key findings:
+- All 12 baseline phases feasible, no wall
+- Final optimal: 17,700 people vaccinated (16.3% of 108,500 population)
+- Biggest single-constraint cost: HC10 horizon rule (−5,600) — late weeks can't commit 1st doses
+- Structural ceiling independent of SC weights — trade-off is WHO, not HOW MANY
+- Elderly-first (14,700) loses 3,000 people vs balanced (17,700)
+- Recommended action: install ultracold freezer at S3/S4 (+3,500 people/10w)
+
+---
+
 ## [v3.4.0] - 2026-04-11
 
 ### Added / 新規追加

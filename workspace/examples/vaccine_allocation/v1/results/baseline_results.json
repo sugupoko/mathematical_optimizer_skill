@@ -1,0 +1,1185 @@
+{
+  "first_infeasible": null,
+  "phases": [
+    {
+      "phase": "P01_caps_only",
+      "status": "OPTIMAL",
+      "objective": 46000.0,
+      "vars": 1801,
+      "constraints": 366,
+      "active_hcs": [
+        "HC1",
+        "HC14",
+        "HC17",
+        "HC2"
+      ],
+      "total_people": 46000,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 3,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": false,
+          "n_viol": 1
+        }
+      }
+    },
+    {
+      "phase": "P02_+supply",
+      "status": "FEASIBLE",
+      "objective": 34600.0,
+      "vars": 1801,
+      "constraints": 396,
+      "active_hcs": [
+        "HC1",
+        "HC14",
+        "HC17",
+        "HC2",
+        "HC3"
+      ],
+      "total_people": 34600,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 9,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC5": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC6": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC7": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P03_+storage",
+      "status": "OPTIMAL",
+      "objective": 33800.0,
+      "vars": 1801,
+      "constraints": 996,
+      "active_hcs": [
+        "HC1",
+        "HC14",
+        "HC17",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5"
+      ],
+      "total_people": 33800,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 6,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC7": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P04_+staffing",
+      "status": "OPTIMAL",
+      "objective": 33800.0,
+      "vars": 1801,
+      "constraints": 1396,
+      "active_hcs": [
+        "HC1",
+        "HC14",
+        "HC15",
+        "HC17",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5"
+      ],
+      "total_people": 33800,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 6,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC7": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P05_+VJ_singledose",
+      "status": "OPTIMAL",
+      "objective": 33800.0,
+      "vars": 1801,
+      "constraints": 1396,
+      "active_hcs": [
+        "HC1",
+        "HC14",
+        "HC15",
+        "HC17",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC8"
+      ],
+      "total_people": 33800,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 6,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC7": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P06_+VP_gap",
+      "status": "FEASIBLE",
+      "objective": 27300.0,
+      "vars": 1801,
+      "constraints": 1696,
+      "active_hcs": [
+        "HC1",
+        "HC14",
+        "HC15",
+        "HC17",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC8",
+        "HC9"
+      ],
+      "total_people": 27300,
+      "active_hc_violations": 1,
+      "pending_hc_violations": 4,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P07_+VM_gap",
+      "status": "FEASIBLE",
+      "objective": 23300.0,
+      "vars": 1801,
+      "constraints": 1996,
+      "active_hcs": [
+        "HC1",
+        "HC14",
+        "HC15",
+        "HC17",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "total_people": 23300,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 3,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P08_+horizon_rule",
+      "status": "OPTIMAL",
+      "objective": 17700.0,
+      "vars": 1801,
+      "constraints": 2206,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC17",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "total_people": 17700,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 1,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P09_+priority_gates",
+      "status": "OPTIMAL",
+      "objective": 17700.0,
+      "vars": 1801,
+      "constraints": 2368,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC17",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "total_people": 17700,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 0,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P10_+cum_inventory",
+      "status": "OPTIMAL",
+      "objective": 17700.0,
+      "vars": 1801,
+      "constraints": 2398,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC17",
+        "HC18",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "total_people": 17700,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 0,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P11_all_HCs_feas",
+      "status": "OPTIMAL",
+      "objective": 17700.0,
+      "vars": 1801,
+      "constraints": 2398,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC17",
+        "HC18",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "total_people": 17700,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 0,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P12_all_HCs_opt",
+      "status": "OPTIMAL",
+      "objective": 17700.0,
+      "vars": 1801,
+      "constraints": 2398,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC17",
+        "HC18",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "total_people": 17700,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 0,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    }
+  ],
+  "n_hcs": 18,
+  "total_population": 108500,
+  "total_supply": {
+    "VP": 30000,
+    "VM": 15000,
+    "VJ": 6000
+  }
+}

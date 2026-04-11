@@ -1,0 +1,94 @@
+project: vaccine_allocation
+version: v1
+date: 2026-04-11
+status: complete
+
+assess:
+  complexity: complex
+  problem_class: multi_period_capacitated_allocation
+  scale:
+    groups: 5
+    sites: 6
+    weeks: 10
+    vaccines: 3
+    decision_vars: 1800
+    hcs: 18
+    scs: 6
+    total_population: 108500  # 架空 M 市 (東京 23 区外 中規模自治体スケール)
+    total_supply: 48000
+  data_sources:
+    R1: data/priority_groups.csv
+    R2: data/sites.csv
+    R3: data/vaccine_types.csv
+    R4: data/weekly_supply.csv
+    R5: data/constraints.csv
+    R6: "総務省 人口統計 (2020年国勢調査) の年齢構成比を参考"
+    R7: "厚生労働省 新型コロナワクチン接種 (https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/vaccine_00184.html)"
+  data_nature: "公開統計 (R6/R7) の年齢構成比・ワクチン仕様を参考にした架空自治体の合成データ"
+  hypotheses:
+    - Capacity-bound not supply-bound
+    - VP (Pfizer) only at sites S1/S2 with ultralow freezers
+    - G1+G2 (medical + 75+) can be near-fully covered in 10 weeks
+    - Overall coverage ~15-18% of total population is realistic for early rollout
+  confirmation_questions: 6
+
+baseline:
+  script: scripts/staged_baseline.py
+  results: results/baseline_results.json
+  solver: CP-SAT
+  phases: 12
+  first_infeasible: null
+  final_phase: P12_all_HCs_opt
+  final_status: OPTIMAL
+  final_people: 17700  # recalibrated with R6/R7 based supply
+  model_vars: 1801
+  model_constraints: 2398
+  bottlenecks:
+    - "HC6_VP_gap / HC7_VM_gap: 2-dose time coupling halves throughput"
+    - "HC10_horizon: doses within last gap weeks cannot commit"
+    - "HC4 cold chain: VP ~48% of supply but only S1/S2 can handle it"
+
+improve:
+  script: scripts/improve.py
+  results: results/improve_results.json
+  scenarios:
+    balanced:
+      status: OPTIMAL
+      people: 17700
+      coverage: "G1: 100, G2: 100, G3: 22.9, G4: 0, G5: 0"
+    max_coverage:
+      status: OPTIMAL
+      people: 17700  # spreads across groups
+    elderly_first:
+      status: OPTIMAL
+      people: 14700
+      coverage: "G1: 100, G2: 90, G3: 3.6, others: 0-1.4%"
+    min_waste:
+      status: OPTIMAL
+      people: 17700
+      ultralow_vp_used: 15600
+  hc_verification:
+    all_scenarios: 18/18
+
+variants:
+  script: scripts/variants.py
+  results: results/variants_results.json
+  profiles: 5
+  all_optimal: true
+  hc_all_pass: true
+
+assumptions:
+  A1: G1->G2 80% threshold simplified to G2 start week>=3
+  A2: G4 start week>=4, G5 start week>=5
+  A3: HC17 site-week minimum 100 relaxed to non-negative int only
+  A4: Population static over horizon
+  A5: Vial-level wastage not modeled (apply 3-5% post-hoc)
+  A6: 2nd dose locked to same site as 1st dose
+
+recommendations:
+  short_term: Adopt balanced scenario; complete G1+G2 (medical + 75+) in 10 weeks
+  medium_term:
+    - Install ultralow freezer at S3 or S4 (+3,500 people/10 weeks)
+    - Relax same-site rule for 2nd dose (+5-10%)
+    - Upgrade S5/S6 staffing to handle VM
+    - Reallocate VP supply toward VM/VJ (procurement decision)

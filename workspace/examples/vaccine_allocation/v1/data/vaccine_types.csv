@@ -1,0 +1,4 @@
+vaccine_id,name,doses_required,gap_weeks,storage_requirement,notes
+VP,Pfizer (BNT162b2),2,3,ultralow,"-75℃ 保管、2021年春から日本初導入"
+VM,Moderna (mRNA-1273),2,4,standard,"-20℃ 保管、職域接種中心 2021年5月～"
+VJ,Janssen (想定),1,0,refrigerator,"日本では未採用。モデル内では1回接種代替として想定"

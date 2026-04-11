@@ -1,0 +1,7 @@
+site_id,name,weekly_capacity_doses,has_ultralow_freezer,has_standard_freezer,staffing_level
+S1,基幹病院 A (大規模),1500,1,1,high
+S2,中央クリニック,800,1,1,mid
+S3,東部接種会場,600,0,1,mid
+S4,北部クリニック,800,0,1,mid
+S5,市役所大規模会場,400,0,0,low
+S6,コミュニティホール,500,0,0,low

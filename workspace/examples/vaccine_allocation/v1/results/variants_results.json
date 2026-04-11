@@ -1,0 +1,249 @@
+{
+  "variants": [
+    {
+      "name": "V1_director_default",
+      "status": "OPTIMAL",
+      "objective": 1214100.0,
+      "hc_ok": 18,
+      "weights": {
+        "people": 10,
+        "priority": 2,
+        "waste": 2,
+        "balance": 1,
+        "early": 0,
+        "ultralow": 0
+      },
+      "metrics": {
+        "people": 17700,
+        "prio_weighted": 544000,
+        "waste": 21600,
+        "sload_spread": 7700,
+        "early_penalty": 3020000,
+        "ultralow_use": 15600
+      },
+      "coverage_by_group": {
+        "G1": {
+          "people": 1500,
+          "population": 1500,
+          "coverage_pct": 100.0
+        },
+        "G2": {
+          "people": 13000,
+          "population": 13000,
+          "coverage_pct": 100.0
+        },
+        "G3": {
+          "people": 3200,
+          "population": 14000,
+          "coverage_pct": 22.86
+        },
+        "G4": {
+          "people": 0,
+          "population": 8000,
+          "coverage_pct": 0.0
+        },
+        "G5": {
+          "people": 0,
+          "population": 72000,
+          "coverage_pct": 0.0
+        }
+      }
+    },
+    {
+      "name": "V2_max_throughput",
+      "status": "OPTIMAL",
+      "objective": 354000.0,
+      "hc_ok": 18,
+      "weights": {
+        "people": 20,
+        "priority": 0,
+        "waste": 0,
+        "balance": 0,
+        "early": 0,
+        "ultralow": 0
+      },
+      "metrics": {
+        "people": 17700,
+        "prio_weighted": 244900,
+        "waste": 21600,
+        "sload_spread": 10000000,
+        "early_penalty": 1301600,
+        "ultralow_use": 15800
+      },
+      "coverage_by_group": {
+        "G1": {
+          "people": 0,
+          "population": 1500,
+          "coverage_pct": 0.0
+        },
+        "G2": {
+          "people": 0,
+          "population": 13000,
+          "coverage_pct": 0.0
+        },
+        "G3": {
+          "people": 3500,
+          "population": 14000,
+          "coverage_pct": 25.0
+        },
+        "G4": {
+          "people": 1500,
+          "population": 8000,
+          "coverage_pct": 18.75
+        },
+        "G5": {
+          "people": 12700,
+          "population": 72000,
+          "coverage_pct": 17.64
+        }
+      }
+    },
+    {
+      "name": "V3_equity_elderly",
+      "status": "OPTIMAL",
+      "objective": 2730500.0,
+      "hc_ok": 18,
+      "weights": {
+        "people": 3,
+        "priority": 10,
+        "waste": 1,
+        "balance": 0,
+        "early": 1,
+        "ultralow": 0
+      },
+      "metrics": {
+        "people": 17700,
+        "prio_weighted": 532000,
+        "waste": 21600,
+        "sload_spread": 10000000,
+        "early_penalty": 2621000,
+        "ultralow_use": 15600
+      },
+      "coverage_by_group": {
+        "G1": {
+          "people": 1500,
+          "population": 1500,
+          "coverage_pct": 100.0
+        },
+        "G2": {
+          "people": 13000,
+          "population": 13000,
+          "coverage_pct": 100.0
+        },
+        "G3": {
+          "people": 1700,
+          "population": 14000,
+          "coverage_pct": 12.14
+        },
+        "G4": {
+          "people": 0,
+          "population": 8000,
+          "coverage_pct": 0.0
+        },
+        "G5": {
+          "people": 1500,
+          "population": 72000,
+          "coverage_pct": 2.08
+        }
+      }
+    },
+    {
+      "name": "V4_min_waste_strict",
+      "status": "OPTIMAL",
+      "objective": 84800.0,
+      "hc_ok": 18,
+      "weights": {
+        "people": 5,
+        "priority": 1,
+        "waste": 25,
+        "balance": 1,
+        "early": 0,
+        "ultralow": 0
+      },
+      "metrics": {
+        "people": 17700,
+        "prio_weighted": 544000,
+        "waste": 21600,
+        "sload_spread": 7700,
+        "early_penalty": 3258000,
+        "ultralow_use": 15800
+      },
+      "coverage_by_group": {
+        "G1": {
+          "people": 1500,
+          "population": 1500,
+          "coverage_pct": 100.0
+        },
+        "G2": {
+          "people": 13000,
+          "population": 13000,
+          "coverage_pct": 100.0
+        },
+        "G3": {
+          "people": 3200,
+          "population": 14000,
+          "coverage_pct": 22.86
+        },
+        "G4": {
+          "people": 0,
+          "population": 8000,
+          "coverage_pct": 0.0
+        },
+        "G5": {
+          "people": 0,
+          "population": 72000,
+          "coverage_pct": 0.0
+        }
+      }
+    },
+    {
+      "name": "V5_cheap_logistics",
+      "status": "OPTIMAL",
+      "objective": 1101700.0,
+      "hc_ok": 18,
+      "weights": {
+        "people": 8,
+        "priority": 2,
+        "waste": 2,
+        "balance": 1,
+        "early": 0,
+        "ultralow": 5
+      },
+      "metrics": {
+        "people": 17700,
+        "prio_weighted": 544000,
+        "waste": 21600,
+        "sload_spread": 7700,
+        "early_penalty": 3141000,
+        "ultralow_use": 15400
+      },
+      "coverage_by_group": {
+        "G1": {
+          "people": 1500,
+          "population": 1500,
+          "coverage_pct": 100.0
+        },
+        "G2": {
+          "people": 13000,
+          "population": 13000,
+          "coverage_pct": 100.0
+        },
+        "G3": {
+          "people": 3200,
+          "population": 14000,
+          "coverage_pct": 22.86
+        },
+        "G4": {
+          "people": 0,
+          "population": 8000,
+          "coverage_pct": 0.0
+        },
+        "G5": {
+          "people": 0,
+          "population": 72000,
+          "coverage_pct": 0.0
+        }
+      }
+    }
+  ]
+}

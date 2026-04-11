@@ -1,0 +1,25 @@
+kind,id,summary
+HC,HC1,total doses administered to each group must not exceed group population
+HC,HC2,weekly site capacity not exceeded (sum of 1st and 2nd doses)
+HC,HC3,weekly vaccine supply not exceeded per vaccine type
+HC,HC4,VP (ultracold) can only be administered at sites with ultralow freezer
+HC,HC5,VM (standard freezer) can only be administered at sites with standard or ultralow freezer
+HC,HC6,VP 2nd dose exactly 3 weeks after 1st dose at same site and group
+HC,HC7,VM 2nd dose exactly 4 weeks after 1st dose at same site and group
+HC,HC8,VJ has zero second doses (single-dose vaccine)
+HC,HC9,2nd doses must use the same vaccine type as 1st dose (no mixing)
+HC,HC10,1st doses must leave enough horizon for 2nd dose (VP w<=7, VM w<=6)
+HC,HC11,G1 must reach >=80% coverage before G2 starts (simplified: G2 may start at w>=3)
+HC,HC12,G2 must reach >=50% coverage before G4 starts (simplified: G4 may start at w>=4)
+HC,HC13,each group cumulative coverage is monotonic (implied by non-negative doses)
+HC,HC14,no group exceeds 100% coverage of population
+HC,HC15,low-staffing sites (S5 S6) can only administer single-dose VJ
+HC,HC16,all 1st doses of 2-dose vaccines must have matching 2nd doses scheduled
+HC,HC17,per site-week dose counts are non-negative integers
+HC,HC18,cumulative doses used of vaccine v by week w <= cumulative supply by week w
+SC,SC1,maximize total people vaccinated (coverage)
+SC,SC2,prioritize high-rank groups (weighted by 1/priority_rank)
+SC,SC3,minimize wasted doses (use as much supply as possible)
+SC,SC4,balance vaccinations across sites (fairness)
+SC,SC5,earliest completion for each group (reward early doses for high-priority groups)
+SC,SC6,minimize ultralow storage usage (VP is expensive to transport)

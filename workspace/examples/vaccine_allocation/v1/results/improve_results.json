@@ -1,0 +1,208 @@
+{
+  "scenarios": [
+    {
+      "scenario": "balanced",
+      "status": "OPTIMAL",
+      "weights": {
+        "people": 10,
+        "priority": 1,
+        "waste": 2,
+        "balance": 1,
+        "early": 0,
+        "ultralow": 0
+      },
+      "objective": 670100.0,
+      "hc_ok": 18,
+      "hc_total": 18,
+      "metrics": {
+        "people": 17700,
+        "prio_weighted": 544000,
+        "waste": 21600,
+        "sload_spread": 7700,
+        "early_penalty": 3221000,
+        "ultralow_use": 15600
+      },
+      "coverage_by_group": {
+        "G1": {
+          "people": 1500,
+          "population": 1500,
+          "coverage_pct": 100.0
+        },
+        "G2": {
+          "people": 13000,
+          "population": 13000,
+          "coverage_pct": 100.0
+        },
+        "G3": {
+          "people": 3200,
+          "population": 14000,
+          "coverage_pct": 22.86
+        },
+        "G4": {
+          "people": 0,
+          "population": 8000,
+          "coverage_pct": 0.0
+        },
+        "G5": {
+          "people": 0,
+          "population": 72000,
+          "coverage_pct": 0.0
+        }
+      },
+      "vars": 1815
+    },
+    {
+      "scenario": "max_coverage",
+      "status": "OPTIMAL",
+      "weights": {
+        "people": 20,
+        "priority": 0,
+        "waste": 0,
+        "balance": 0,
+        "early": 0,
+        "ultralow": 0
+      },
+      "objective": 354000.0,
+      "hc_ok": 18,
+      "hc_total": 18,
+      "metrics": {
+        "people": 17700,
+        "prio_weighted": 244900,
+        "waste": 21600,
+        "sload_spread": 10000000,
+        "early_penalty": 1301600,
+        "ultralow_use": 15800
+      },
+      "coverage_by_group": {
+        "G1": {
+          "people": 0,
+          "population": 1500,
+          "coverage_pct": 0.0
+        },
+        "G2": {
+          "people": 0,
+          "population": 13000,
+          "coverage_pct": 0.0
+        },
+        "G3": {
+          "people": 3500,
+          "population": 14000,
+          "coverage_pct": 25.0
+        },
+        "G4": {
+          "people": 1500,
+          "population": 8000,
+          "coverage_pct": 18.75
+        },
+        "G5": {
+          "people": 12700,
+          "population": 72000,
+          "coverage_pct": 17.64
+        }
+      },
+      "vars": 1815
+    },
+    {
+      "scenario": "elderly_first",
+      "status": "OPTIMAL",
+      "weights": {
+        "people": 3,
+        "priority": 8,
+        "waste": 1,
+        "balance": 0,
+        "early": 1,
+        "ultralow": 0
+      },
+      "objective": 1723500.0,
+      "hc_ok": 18,
+      "hc_total": 18,
+      "metrics": {
+        "people": 14700,
+        "prio_weighted": 463000,
+        "waste": 24600,
+        "sload_spread": 10000000,
+        "early_penalty": 2000000,
+        "ultralow_use": 15600
+      },
+      "coverage_by_group": {
+        "G1": {
+          "people": 1500,
+          "population": 1500,
+          "coverage_pct": 100.0
+        },
+        "G2": {
+          "people": 11700,
+          "population": 13000,
+          "coverage_pct": 90.0
+        },
+        "G3": {
+          "people": 500,
+          "population": 14000,
+          "coverage_pct": 3.57
+        },
+        "G4": {
+          "people": 0,
+          "population": 8000,
+          "coverage_pct": 0.0
+        },
+        "G5": {
+          "people": 1000,
+          "population": 72000,
+          "coverage_pct": 1.39
+        }
+      },
+      "vars": 1815
+    },
+    {
+      "scenario": "min_waste",
+      "status": "OPTIMAL",
+      "weights": {
+        "people": 5,
+        "priority": 1,
+        "waste": 20,
+        "balance": 1,
+        "early": 0,
+        "ultralow": 0
+      },
+      "objective": 192800.0,
+      "hc_ok": 18,
+      "hc_total": 18,
+      "metrics": {
+        "people": 17700,
+        "prio_weighted": 544000,
+        "waste": 21600,
+        "sload_spread": 7700,
+        "early_penalty": 3230000,
+        "ultralow_use": 15600
+      },
+      "coverage_by_group": {
+        "G1": {
+          "people": 1500,
+          "population": 1500,
+          "coverage_pct": 100.0
+        },
+        "G2": {
+          "people": 13000,
+          "population": 13000,
+          "coverage_pct": 100.0
+        },
+        "G3": {
+          "people": 3200,
+          "population": 14000,
+          "coverage_pct": 22.86
+        },
+        "G4": {
+          "people": 0,
+          "population": 8000,
+          "coverage_pct": 0.0
+        },
+        "G5": {
+          "people": 0,
+          "population": 72000,
+          "coverage_pct": 0.0
+        }
+      },
+      "vars": 1815
+    }
+  ]
+}
