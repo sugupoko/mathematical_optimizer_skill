@@ -259,27 +259,36 @@ def verify_hcs(x_values, nurses, shifts):
 
 
 # ---------- Phase runner ----------
+# Each phase: (name, flags dict, active HCs in model, newly added at this phase)
 PHASES = [
-    ("phase0_vars_only",  {}),
-    ("phase1_hc1",        {"add_hc1": True}),
-    ("phase2_hc1_hc2",    {"add_hc1": True, "add_hc2": True}),
-    ("phase3_hc1_hc3",    {"add_hc1": True, "add_hc2": True, "add_hc3": True}),
-    ("phase4_hc1_hc4",    {"add_hc1": True, "add_hc2": True, "add_hc3": True, "add_hc4": True}),
-    ("phase5_hc1_hc5",    {"add_hc1": True, "add_hc2": True, "add_hc3": True, "add_hc4": True, "add_hc5": True}),
-    ("phase6_hc1_hc6",    {"add_hc1": True, "add_hc2": True, "add_hc3": True, "add_hc4": True, "add_hc5": True, "add_hc6": True}),
-    ("phase7_hc1_hc7",    {"add_hc1": True, "add_hc2": True, "add_hc3": True, "add_hc4": True, "add_hc5": True, "add_hc6": True, "add_hc7": True}),
-    ("phase8_full",       {"add_hc1": True, "add_hc2": True, "add_hc3": True, "add_hc4": True, "add_hc5": True, "add_hc6": True, "add_hc7": True, "add_hc8": True}),
+    ("phase0_vars_only",  {},
+     set(), set()),
+    ("phase1_hc1",        {"add_hc1": True},
+     {"HC1"}, {"HC1"}),
+    ("phase2_hc1_hc2",    {"add_hc1": True, "add_hc2": True},
+     {"HC1", "HC2"}, {"HC2"}),
+    ("phase3_hc1_hc3",    {"add_hc1": True, "add_hc2": True, "add_hc3": True},
+     {"HC1", "HC2", "HC3"}, {"HC3"}),
+    ("phase4_hc1_hc4",    {"add_hc1": True, "add_hc2": True, "add_hc3": True, "add_hc4": True},
+     {"HC1", "HC2", "HC3", "HC4"}, {"HC4"}),
+    ("phase5_hc1_hc5",    {"add_hc1": True, "add_hc2": True, "add_hc3": True, "add_hc4": True, "add_hc5": True},
+     {"HC1", "HC2", "HC3", "HC4", "HC5"}, {"HC5"}),
+    ("phase6_hc1_hc6",    {"add_hc1": True, "add_hc2": True, "add_hc3": True, "add_hc4": True, "add_hc5": True, "add_hc6": True},
+     {"HC1", "HC2", "HC3", "HC4", "HC5", "HC6"}, {"HC6"}),
+    ("phase7_hc1_hc7",    {"add_hc1": True, "add_hc2": True, "add_hc3": True, "add_hc4": True, "add_hc5": True, "add_hc6": True, "add_hc7": True},
+     {"HC1", "HC2", "HC3", "HC4", "HC5", "HC6", "HC7"}, {"HC7"}),
+    ("phase8_full",       {"add_hc1": True, "add_hc2": True, "add_hc3": True, "add_hc4": True, "add_hc5": True, "add_hc6": True, "add_hc7": True, "add_hc8": True},
+     {"HC1", "HC2", "HC3", "HC4", "HC5", "HC6", "HC7", "HC8"}, {"HC8"}),
 ]
 
 
-def solve_phase(name, flags, nurses, shifts):
+def solve_phase(name, flags, active_hcs, newly_added, nurses, shifts):
     t0 = time.time()
     model, x = build_model(nurses, shifts, **flags)
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = TIME_LIMIT
     solver.parameters.num_search_workers = NUM_WORKERS
 
-    # Phase 0 has no objective; others: use dummy satisfaction
     status = solver.Solve(model)
     elapsed = time.time() - t0
 
@@ -288,7 +297,8 @@ def solve_phase(name, flags, nurses, shifts):
 
     result = {
         "phase": name,
-        "flags": {k: v for k, v in flags.items() if v},
+        "active_hcs": sorted(active_hcs),
+        "newly_added": sorted(newly_added),
         "solver_status": status_name,
         "solver_feasible": feasible,
         "time_sec": round(elapsed, 2),
@@ -299,13 +309,26 @@ def solve_phase(name, flags, nurses, shifts):
                     for ni in range(len(nurses)) for si in range(len(shifts))}
         total_assigned = sum(x_values.values())
 
-        # Independent HC verifier on the raw assignment (with ALL HCs checked)
+        # Independent HC verifier on all 8 HCs
         verify = verify_hcs(x_values, nurses, shifts)
+
+        # Split into active vs pending
+        active_violations = {hc: v for hc, v in verify["by_hc"].items()
+                             if hc in active_hcs and v > 0}
+        pending_violations = {hc: v for hc, v in verify["by_hc"].items()
+                              if hc not in active_hcs and v > 0}
+
         result["total_assigned"] = total_assigned
-        result["hc_verify"] = verify
+        result["active_hc_violations"] = active_violations
+        result["active_hc_ok"] = (sum(active_violations.values()) == 0)
+        result["pending_hc_violations"] = pending_violations
+        result["pending_hc_total"] = sum(pending_violations.values())
     else:
         result["total_assigned"] = None
-        result["hc_verify"] = None
+        result["active_hc_violations"] = None
+        result["active_hc_ok"] = False
+        result["pending_hc_violations"] = None
+        result["pending_hc_total"] = None
 
     return result
 
@@ -324,22 +347,36 @@ def main():
 
     results = []
     first_infeasible = None
-    for name, flags in PHASES:
-        print(f"[{name}] solving...")
-        r = solve_phase(name, flags, nurses, shifts)
+    prev_pending = None
+    for name, flags, active_hcs, newly_added in PHASES:
+        added_str = ", ".join(sorted(newly_added)) if newly_added else "(none)"
+        print(f"[{name}] adds {added_str}")
+        r = solve_phase(name, flags, active_hcs, newly_added, nurses, shifts)
         results.append(r)
 
         if r["solver_feasible"]:
-            hc_tot = r["hc_verify"]["total"]
-            hc_str = "HC ALL OK" if r["hc_verify"]["all_ok"] else f"HC VIOL ({hc_tot})"
-            print(f"    -> {r['solver_status']} | assigned={r['total_assigned']} | {hc_str} ({r['time_sec']}s)")
-            if not r["hc_verify"]["all_ok"]:
-                viol = {k: v for k, v in r["hc_verify"]["by_hc"].items() if v > 0}
-                print(f"       violations: {viol}")
+            active_ok = "✓ active OK" if r["active_hc_ok"] else f"✗ active VIOL {sum(r['active_hc_violations'].values())}"
+            pending_str = f"pending={r['pending_hc_total']}"
+            delta_str = ""
+            if prev_pending is not None:
+                delta = r["pending_hc_total"] - prev_pending
+                delta_str = f" (Δ={delta:+d})" if delta != 0 else ""
+
+            print(f"    -> {r['solver_status']} | assigned={r['total_assigned']} | "
+                  f"{active_ok} | {pending_str}{delta_str} ({r['time_sec']}s)")
+
+            if r["active_hc_violations"]:
+                print(f"       ★ ACTIVE violations (should be 0!): {r['active_hc_violations']}")
+            if r["pending_hc_violations"]:
+                print(f"       (pending HCs not yet enforced): {r['pending_hc_violations']}")
+
+            prev_pending = r["pending_hc_total"]
         else:
             print(f"    -> {r['solver_status']} (infeasible) ({r['time_sec']}s)")
             if first_infeasible is None:
                 first_infeasible = name
+                print(f"       !!! FIRST INFEASIBLE — wall at {name} !!!")
+                print(f"       Newly added HCs causing infeasibility: {sorted(newly_added)}")
 
     out = RESULTS / "staged_baseline_results.json"
     with open(out, "w", encoding="utf-8") as f:

@@ -35,7 +35,7 @@ mathematical_optimizer_skill/
 ├── README_en.md                   ← 英語版README
 ├── .claude/skills/                ← 6つのスキル（/opt-xxx で呼び出し）
 │   ├── opt-assess/                ← データ受領→問題分類→仮説
-│   ├── opt-baseline/              ← 3ベースライン→ボトルネック特定
+│   ├── opt-baseline/              ← feasibility検証（段階的に壁を特定）
 │   ├── opt-improve/               ← 改善策設計→検証（繰り返し可）
 │   ├── opt-report/                ← 経営向け提案書作成
 │   ├── opt-request/               ← 追加データ依頼書生成
@@ -109,8 +109,10 @@ reference/hearing_sheet_ticket.md   ← チケットアサインの場合
 ### Step 2: ベースラインを作る
 ```
 /opt-baseline workspace/my_project/data/
-→ ランダム/貪欲法/ソルバーの3ベースライン
-→ ボトルネック制約の特定
+→ assess の complexity 判定に応じて戦略選択:
+   - simple: ランダム/貪欲/ソルバーの一発解き
+   - complex: HC を 1 つずつ追加する段階的解法 (active/pending で違反を分けて可視化)
+→ ボトルネック制約の特定 + 根本原因分析 + 解決策の選択肢
 ```
 
 ### Step 3: 改善する（繰り返し）

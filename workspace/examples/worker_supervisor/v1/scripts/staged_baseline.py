@@ -322,21 +322,24 @@ def verify_all_hcs(solver, wx, vx):
 
 
 # ---------- Phase runner ----------
+# Each phase: (phase_num, name, active HCs in model, newly added at this phase)
 PHASES = [
-    (0, "Phase0_vars_only",      "(no constraints)"),
-    (1, "Phase1_HC1",            "+HC1 worker demand"),
-    (2, "Phase2_HC2",            "+HC2 supervisor demand"),
-    (3, "Phase3_HC3_HC4",        "+HC3 HC4 max hours"),
-    (4, "Phase4_HC5_HC6",        "+HC5 HC6 unavailable days"),
-    (5, "Phase5_HC7_HC8",        "+HC7 HC8 skills + bilingual"),
-    (6, "Phase6_HC9_HC10",       "+HC9 HC10 rest"),
-    (7, "Phase7_FULL",           "+HC11 HC12 pair (FULL)"),
+    (0, "Phase0_vars_only",      set(),                                        set()),
+    (1, "Phase1_HC1",            {"HC1"},                                       {"HC1"}),
+    (2, "Phase2_HC2",            {"HC1", "HC2"},                                {"HC2"}),
+    (3, "Phase3_HC3_HC4",        {"HC1", "HC2", "HC3", "HC4"},                  {"HC3", "HC4"}),
+    (4, "Phase4_HC5_HC6",        {"HC1", "HC2", "HC3", "HC4", "HC5", "HC6"},    {"HC5", "HC6"}),
+    (5, "Phase5_HC7_HC8",        {"HC1", "HC2", "HC3", "HC4", "HC5", "HC6",
+                                  "HC7", "HC8"},                                {"HC7", "HC8"}),
+    (6, "Phase6_HC9_HC10",       {"HC1", "HC2", "HC3", "HC4", "HC5", "HC6",
+                                  "HC7", "HC8", "HC9", "HC10"},                 {"HC9", "HC10"}),
+    (7, "Phase7_FULL",           {f"HC{i}" for i in range(1, 13)},             {"HC11", "HC12"}),
 ]
 
 
-def solve_phase(max_phase, name, desc):
+def solve_phase(phase_num, name, active_hcs, newly_added):
     t0 = time.time()
-    model, wx, vx = build_model(max_phase)
+    model, wx, vx = build_model(phase_num)
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = TIME_LIMIT
     solver.parameters.num_search_workers = NUM_WORKERS
@@ -345,9 +348,10 @@ def solve_phase(max_phase, name, desc):
     feasible = status in (cp_model.OPTIMAL, cp_model.FEASIBLE)
 
     r = {
-        "phase_num": max_phase,
+        "phase_num": phase_num,
         "name": name,
-        "description": desc,
+        "active_hcs": sorted(active_hcs),
+        "newly_added": sorted(newly_added),
         "solver_status": solver.StatusName(status),
         "solver_feasible": feasible,
         "time_sec": round(elapsed, 2),
@@ -360,12 +364,27 @@ def solve_phase(max_phase, name, desc):
                          for vi in range(len(SUPERVISORS)) for s in SHIFTS)
         r["w_assigned"] = w_assigned
         r["v_assigned"] = v_assigned
-        verify = verify_all_hcs(solver, wx, vx)
-        r["hc_verify"] = verify
+
+        # Verify all 12 HCs on the assignment
+        all_verify = verify_all_hcs(solver, wx, vx)
+
+        # Split into active vs not-yet-enforced
+        active_violations = {hc: v for hc, v in all_verify["by_hc"].items()
+                             if hc in active_hcs and v > 0}
+        pending_violations = {hc: v for hc, v in all_verify["by_hc"].items()
+                              if hc not in active_hcs and v > 0}
+
+        r["active_hc_violations"] = active_violations
+        r["active_hc_ok"] = (sum(active_violations.values()) == 0)
+        r["pending_hc_violations"] = pending_violations
+        r["pending_hc_total"] = sum(pending_violations.values())
     else:
         r["w_assigned"] = None
         r["v_assigned"] = None
-        r["hc_verify"] = None
+        r["active_hc_violations"] = None
+        r["active_hc_ok"] = False
+        r["pending_hc_violations"] = None
+        r["pending_hc_total"] = None
     return r
 
 
@@ -380,22 +399,38 @@ def main():
 
     results = []
     first_infeasible = None
-    for max_p, name, desc in PHASES:
-        print(f"[{name}] {desc}")
-        r = solve_phase(max_p, name, desc)
+    prev_pending = None
+    for phase_num, name, active_hcs, newly_added in PHASES:
+        added_str = ", ".join(sorted(newly_added)) if newly_added else "(none)"
+        print(f"[{name}] adds {added_str}")
+        r = solve_phase(phase_num, name, active_hcs, newly_added)
         results.append(r)
+
         if r["solver_feasible"]:
-            hc = r["hc_verify"]
-            hc_str = "HC ALL OK" if hc["all_ok"] else f"HC VIOL {hc['total']}"
-            print(f"    -> {r['solver_status']} | w={r['w_assigned']}, v={r['v_assigned']} | {hc_str} ({r['time_sec']}s)")
-            if not hc["all_ok"]:
-                viol = {k: v for k, v in hc["by_hc"].items() if v > 0}
-                print(f"       violations (incl. not-yet-added HCs): {viol}")
+            active_ok = "✓ active OK" if r["active_hc_ok"] else f"✗ active VIOL {sum(r['active_hc_violations'].values())}"
+            pending_str = f"pending={r['pending_hc_total']}"
+
+            # Delta from previous phase
+            delta_str = ""
+            if prev_pending is not None:
+                delta = prev_pending - r["pending_hc_total"]
+                delta_str = f" (Δ={delta:+d} from prev)" if delta != 0 else ""
+
+            print(f"    -> {r['solver_status']} | w={r['w_assigned']}, v={r['v_assigned']} | "
+                  f"{active_ok} | {pending_str}{delta_str} ({r['time_sec']}s)")
+
+            if r["active_hc_violations"]:
+                print(f"       ★ ACTIVE violations (should be 0!): {r['active_hc_violations']}")
+            if r["pending_hc_violations"]:
+                print(f"       (pending HCs not yet enforced): {r['pending_hc_violations']}")
+
+            prev_pending = r["pending_hc_total"]
         else:
             print(f"    -> {r['solver_status']} ({r['time_sec']}s)")
             if first_infeasible is None:
                 first_infeasible = name
-                print(f"       !!! FIRST INFEASIBLE !!!")
+                print(f"       !!! FIRST INFEASIBLE — wall at {name} !!!")
+                print(f"       Newly added HCs causing infeasibility: {sorted(newly_added)}")
 
     out = RESULTS / "staged_baseline_results.json"
     with open(out, "w", encoding="utf-8") as f:
@@ -410,6 +445,7 @@ def main():
         print("RESULT: All phases feasible — problem is solvable with all HCs")
     else:
         print(f"RESULT: First infeasibility at {first_infeasible}")
+        print(f"  → Newly added at this phase caused the wall")
 
 
 if __name__ == "__main__":

@@ -4,175 +4,229 @@
     {
       "phase_num": 0,
       "name": "Phase0_vars_only",
-      "description": "(no constraints)",
+      "active_hcs": [],
+      "newly_added": [],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
-      "time_sec": 0.03,
+      "time_sec": 0.04,
       "w_assigned": 0,
       "v_assigned": 0,
-      "hc_verify": {
-        "total": 88,
-        "by_hc": {
-          "HC1": 42,
-          "HC2": 42,
-          "HC3": 0,
-          "HC4": 0,
-          "HC5": 0,
-          "HC6": 0,
-          "HC7": 0,
-          "HC8": 0,
-          "HC9": 0,
-          "HC10": 0,
-          "HC11": 0,
-          "HC12": 4
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC1": 42,
+        "HC2": 42,
+        "HC12": 4
+      },
+      "pending_hc_total": 88
     },
     {
       "phase_num": 1,
       "name": "Phase1_HC1",
-      "description": "+HC1 worker demand",
+      "active_hcs": [
+        "HC1"
+      ],
+      "newly_added": [
+        "HC1"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
       "time_sec": 0.01,
       "w_assigned": 160,
       "v_assigned": 0,
-      "hc_verify": {
-        "total": 135,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 42,
-          "HC3": 10,
-          "HC4": 0,
-          "HC5": 6,
-          "HC6": 0,
-          "HC7": 10,
-          "HC8": 24,
-          "HC9": 39,
-          "HC10": 0,
-          "HC11": 0,
-          "HC12": 4
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC2": 42,
+        "HC3": 10,
+        "HC5": 6,
+        "HC7": 10,
+        "HC8": 24,
+        "HC9": 39,
+        "HC12": 4
+      },
+      "pending_hc_total": 135
     },
     {
       "phase_num": 2,
       "name": "Phase2_HC2",
-      "description": "+HC2 supervisor demand",
+      "active_hcs": [
+        "HC1",
+        "HC2"
+      ],
+      "newly_added": [
+        "HC2"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
       "time_sec": 0.01,
       "w_assigned": 160,
       "v_assigned": 46,
-      "hc_verify": {
-        "total": 116,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 0,
-          "HC3": 10,
-          "HC4": 2,
-          "HC5": 6,
-          "HC6": 0,
-          "HC7": 10,
-          "HC8": 28,
-          "HC9": 39,
-          "HC10": 13,
-          "HC11": 4,
-          "HC12": 4
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC3": 10,
+        "HC4": 2,
+        "HC5": 6,
+        "HC7": 10,
+        "HC8": 28,
+        "HC9": 39,
+        "HC10": 13,
+        "HC11": 4,
+        "HC12": 4
+      },
+      "pending_hc_total": 116
     },
     {
       "phase_num": 3,
       "name": "Phase3_HC3_HC4",
-      "description": "+HC3 HC4 max hours",
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4"
+      ],
+      "newly_added": [
+        "HC3",
+        "HC4"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
       "time_sec": 0.04,
       "w_assigned": 160,
       "v_assigned": 46,
-      "hc_verify": {
-        "total": 88,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 0,
-          "HC3": 0,
-          "HC4": 0,
-          "HC5": 8,
-          "HC6": 4,
-          "HC7": 23,
-          "HC8": 35,
-          "HC9": 6,
-          "HC10": 4,
-          "HC11": 5,
-          "HC12": 3
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC5": 8,
+        "HC6": 4,
+        "HC7": 23,
+        "HC8": 35,
+        "HC9": 6,
+        "HC10": 4,
+        "HC11": 5,
+        "HC12": 3
+      },
+      "pending_hc_total": 88
     },
     {
       "phase_num": 4,
       "name": "Phase4_HC5_HC6",
-      "description": "+HC5 HC6 unavailable days",
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6"
+      ],
+      "newly_added": [
+        "HC5",
+        "HC6"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
-      "time_sec": 0.02,
+      "time_sec": 0.03,
       "w_assigned": 160,
       "v_assigned": 46,
-      "hc_verify": {
-        "total": 70,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 0,
-          "HC3": 0,
-          "HC4": 0,
-          "HC5": 0,
-          "HC6": 0,
-          "HC7": 23,
-          "HC8": 32,
-          "HC9": 7,
-          "HC10": 3,
-          "HC11": 2,
-          "HC12": 3
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC7": 23,
+        "HC8": 32,
+        "HC9": 7,
+        "HC10": 3,
+        "HC11": 2,
+        "HC12": 3
+      },
+      "pending_hc_total": 70
     },
     {
       "phase_num": 5,
       "name": "Phase5_HC7_HC8",
-      "description": "+HC7 HC8 skills + bilingual",
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8"
+      ],
+      "newly_added": [
+        "HC7",
+        "HC8"
+      ],
       "solver_status": "INFEASIBLE",
       "solver_feasible": false,
       "time_sec": 0.0,
       "w_assigned": null,
       "v_assigned": null,
-      "hc_verify": null
+      "active_hc_violations": null,
+      "active_hc_ok": false,
+      "pending_hc_violations": null,
+      "pending_hc_total": null
     },
     {
       "phase_num": 6,
       "name": "Phase6_HC9_HC10",
-      "description": "+HC9 HC10 rest",
-      "solver_status": "INFEASIBLE",
-      "solver_feasible": false,
-      "time_sec": 0.0,
-      "w_assigned": null,
-      "v_assigned": null,
-      "hc_verify": null
-    },
-    {
-      "phase_num": 7,
-      "name": "Phase7_FULL",
-      "description": "+HC11 HC12 pair (FULL)",
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "newly_added": [
+        "HC10",
+        "HC9"
+      ],
       "solver_status": "INFEASIBLE",
       "solver_feasible": false,
       "time_sec": 0.01,
       "w_assigned": null,
       "v_assigned": null,
-      "hc_verify": null
+      "active_hc_violations": null,
+      "active_hc_ok": false,
+      "pending_hc_violations": null,
+      "pending_hc_total": null
+    },
+    {
+      "phase_num": 7,
+      "name": "Phase7_FULL",
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "newly_added": [
+        "HC11",
+        "HC12"
+      ],
+      "solver_status": "INFEASIBLE",
+      "solver_feasible": false,
+      "time_sec": 0.01,
+      "w_assigned": null,
+      "v_assigned": null,
+      "active_hc_violations": null,
+      "active_hc_ok": false,
+      "pending_hc_violations": null,
+      "pending_hc_total": null
     }
   ]
 }

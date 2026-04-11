@@ -121,15 +121,17 @@ baseline:
     hc_all_satisfied: true
     hc_violations: 0
   phases_summary:
-    phase0_vars_only:      {status: OPTIMAL, assigned: 0,   hc_viol: 108, time: 0.04}
-    phase1_hc1:            {status: OPTIMAL, assigned: 144, hc_viol: 198, time: 0.01}
-    phase2_hc1_hc2:        {status: OPTIMAL, assigned: 144, hc_viol: 100, time: 0.06}
-    phase3_hc1_hc3:        {status: OPTIMAL, assigned: 144, hc_viol: 87,  time: 0.04}
-    phase4_hc1_hc4:        {status: OPTIMAL, assigned: 144, hc_viol: 69,  time: 0.03}
-    phase5_hc1_hc5:        {status: OPTIMAL, assigned: 144, hc_viol: 59,  time: 0.04}
-    phase6_hc1_hc6:        {status: OPTIMAL, assigned: 144, hc_viol: 11,  time: 0.04}
-    phase7_hc1_hc7:        {status: OPTIMAL, assigned: 144, hc_viol: 0,   time: 0.04}
-    phase8_full:           {status: OPTIMAL, assigned: 144, hc_viol: 0,   time: 0.04}
+    # active_ok = その Phase で強制した HC を全て満たしているか
+    # pending = まだモデルに入れていない HC の違反数（後の Phase で解消見込み）
+    phase0_vars_only: {adds: [],    status: OPTIMAL, active_ok: true, pending: 108, time: 0.04}
+    phase1_hc1:       {adds: [HC1], status: OPTIMAL, active_ok: true, pending: 198, time: 0.01}
+    phase2_hc1_hc2:   {adds: [HC2], status: OPTIMAL, active_ok: true, pending: 100, time: 0.06}
+    phase3_hc1_hc3:   {adds: [HC3], status: OPTIMAL, active_ok: true, pending: 87,  time: 0.04}
+    phase4_hc1_hc4:   {adds: [HC4], status: OPTIMAL, active_ok: true, pending: 69,  time: 0.03}
+    phase5_hc1_hc5:   {adds: [HC5], status: OPTIMAL, active_ok: true, pending: 59,  time: 0.04}
+    phase6_hc1_hc6:   {adds: [HC6], status: OPTIMAL, active_ok: true, pending: 11,  time: 0.04}
+    phase7_hc1_hc7:   {adds: [HC7], status: OPTIMAL, active_ok: true, pending: 0,   time: 0.04}
+    phase8_full:      {adds: [HC8], status: OPTIMAL, active_ok: true, pending: 0,   time: 0.05}
   bottleneck:
     constraint: null
     note: "No bottleneck — problem is feasible with all 8 HCs. Supply/demand slack 16% and balanced cert distribution give enough room."

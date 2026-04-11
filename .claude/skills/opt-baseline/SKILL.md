@@ -88,11 +88,28 @@ Phase N: 全HC
 
 ### 各Phaseで記録すること
 
-- feasible / infeasible
-- 目的関数値（feasible の場合）
-- 解の統計（割当数、各エンティティの負荷等）
-- どの制約が追加で効いたか
-- 計算時間
+各 Phase は **active HCs**（その Phase でモデルに入れている制約）と **newly added**（今回追加した制約）の 2 つを明示する。
+独立検証器は全 HC をチェックするが、結果を **active / pending** の 2 つに分けて報告する:
+
+- **active violations**: その Phase で強制している HC の違反。ソルバーが正しければ必ず **0**。もし違反が出たらそれは実装バグの兆候
+- **pending violations**: まだモデルに入れていない HC の違反。これは「後の Phase で解消される見込み」のもので、多くても問題ない
+
+これで出力が明確になる:
+- `active OK ✓, pending=59` → 「今は HC1-5 を満たしている。HC6-12 は未評価」と読める
+- `active VIOL ✗` → 「想定した制約を満たしていない」→ バグ調査
+
+さらに **前 Phase からの差分 (Δ)** を pending に付けると、制約追加の影響が見える:
+- `pending=59 (Δ -10)` → 直近の制約追加で他の違反も副次的に 10 減った
+- `pending=198 (Δ +90)` → 制約を追加したら他の違反が増えた (ソルバーが別方向に最適化した。正常)
+
+各 Phase のレポート項目:
+- phase_num, name
+- active_hcs (set), newly_added (set)
+- solver_status, solver_feasible
+- w_assigned / v_assigned 等の解の統計
+- active_hc_violations (dict) と active_hc_ok (bool)
+- pending_hc_violations (dict) と pending_hc_total (int)
+- time_sec
 
 ### 段階化の順序
 
@@ -124,24 +141,42 @@ Phase N: 全HC
 ### 実装パターン
 
 ```python
+# Each phase: (name, active HCs, newly_added at this phase)
+PHASES = [
+    ("phase0_vars_only", set(), set()),
+    ("phase1_hc1",       {"HC1"}, {"HC1"}),
+    ("phase2_add_hc2",   {"HC1", "HC2"}, {"HC2"}),
+    ("phase3_add_hc3",   {"HC1", "HC2", "HC3"}, {"HC3"}),
+    # ... etc.
+]
+
 def staged_baseline(data):
-    phases = [
-        ("phase0_no_constraints", []),
-        ("phase1_hc1", ["HC1"]),
-        ("phase2_add_hc2", ["HC1", "HC2"]),
-        ("phase3_add_hc3", ["HC1", "HC2", "HC3"]),
-        ("phase4_add_hc4", ["HC1", "HC2", "HC3", "HC4"]),
-        ("phase5_add_hc5", ["HC1", "HC2", "HC3", "HC4", "HC5"]),
-    ]
     results = []
     first_infeasible = None
-    for name, constraints in phases:
-        result = solve_with_constraints(data, constraints)
+    for name, active_hcs, newly_added in PHASES:
+        model = build_model_with(active_hcs, data)
+        solver = cp_model.CpSolver()
+        status = solver.Solve(model)
+        feasible = status in (OPTIMAL, FEASIBLE)
+
+        if feasible:
+            # Run independent verifier on ALL HCs
+            all_viol = verify_all_hcs(solver, model, data)
+            # Split into active (should be 0) and pending (ok if > 0)
+            active_viol = {hc: v for hc, v in all_viol.items()
+                           if hc in active_hcs and v > 0}
+            pending_viol = {hc: v for hc, v in all_viol.items()
+                            if hc not in active_hcs and v > 0}
+
         results.append({
             "phase": name,
-            "constraints": constraints,
-            "feasible": result.feasible,
-            "objective": result.obj,
+            "active_hcs": sorted(active_hcs),
+            "newly_added": sorted(newly_added),
+            "feasible": feasible,
+            "active_hc_violations": active_viol,
+            "active_hc_ok": sum(active_viol.values()) == 0,
+            "pending_hc_violations": pending_viol,
+            "pending_hc_total": sum(pending_viol.values()),
             "stats": result.stats,
         })
         if not result.feasible and first_infeasible is None:
@@ -250,16 +285,24 @@ def staged_baseline(data):
 ```markdown
 ## ベースライン結果（段階的解法）
 
-### Phase 別の実行結果
+### 読み方
 
-| Phase | 追加制約 | Feasible | 解の統計 | 時間 | 備考 |
-|-------|---------|----------|---------|------|------|
-| 0 | （制約なし） | ✓ | 全セル配置可 | 0.1s | |
-| 1 | HC1 | ✓ | 48/48 | 0.2s | 需要は満たせる |
-| 2 | +HC2 | ✗ | 46/48 (不足2) | 0.3s | **★供給上限で不足** |
-| 3 | +HC3 | ✗ | 43/48 (不足5) | 0.3s | |
-| 4 | +HC4 | ✗ | 43/48 | 0.4s | |
-| 5 | +HC5 | ✗ | 42/48 | 0.5s | |
+各 Phase でソルバーに渡す制約を段階的に増やす。独立検証器は全 HC をチェックするが、結果を 2 つに分けて報告:
+
+- **active**: その Phase で**すでに強制している** HC。ソルバーが正しければ違反ゼロになるはず → ゼロでなければ実装バグ
+- **pending**: まだモデルに入れていない HC。違反があっても OK (後の Phase で解消する対象)
+
+### Phase 表
+
+| Phase | 追加 | ソルバー | 割当 | active HC | pending 違反 (Δ) | 時間 |
+|-------|------|:---:|-----:|:---:|---|---:|
+| 0 | - | OPTIMAL | 0 | ✓ (なし) | N | 0.1s |
+| 1 | HC1 | OPTIMAL | 48 | ✓ | M (Δ ±X) | 0.2s |
+| 2 | HC2 | **INFEASIBLE** | - | - | - | 0.3s |
+
+- **active OK ✓**: Phase が強制する制約は全て満たしている
+- **pending=N**: 未追加の HC に違反が N 件残る (後の Phase で解消予定)
+- **Δ**: 前 Phase からの pending 変化。増えていても問題ない (制約追加の副作用)
 
 ### 壁にぶつかった Phase: **Phase 2 (+HC2)**
 

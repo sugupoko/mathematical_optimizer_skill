@@ -59,14 +59,16 @@ baseline:
   first_infeasible_phase: "Phase5_HC7_HC8"
   all_phases_feasible: false
   phases_summary:
-    Phase0_vars_only:  {status: OPTIMAL, w: 0,   v: 0,  feasible: true,  time: 0.03}
-    Phase1_HC1:        {status: OPTIMAL, w: 160, v: 0,  feasible: true,  time: 0.01}
-    Phase2_HC2:        {status: OPTIMAL, w: 160, v: 46, feasible: true,  time: 0.01}
-    Phase3_HC3_HC4:    {status: OPTIMAL, w: 160, v: 46, feasible: true,  time: 0.04}
-    Phase4_HC5_HC6:    {status: OPTIMAL, w: 160, v: 46, feasible: true,  time: 0.02}
-    Phase5_HC7_HC8:    {status: INFEASIBLE, feasible: false, time: 0.00}
-    Phase6_HC9_HC10:   {status: INFEASIBLE, feasible: false, time: 0.00}
-    Phase7_FULL:       {status: INFEASIBLE, feasible: false, time: 0.01}
+    # active_ok = その Phase で強制した HC を全て満たしているか
+    # pending = まだモデルに入れていない HC の違反数（後の Phase で解消見込み）
+    Phase0_vars_only:  {adds: [],             status: OPTIMAL,    active_ok: true, pending: 88,  time: 0.04}
+    Phase1_HC1:        {adds: [HC1],          status: OPTIMAL,    active_ok: true, pending: 135, time: 0.01}
+    Phase2_HC2:        {adds: [HC2],          status: OPTIMAL,    active_ok: true, pending: 116, time: 0.01}
+    Phase3_HC3_HC4:    {adds: [HC3, HC4],     status: OPTIMAL,    active_ok: true, pending: 88,  time: 0.05}
+    Phase4_HC5_HC6:    {adds: [HC5, HC6],     status: OPTIMAL,    active_ok: true, pending: 70,  time: 0.03}
+    Phase5_HC7_HC8:    {adds: [HC7, HC8],     status: INFEASIBLE, active_ok: null, pending: null, time: 0.01}
+    Phase6_HC9_HC10:   {adds: [HC9, HC10],    status: INFEASIBLE, active_ok: null, pending: null, time: 0.01}
+    Phase7_FULL:       {adds: [HC11, HC12],   status: INFEASIBLE, active_ok: null, pending: null, time: 0.01}
   root_cause:
     bottleneck_constraints: ["HC7", "HC8"]
     description: "鳩の巣原理: en+reception の作業者 4名 vs bilingual+reception シフトの需要 5名/シフト"

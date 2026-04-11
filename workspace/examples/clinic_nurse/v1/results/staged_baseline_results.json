@@ -3,245 +3,214 @@
   "phases": [
     {
       "phase": "phase0_vars_only",
-      "flags": {},
+      "active_hcs": [],
+      "newly_added": [],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
       "time_sec": 0.04,
       "total_assigned": 0,
-      "hc_verify": {
-        "total": 108,
-        "by_hc": {
-          "HC1": 72,
-          "HC2": 0,
-          "HC3": 0,
-          "HC4": 0,
-          "HC5": 0,
-          "HC6": 0,
-          "HC7": 36,
-          "HC8": 0
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC1": 72,
+        "HC7": 36
+      },
+      "pending_hc_total": 108
     },
     {
       "phase": "phase1_hc1",
-      "flags": {
-        "add_hc1": true
-      },
+      "active_hcs": [
+        "HC1"
+      ],
+      "newly_added": [
+        "HC1"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
       "time_sec": 0.01,
       "total_assigned": 144,
-      "hc_verify": {
-        "total": 198,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 4,
-          "HC3": 4,
-          "HC4": 12,
-          "HC5": 126,
-          "HC6": 28,
-          "HC7": 0,
-          "HC8": 24
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC2": 4,
+        "HC3": 4,
+        "HC4": 12,
+        "HC5": 126,
+        "HC6": 28,
+        "HC8": 24
+      },
+      "pending_hc_total": 198
     },
     {
       "phase": "phase2_hc1_hc2",
-      "flags": {
-        "add_hc1": true,
-        "add_hc2": true
-      },
+      "active_hcs": [
+        "HC1",
+        "HC2"
+      ],
+      "newly_added": [
+        "HC2"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
-      "time_sec": 0.06,
+      "time_sec": 0.05,
       "total_assigned": 144,
-      "hc_verify": {
-        "total": 100,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 0,
-          "HC3": 5,
-          "HC4": 14,
-          "HC5": 13,
-          "HC6": 29,
-          "HC7": 17,
-          "HC8": 22
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC3": 5,
+        "HC4": 14,
+        "HC5": 13,
+        "HC6": 29,
+        "HC7": 17,
+        "HC8": 22
+      },
+      "pending_hc_total": 100
     },
     {
       "phase": "phase3_hc1_hc3",
-      "flags": {
-        "add_hc1": true,
-        "add_hc2": true,
-        "add_hc3": true
-      },
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3"
+      ],
+      "newly_added": [
+        "HC3"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
       "time_sec": 0.04,
       "total_assigned": 144,
-      "hc_verify": {
-        "total": 87,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 0,
-          "HC3": 0,
-          "HC4": 12,
-          "HC5": 11,
-          "HC6": 28,
-          "HC7": 16,
-          "HC8": 20
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC4": 12,
+        "HC5": 11,
+        "HC6": 28,
+        "HC7": 16,
+        "HC8": 20
+      },
+      "pending_hc_total": 87
     },
     {
       "phase": "phase4_hc1_hc4",
-      "flags": {
-        "add_hc1": true,
-        "add_hc2": true,
-        "add_hc3": true,
-        "add_hc4": true
-      },
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4"
+      ],
+      "newly_added": [
+        "HC4"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
       "time_sec": 0.03,
       "total_assigned": 144,
-      "hc_verify": {
-        "total": 69,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 0,
-          "HC3": 0,
-          "HC4": 0,
-          "HC5": 13,
-          "HC6": 25,
-          "HC7": 12,
-          "HC8": 19
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC5": 13,
+        "HC6": 25,
+        "HC7": 12,
+        "HC8": 19
+      },
+      "pending_hc_total": 69
     },
     {
       "phase": "phase5_hc1_hc5",
-      "flags": {
-        "add_hc1": true,
-        "add_hc2": true,
-        "add_hc3": true,
-        "add_hc4": true,
-        "add_hc5": true
-      },
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5"
+      ],
+      "newly_added": [
+        "HC5"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
       "time_sec": 0.04,
       "total_assigned": 144,
-      "hc_verify": {
-        "total": 59,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 0,
-          "HC3": 0,
-          "HC4": 0,
-          "HC5": 0,
-          "HC6": 26,
-          "HC7": 11,
-          "HC8": 22
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC6": 26,
+        "HC7": 11,
+        "HC8": 22
+      },
+      "pending_hc_total": 59
     },
     {
       "phase": "phase6_hc1_hc6",
-      "flags": {
-        "add_hc1": true,
-        "add_hc2": true,
-        "add_hc3": true,
-        "add_hc4": true,
-        "add_hc5": true,
-        "add_hc6": true
-      },
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6"
+      ],
+      "newly_added": [
+        "HC6"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
       "time_sec": 0.04,
       "total_assigned": 144,
-      "hc_verify": {
-        "total": 11,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 0,
-          "HC3": 0,
-          "HC4": 0,
-          "HC5": 0,
-          "HC6": 0,
-          "HC7": 11,
-          "HC8": 0
-        },
-        "all_ok": false
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {
+        "HC7": 11
+      },
+      "pending_hc_total": 11
     },
     {
       "phase": "phase7_hc1_hc7",
-      "flags": {
-        "add_hc1": true,
-        "add_hc2": true,
-        "add_hc3": true,
-        "add_hc4": true,
-        "add_hc5": true,
-        "add_hc6": true,
-        "add_hc7": true
-      },
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7"
+      ],
+      "newly_added": [
+        "HC7"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
       "time_sec": 0.04,
       "total_assigned": 144,
-      "hc_verify": {
-        "total": 0,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 0,
-          "HC3": 0,
-          "HC4": 0,
-          "HC5": 0,
-          "HC6": 0,
-          "HC7": 0,
-          "HC8": 0
-        },
-        "all_ok": true
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {},
+      "pending_hc_total": 0
     },
     {
       "phase": "phase8_full",
-      "flags": {
-        "add_hc1": true,
-        "add_hc2": true,
-        "add_hc3": true,
-        "add_hc4": true,
-        "add_hc5": true,
-        "add_hc6": true,
-        "add_hc7": true,
-        "add_hc8": true
-      },
+      "active_hcs": [
+        "HC1",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8"
+      ],
+      "newly_added": [
+        "HC8"
+      ],
       "solver_status": "OPTIMAL",
       "solver_feasible": true,
       "time_sec": 0.04,
       "total_assigned": 144,
-      "hc_verify": {
-        "total": 0,
-        "by_hc": {
-          "HC1": 0,
-          "HC2": 0,
-          "HC3": 0,
-          "HC4": 0,
-          "HC5": 0,
-          "HC6": 0,
-          "HC7": 0,
-          "HC8": 0
-        },
-        "all_ok": true
-      }
+      "active_hc_violations": {},
+      "active_hc_ok": true,
+      "pending_hc_violations": {},
+      "pending_hc_total": 0
     }
   ]
 }
