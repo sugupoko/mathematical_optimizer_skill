@@ -1,0 +1,110 @@
+project: worker_supervisor
+version: v1
+created: 2026-04-11
+
+assess:
+  done: true
+  problem_type: extended_nurse_scheduling_with_pair_matching
+  refs:
+    R1: data/workers.csv
+    R2: data/supervisors.csv
+    R3: data/shifts.csv
+    R4: data/pair_constraints.csv
+    R5: data/constraints.csv
+    R6: analyst_assumptions
+  scale:
+    workers: 20
+    supervisors: 8
+    shifts: 42
+    binary_vars: 1176
+    hard_constraints: 12
+    soft_constraints: 8
+  complexity:
+    variable_scale: complex
+    hc_count: complex
+    problem_type: complex
+    constraint_interaction: strong
+    domain_familiarity: medium
+    overall: complex
+  recommended_strategy: staged_baseline
+  open_questions:
+    - Q1_demand_equality
+    - Q2_night_day_attribution
+    - Q3_HC9_interpretation
+    - Q4_HC10_interpretation
+    - Q5_bilingual_scope
+    - Q6_mentor_pair_priority
+
+baseline:
+  done: true
+  strategy: staged
+  phases:
+    - phase: 0
+      added: none
+      status: OPTIMAL
+      feasible: true
+      cumulative_constraints: 0
+      time_sec: 0.09
+    - phase: 1
+      added: HC1_worker_demand
+      status: OPTIMAL
+      feasible: true
+      cumulative_constraints: 42
+      time_sec: 0.01
+    - phase: 2
+      added: HC2_supervisor_demand
+      status: OPTIMAL
+      feasible: true
+      cumulative_constraints: 84
+      time_sec: 0.01
+    - phase: 3
+      added: HC3_HC4_max_hours
+      status: OPTIMAL
+      feasible: true
+      cumulative_constraints: 140
+      time_sec: 0.05
+    - phase: 4
+      added: HC5_HC6_unavailable
+      status: OPTIMAL
+      feasible: true
+      cumulative_constraints: 242
+      time_sec: 0.03
+    - phase: 5
+      added: HC7_HC8_skills_bilingual
+      status: INFEASIBLE
+      feasible: false
+      cumulative_constraints: 484
+      time_sec: 0.00
+    - phase: 6
+      added: HC9_HC10_rest
+      status: INFEASIBLE
+      feasible: false
+      cumulative_constraints: 952
+      time_sec: 0.01
+    - phase: 7
+      added: HC11_HC12_pair
+      status: INFEASIBLE
+      feasible: false
+      cumulative_constraints: 1040
+      time_sec: 0.01
+  first_infeasible_phase: 5
+  bottleneck:
+    constraints: [HC1, HC7, HC8]
+    root_cause: |
+      reception+bilingual シフト (8 シフト中 4 つ) は 5 名/シフト必要だが、
+      en + reception スキルを両方持つ作業者は 4 名 (W002,W004,W008,W010) しかいない。
+      プール不足による構造的不可能性。
+  recommendations:
+    short_term:
+      - relax_HC1_for_reception_bilingual_shifts
+      - or_relax_HC7_skill_for_bilingual_shifts
+    mid_term:
+      - hire_one_more_en_reception_worker
+      - clarify_Q5_bilingual_scope
+  artifacts:
+    script: scripts/staged_baseline.py
+    results: results/staged_baseline_results.json
+    report: reports/baseline_report.md
+
+improve:
+  done: false

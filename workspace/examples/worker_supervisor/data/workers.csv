@@ -1,0 +1,21 @@
+worker_id,name,skills,level,max_hours_per_week,min_hours_per_week,unavailable_days,languages
+W001,田中 太郎,"reception,phone,training",senior,40,32,,ja
+W002,佐藤 花子,"reception,phone,chat",mid,40,24,Sun,"ja,en"
+W003,鈴木 一郎,"reception,phone,escalation",senior,40,32,,ja
+W004,高橋 美咲,"reception,phone,training,chat",senior,40,32,Sat,"ja,en"
+W005,伊藤 健太,"phone,chat",mid,40,20,,ja
+W006,渡辺 由美,"reception,phone,escalation",mid,32,16,"Sat,Sun",ja
+W007,山本 大輔,"reception,phone,training",senior,40,32,,ja
+W008,中村 さくら,"reception,phone,chat",junior,24,16,Wed,"ja,en"
+W009,小林 裕二,"phone,escalation",mid,40,20,,ja
+W010,加藤 真理,"reception,phone,chat,training",senior,40,32,,"ja,en"
+W011,吉田 健,"phone,chat",junior,32,16,Mon,ja
+W012,松本 結衣,"reception,phone",junior,32,16,,ja
+W013,井上 翔太,"phone,escalation,chat",mid,40,24,,"ja,en"
+W014,木村 あゆみ,"reception,phone,training",mid,32,20,Tue,ja
+W015,清水 剛,"phone,chat,escalation",senior,40,32,,ja
+W016,林 さやか,"reception,phone,chat",junior,24,12,"Fri,Sat",ja
+W017,斉藤 大輔,"phone,training,escalation",senior,40,32,,"ja,en"
+W018,山田 美紀,"reception,phone,chat",mid,40,24,,ja
+W019,中川 健一,"phone,chat,training",mid,32,20,Thu,ja
+W020,森 恵子,"reception,phone,escalation",senior,40,32,Sun,ja

@@ -1,0 +1,9 @@
+supervisor_id,name,role,max_hours_per_week,min_hours_per_week,unavailable_days,languages,specialties
+S001,池田 正樹,general,40,32,,"ja,en","escalation,training"
+S002,橋本 智子,technical,40,32,Sat,ja,"technical,escalation"
+S003,長谷川 聡,bilingual,40,24,,"ja,en,zh","chat,training"
+S004,村上 和也,general,40,32,Wed,ja,"reception,training"
+S005,石川 麻衣,bilingual,32,24,Sun,"ja,en","chat,escalation"
+S006,藤田 健二,technical,40,32,,ja,"technical,escalation"
+S007,岡田 理恵,general,32,24,"Sat,Sun",ja,"training,reception"
+S008,後藤 翔,bilingual,40,32,Mon,"ja,en,ko","chat,training"

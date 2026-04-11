@@ -171,7 +171,45 @@ user_invocable: true
   巨大（100,000+）  → 専用ソルバーやメタヒューリスティクス
 ```
 
-### 3.2 既存の解法があるか調べる
+### 3.2 複雑度の判定（重要）
+
+**後続の opt-baseline の解法戦略を決める判断。必ず判定して出力すること。**
+
+以下の5軸で評価し、総合的に simple / medium / complex のどれかを判定する。
+
+```
+軸1: 変数規模
+  ├── <100     → simple
+  ├── 100-1000 → medium
+  └── >1000    → complex
+
+軸2: ハード制約の数
+  ├── ≤5  → simple
+  ├── 6-10 → medium
+  └── >10  → complex
+
+軸3: 問題タイプ
+  ├── 単一問題（スケジューリングのみ、VRPのみ等） → simple
+  ├── 単一問題+特殊制約 → medium
+  └── 複合問題（スケジューリング+マッチング等）   → complex
+
+軸4: 制約の相互作用
+  ├── 制約同士が独立 → simple
+  ├── 一部連動       → medium
+  └── 強く連動（1つ緩めると他も変わる） → complex
+
+軸5: ドメイン・実績
+  ├── 既知パターン（ベンチマーク・事例多数） → simple
+  ├── 業界特有の制約あり → medium
+  └── 新規・類似事例少ない → complex
+```
+
+**総合判定ルール:**
+- 全軸 simple → `simple`
+- complex が 1つでも → `complex`
+- それ以外 → `medium`
+
+### 3.3 既存の解法があるか調べる
 ```
 □ この問題クラスにOR-Toolsのチュートリアルがあるか？
 □ 同じ業界で最適化した論文・事例があるか？
@@ -179,7 +217,7 @@ user_invocable: true
 → あれば大幅にショートカットできる
 ```
 
-### 3.3 仮定を明示する
+### 3.4 仮定を明示する
 
 **これが最も重要。** データにない部分は仮の値を置くしかないが、それを明示する。
 
@@ -226,6 +264,22 @@ user_invocable: true
 - 規模: [小/中/大] (変数 約X個, 制約 約Y個)
 - 類似問題: [XX問題に似ている]
 - 使えそうなツール: [OR-Tools XX / Gurobi / カスタム]
+
+### 複雑度評価
+- 総合判定: **[simple / medium / complex]**
+
+| 軸 | 評価 | 根拠 |
+|----|------|------|
+| 変数規模 | [simple/medium/complex] | [変数数] |
+| HC数 | [simple/medium/complex] | [HCの数] |
+| 問題タイプ | [simple/medium/complex] | [単一/複合] |
+| 制約の相互作用 | [simple/medium/complex] | [独立/連動] |
+| ドメイン | [simple/medium/complex] | [既知/新規] |
+
+→ **推奨解法戦略**:
+- simple: opt-baseline で一発解き（random/greedy/solver の3手法）
+- medium: まず一発解き、infeasible なら段階化
+- complex: **段階的 baseline 必須**（HC1から1つずつ追加、壁を特定）
 
 ### 目的と制約の整理
 - 目的関数（最小化/最大化したいもの）:
