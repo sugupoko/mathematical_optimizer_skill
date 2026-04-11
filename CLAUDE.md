@@ -58,6 +58,7 @@ mathematical_optimizer_skill/
 │   ├── ml_optimization_guide.md    ← ML×最適化の組合せガイド（4パターン+実装例）
 │   ├── awesome_optimization_cases.md ← 世界の数理最適化 実務事例集（UPS/Amazon/日本製鉄等）
 │   ├── literature_guide.md         ← 文献・既存手法の調査ガイド（問題クラス別）
+│   ├── limitations_and_challenges.md ← スキルパックの限界と今後のチャレンジ (6カテゴリ)
 │   ├── facility_location_template.py ← 施設配置問題のコード雛形（UFL/CFL/P-median）
 │   ├── facility_location_guide.md  ← 施設配置問題ガイド（倉庫配置、EV充電等）
 │   ├── continuous_optimization_template.py ← 連続最適化テンプレート（構造設計・形状・トポロジー）
