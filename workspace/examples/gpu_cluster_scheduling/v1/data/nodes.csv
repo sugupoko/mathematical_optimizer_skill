@@ -1,0 +1,7 @@
+node_id,node_name,rack,cooling_zone,power_budget_watts,interconnect
+N1,h100-node-01,A,A,6000,NVLink+InfiniBand
+N2,h100-node-02,A,A,6000,NVLink+InfiniBand
+N3,a100-80g-node-01,B,A,4500,NVLink+Ethernet
+N4,a100-80g-node-02,B,A,4500,NVLink+Ethernet
+N5,a100-40g-legacy,C,B,4500,NVLink
+N6,v100-debug,D,B,2000,PCIe

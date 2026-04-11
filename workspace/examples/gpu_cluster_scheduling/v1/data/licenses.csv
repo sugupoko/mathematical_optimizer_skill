@@ -1,0 +1,4 @@
+license_id,name,seats,required_for
+L1,CUDA-advanced,20,all
+L2,NCCL-pro,8,distributed
+L3,Profiler-enterprise,4,research_optional

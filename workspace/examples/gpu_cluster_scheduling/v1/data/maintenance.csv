@@ -1,0 +1,3 @@
+window_id,node_id,start_hour,end_hour,reason
+M1,N5,48,56,driver_update
+M2,N6,100,108,firmware

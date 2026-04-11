@@ -1,0 +1,31 @@
+id,kind,description
+HC1,hard,each accepted job runs for exactly hours_required contiguous hours
+HC2,hard,each accepted job uses exactly gpus_required GPUs
+HC3,hard,GPU memory >= job min_gpu_memory_gb
+HC4,hard,a GPU runs at most one job at a time
+HC5,hard,gang scheduling - all GPUs of a multi-GPU job share the same start hour
+HC6,hard,multi-GPU jobs stay on a single node unless InfiniBand is used
+HC7,hard,InfiniBand-required jobs must run on nodes with InfiniBand interconnect
+HC8,hard,per-node power budget not exceeded at any time
+HC9,hard,cooling zone A supports at most 24 active GPUs at full power simultaneously
+HC10,hard,license seats not exceeded (CUDA-advanced / NCCL-pro)
+HC11,hard,team max_gpus_at_once not exceeded at any hour
+HC12,hard,team total gpu-hours <= max_concurrent_gpu_hours weekly budget
+HC13,hard,team allowed_nodes whitelist respected
+HC14,hard,job completion time <= deadline_hour
+HC15,hard,no job runs on a node during that node's maintenance window
+HC16,hard,dataset locality - if dataset_cached_node is set the job runs there
+HC17,hard,tier-1 (T1) team receives >= 70% of its demanded gpu-hours
+HC18,hard,non-preemptable jobs are not interrupted (always contiguous by HC1)
+HC19,hard,min run duration 1h (no sub-hour scheduling)
+HC20,hard,V100 cannot run jobs requiring > 16GB memory
+HC21,hard,infrastructure team T6 must schedule all of its jobs
+HC22,hard,pretrain jobs must run on H100 or A100-80GB (not A100-40GB or V100)
+SC1,soft,maximize total accepted jobs
+SC2,soft,prefer higher-tier teams (T1 > T2 > T3 > T4 > T5)
+SC3,soft,minimize total power consumption
+SC4,soft,maximize H100 utilization for pretrain jobs
+SC5,soft,balance load across teams (fairness)
+SC6,soft,meet deadlines with slack
+SC7,soft,minimize cross cooling zone usage
+SC8,soft,prefer completion within first 5 days

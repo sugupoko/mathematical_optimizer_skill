@@ -1,0 +1,253 @@
+{
+  "scenarios": [
+    {
+      "scenario": "throughput",
+      "status": "OPTIMAL",
+      "weights": {
+        "w_sc1": 10,
+        "w_sc2": 5,
+        "w_sc3": 0,
+        "w_sc4": 0,
+        "w_sc5": 0,
+        "w_sc6": 0,
+        "w_sc7": 0,
+        "w_sc8": 0
+      },
+      "objective": -16520.0,
+      "accepted": 72,
+      "total_jobs": 75,
+      "hc_ok": 22,
+      "hc_total": 22,
+      "metrics": {
+        "sc1_accept": 72,
+        "sc2_tier": 3160,
+        "sc3_power": 1424020,
+        "sc4_non_h100_pretrain": 312,
+        "sc5_spread_x1000pct": 1000,
+        "sc6_slack": 3284,
+        "sc8_overrun": 3216
+      },
+      "team_coverage": {
+        "T1": {
+          "served_gph": 1688,
+          "demand_gph": 2312,
+          "coverage_pct": 73.0
+        },
+        "T2": {
+          "served_gph": 598,
+          "demand_gph": 598,
+          "coverage_pct": 100.0
+        },
+        "T3": {
+          "served_gph": 109,
+          "demand_gph": 109,
+          "coverage_pct": 100.0
+        },
+        "T4": {
+          "served_gph": 136,
+          "demand_gph": 148,
+          "coverage_pct": 91.9
+        },
+        "T5": {
+          "served_gph": 21,
+          "demand_gph": 21,
+          "coverage_pct": 100.0
+        },
+        "T6": {
+          "served_gph": 6,
+          "demand_gph": 6,
+          "coverage_pct": 100.0
+        }
+      },
+      "vars": 4331,
+      "constraints": 10755
+    },
+    {
+      "scenario": "deadline_first",
+      "status": "FEASIBLE",
+      "weights": {
+        "w_sc1": 5,
+        "w_sc2": 10,
+        "w_sc3": 0,
+        "w_sc4": 0,
+        "w_sc5": 0,
+        "w_sc6": 3,
+        "w_sc7": 0,
+        "w_sc8": 2
+      },
+      "objective": -46666.0,
+      "accepted": 72,
+      "total_jobs": 75,
+      "hc_ok": 22,
+      "hc_total": 22,
+      "metrics": {
+        "sc1_accept": 72,
+        "sc2_tier": 3160,
+        "sc3_power": 1353860,
+        "sc4_non_h100_pretrain": 240,
+        "sc5_spread_x1000pct": 1000,
+        "sc6_slack": 4902,
+        "sc8_overrun": 0
+      },
+      "team_coverage": {
+        "T1": {
+          "served_gph": 1640,
+          "demand_gph": 2312,
+          "coverage_pct": 70.9
+        },
+        "T2": {
+          "served_gph": 598,
+          "demand_gph": 598,
+          "coverage_pct": 100.0
+        },
+        "T3": {
+          "served_gph": 109,
+          "demand_gph": 109,
+          "coverage_pct": 100.0
+        },
+        "T4": {
+          "served_gph": 136,
+          "demand_gph": 148,
+          "coverage_pct": 91.9
+        },
+        "T5": {
+          "served_gph": 21,
+          "demand_gph": 21,
+          "coverage_pct": 100.0
+        },
+        "T6": {
+          "served_gph": 6,
+          "demand_gph": 6,
+          "coverage_pct": 100.0
+        }
+      },
+      "vars": 4331,
+      "constraints": 10755
+    },
+    {
+      "scenario": "fairness",
+      "status": "FEASIBLE",
+      "weights": {
+        "w_sc1": 5,
+        "w_sc2": 2,
+        "w_sc3": 0,
+        "w_sc4": 0,
+        "w_sc5": 20,
+        "w_sc6": 1,
+        "w_sc7": 0,
+        "w_sc8": 0
+      },
+      "objective": -6146.0,
+      "accepted": 72,
+      "total_jobs": 75,
+      "hc_ok": 22,
+      "hc_total": 22,
+      "metrics": {
+        "sc1_accept": 72,
+        "sc2_tier": 3160,
+        "sc3_power": 1390020,
+        "sc4_non_h100_pretrain": 312,
+        "sc5_spread_x1000pct": 270,
+        "sc6_slack": 4866,
+        "sc8_overrun": 3216
+      },
+      "team_coverage": {
+        "T1": {
+          "served_gph": 1688,
+          "demand_gph": 2312,
+          "coverage_pct": 73.0
+        },
+        "T2": {
+          "served_gph": 598,
+          "demand_gph": 598,
+          "coverage_pct": 100.0
+        },
+        "T3": {
+          "served_gph": 109,
+          "demand_gph": 109,
+          "coverage_pct": 100.0
+        },
+        "T4": {
+          "served_gph": 136,
+          "demand_gph": 148,
+          "coverage_pct": 91.9
+        },
+        "T5": {
+          "served_gph": 21,
+          "demand_gph": 21,
+          "coverage_pct": 100.0
+        },
+        "T6": {
+          "served_gph": 6,
+          "demand_gph": 6,
+          "coverage_pct": 100.0
+        }
+      },
+      "vars": 4331,
+      "constraints": 10755
+    },
+    {
+      "scenario": "green",
+      "status": "OPTIMAL",
+      "weights": {
+        "w_sc1": 3,
+        "w_sc2": 2,
+        "w_sc3": 1,
+        "w_sc4": 10,
+        "w_sc5": 0,
+        "w_sc6": 0,
+        "w_sc7": 0,
+        "w_sc8": 0
+      },
+      "objective": 943929.0,
+      "accepted": 17,
+      "total_jobs": 75,
+      "hc_ok": 22,
+      "hc_total": 22,
+      "metrics": {
+        "sc1_accept": 17,
+        "sc2_tier": 1600,
+        "sc3_power": 945020,
+        "sc4_non_h100_pretrain": 216,
+        "sc5_spread_x1000pct": 1000,
+        "sc6_slack": 541,
+        "sc8_overrun": 576
+      },
+      "team_coverage": {
+        "T1": {
+          "served_gph": 1620,
+          "demand_gph": 2312,
+          "coverage_pct": 70.1
+        },
+        "T2": {
+          "served_gph": 0,
+          "demand_gph": 598,
+          "coverage_pct": 0.0
+        },
+        "T3": {
+          "served_gph": 0,
+          "demand_gph": 109,
+          "coverage_pct": 0.0
+        },
+        "T4": {
+          "served_gph": 0,
+          "demand_gph": 148,
+          "coverage_pct": 0.0
+        },
+        "T5": {
+          "served_gph": 0,
+          "demand_gph": 21,
+          "coverage_pct": 0.0
+        },
+        "T6": {
+          "served_gph": 6,
+          "demand_gph": 6,
+          "coverage_pct": 100.0
+        }
+      },
+      "vars": 4331,
+      "constraints": 10755
+    }
+  ],
+  "qa_issues": []
+}

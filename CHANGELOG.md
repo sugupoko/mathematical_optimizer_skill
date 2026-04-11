@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v3.6.0] - 2026-04-11
+
+### Added / 新規追加
+
+#### New Example: gpu_cluster_scheduling (LLM era) / GPU クラスタスケジューリング
+- **Modern ML infrastructure problem** — AI research lab cluster scheduler
+- 6 nodes × 44 GPUs (H100×16 + A100-80GB×16 + A100-40GB×8 + V100×4)
+- 75 jobs × 6 teams × 168 hour planning horizon (1 week)
+- **4,166 decision variables, 10,355 constraints**
+- **22 HCs + 8 SCs** matching hospital_or_scheduling as highest HC count
+- Unique constraints:
+  - Gang scheduling (distributed training needs simultaneous GPU allocation)
+  - Topology awareness (same-node vs InfiniBand)
+  - Heterogeneous GPU memory (H100/A100-80/A100-40/V100)
+  - Power budgets per node, cooling zone capacity
+  - License seats (CUDA/NCCL/Profiler)
+  - Dataset locality (pre-cached node requirement)
+  - Team quotas (weekly GPU-hours, concurrent limits)
+  - Deadline awareness (paper submission urgency)
+
+Results:
+- Staged baseline: 19 phases, all OPTIMAL, 22/22 HCs verified
+- Hard frontier: 72/75 jobs accepted (3 rejected due to HC16+HC14+HC12)
+- 4 scenarios: deadline_first recommended (same 72 accepts, +50% deadline slack)
+- "Naive green" scenario collapses to 17 accepts — needs $/kWh anchoring
+- HC17 (T1 70% floor) strictly dominated by HC12 (team weekly budget)
+
+Modeling simplifications (in spec.md):
+- No mid-job preemption in v1 (binary accept + fixed start)
+- Power model: peak watts during run + idle baseline
+- HC16 strict (no dataset staging phase)
+
+---
+
 ## [v3.5.0] - 2026-04-11
 
 ### Added / 新規追加

@@ -1,0 +1,66 @@
+project: gpu_cluster_scheduling
+version: v1
+status: improved
+
+problem:
+  class: shared_resource_scheduling_with_gang
+  sub_class: multi_resource_bin_packing_over_time
+  complexity: complex
+
+data:
+  n_nodes: 6
+  n_gpus: 44
+  n_teams: 6
+  n_jobs: 75
+  n_licenses: 3
+  n_maintenance_windows: 2
+  horizon_hours: 168
+
+model:
+  solver: ortools_cp_sat
+  n_hard_constraints: 22
+  n_soft_constraints: 8
+  final_phase_vars: 4166
+  final_phase_constraints: 10355
+
+baseline:
+  script: scripts/staged_baseline.py
+  phases: 19
+  first_infeasible: null
+  final_status: OPTIMAL
+  final_accepted: 72
+  final_rejected: 3
+  binding_hcs: [HC16, HC14, HC12]
+  non_binding_hcs: [HC17]  # slack under current HC12
+
+improve:
+  script: scripts/improve.py
+  scenarios: [throughput, deadline_first, fairness, green]
+  recommended: deadline_first
+  hc_verification: all_clean
+  qa_issues: []
+
+variants:
+  script: scripts/variants.py
+  profiles: [V1_director_default, V2_max_throughput, V3_tier1_first, V4_green, V5_fair_share]
+
+deliverables:
+  - spec.md
+  - reports/assess_report.md
+  - reports/baseline_report.md
+  - reports/improve_report.md
+  - reports/proposal.md
+  - results/baseline_results.json
+  - results/improve_results.json
+  - results/variants_results.json
+
+open_questions:
+  - preemption model for v2 (A5)
+  - $/kWh for SC3 green profile weighting
+  - HC17 base (demand vs budget) if T1 queue grows
+  - SC7 activation if v2 allows cross-cooling-zone IB
+
+next_steps:
+  - present proposal.md to research director + infra lead
+  - /opt-deploy for weekly planner integration (Slurm hook)
+  - v2: preemption, historical GPU utilisation, realistic $/kWh

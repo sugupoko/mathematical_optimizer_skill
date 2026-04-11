@@ -1,0 +1,294 @@
+{
+  "variants": [
+    {
+      "name": "V1_director_default",
+      "status": "FEASIBLE",
+      "objective": -34237.0,
+      "accepted": 72,
+      "hc_ok": 22,
+      "weights": {
+        "w_sc1": 6,
+        "w_sc2": 8,
+        "w_sc3": 0,
+        "w_sc4": 2,
+        "w_sc5": 4,
+        "w_sc6": 2,
+        "w_sc7": 0,
+        "w_sc8": 1
+      },
+      "metrics": {
+        "sc1_accept": 72,
+        "sc2_tier": 3160,
+        "sc3_power": 1453660,
+        "sc4_non_h100_pretrain": 0,
+        "sc5_spread_x1000pct": 270,
+        "sc6_slack": 4817,
+        "sc8_overrun": 29
+      },
+      "team_coverage": {
+        "T1": {
+          "served_gph": 1688,
+          "demand_gph": 2312,
+          "coverage_pct": 73.0
+        },
+        "T2": {
+          "served_gph": 598,
+          "demand_gph": 598,
+          "coverage_pct": 100.0
+        },
+        "T3": {
+          "served_gph": 109,
+          "demand_gph": 109,
+          "coverage_pct": 100.0
+        },
+        "T4": {
+          "served_gph": 136,
+          "demand_gph": 148,
+          "coverage_pct": 91.9
+        },
+        "T5": {
+          "served_gph": 21,
+          "demand_gph": 21,
+          "coverage_pct": 100.0
+        },
+        "T6": {
+          "served_gph": 6,
+          "demand_gph": 6,
+          "coverage_pct": 100.0
+        }
+      }
+    },
+    {
+      "name": "V2_max_throughput",
+      "status": "OPTIMAL",
+      "objective": -16880.0,
+      "accepted": 72,
+      "hc_ok": 22,
+      "weights": {
+        "w_sc1": 15,
+        "w_sc2": 5,
+        "w_sc3": 0,
+        "w_sc4": 0,
+        "w_sc5": 0,
+        "w_sc6": 0,
+        "w_sc7": 0,
+        "w_sc8": 0
+      },
+      "metrics": {
+        "sc1_accept": 72,
+        "sc2_tier": 3160,
+        "sc3_power": 1424020,
+        "sc4_non_h100_pretrain": 312,
+        "sc5_spread_x1000pct": 1000,
+        "sc6_slack": 3284,
+        "sc8_overrun": 3216
+      },
+      "team_coverage": {
+        "T1": {
+          "served_gph": 1688,
+          "demand_gph": 2312,
+          "coverage_pct": 73.0
+        },
+        "T2": {
+          "served_gph": 598,
+          "demand_gph": 598,
+          "coverage_pct": 100.0
+        },
+        "T3": {
+          "served_gph": 109,
+          "demand_gph": 109,
+          "coverage_pct": 100.0
+        },
+        "T4": {
+          "served_gph": 136,
+          "demand_gph": 148,
+          "coverage_pct": 91.9
+        },
+        "T5": {
+          "served_gph": 21,
+          "demand_gph": 21,
+          "coverage_pct": 100.0
+        },
+        "T6": {
+          "served_gph": 6,
+          "demand_gph": 6,
+          "coverage_pct": 100.0
+        }
+      }
+    },
+    {
+      "name": "V3_tier1_first",
+      "status": "FEASIBLE",
+      "objective": -82732.0,
+      "accepted": 72,
+      "hc_ok": 22,
+      "weights": {
+        "w_sc1": 3,
+        "w_sc2": 20,
+        "w_sc3": 0,
+        "w_sc4": 5,
+        "w_sc5": 0,
+        "w_sc6": 4,
+        "w_sc7": 0,
+        "w_sc8": 0
+      },
+      "metrics": {
+        "sc1_accept": 72,
+        "sc2_tier": 3160,
+        "sc3_power": 1427500,
+        "sc4_non_h100_pretrain": 0,
+        "sc5_spread_x1000pct": 1000,
+        "sc6_slack": 4829,
+        "sc8_overrun": 3216
+      },
+      "team_coverage": {
+        "T1": {
+          "served_gph": 1688,
+          "demand_gph": 2312,
+          "coverage_pct": 73.0
+        },
+        "T2": {
+          "served_gph": 598,
+          "demand_gph": 598,
+          "coverage_pct": 100.0
+        },
+        "T3": {
+          "served_gph": 109,
+          "demand_gph": 109,
+          "coverage_pct": 100.0
+        },
+        "T4": {
+          "served_gph": 136,
+          "demand_gph": 148,
+          "coverage_pct": 91.9
+        },
+        "T5": {
+          "served_gph": 21,
+          "demand_gph": 21,
+          "coverage_pct": 100.0
+        },
+        "T6": {
+          "served_gph": 6,
+          "demand_gph": 6,
+          "coverage_pct": 100.0
+        }
+      }
+    },
+    {
+      "name": "V4_green",
+      "status": "OPTIMAL",
+      "objective": 943426.0,
+      "accepted": 17,
+      "hc_ok": 22,
+      "weights": {
+        "w_sc1": 2,
+        "w_sc2": 3,
+        "w_sc3": 1,
+        "w_sc4": 15,
+        "w_sc5": 0,
+        "w_sc6": 0,
+        "w_sc7": 0,
+        "w_sc8": 0
+      },
+      "metrics": {
+        "sc1_accept": 17,
+        "sc2_tier": 1600,
+        "sc3_power": 945020,
+        "sc4_non_h100_pretrain": 216,
+        "sc5_spread_x1000pct": 1000,
+        "sc6_slack": 489,
+        "sc8_overrun": 576
+      },
+      "team_coverage": {
+        "T1": {
+          "served_gph": 1620,
+          "demand_gph": 2312,
+          "coverage_pct": 70.1
+        },
+        "T2": {
+          "served_gph": 0,
+          "demand_gph": 598,
+          "coverage_pct": 0.0
+        },
+        "T3": {
+          "served_gph": 0,
+          "demand_gph": 109,
+          "coverage_pct": 0.0
+        },
+        "T4": {
+          "served_gph": 0,
+          "demand_gph": 148,
+          "coverage_pct": 0.0
+        },
+        "T5": {
+          "served_gph": 0,
+          "demand_gph": 21,
+          "coverage_pct": 0.0
+        },
+        "T6": {
+          "served_gph": 6,
+          "demand_gph": 6,
+          "coverage_pct": 100.0
+        }
+      }
+    },
+    {
+      "name": "V5_fair_share",
+      "status": "FEASIBLE",
+      "objective": -7945.0,
+      "accepted": 72,
+      "hc_ok": 22,
+      "weights": {
+        "w_sc1": 5,
+        "w_sc2": 3,
+        "w_sc3": 0,
+        "w_sc4": 1,
+        "w_sc5": 25,
+        "w_sc6": 1,
+        "w_sc7": 0,
+        "w_sc8": 0
+      },
+      "metrics": {
+        "sc1_accept": 72,
+        "sc2_tier": 3160,
+        "sc3_power": 1446820,
+        "sc4_non_h100_pretrain": 0,
+        "sc5_spread_x1000pct": 270,
+        "sc6_slack": 4855,
+        "sc8_overrun": 3216
+      },
+      "team_coverage": {
+        "T1": {
+          "served_gph": 1688,
+          "demand_gph": 2312,
+          "coverage_pct": 73.0
+        },
+        "T2": {
+          "served_gph": 598,
+          "demand_gph": 598,
+          "coverage_pct": 100.0
+        },
+        "T3": {
+          "served_gph": 109,
+          "demand_gph": 109,
+          "coverage_pct": 100.0
+        },
+        "T4": {
+          "served_gph": 136,
+          "demand_gph": 148,
+          "coverage_pct": 91.9
+        },
+        "T5": {
+          "served_gph": 21,
+          "demand_gph": 21,
+          "coverage_pct": 100.0
+        },
+        "T6": {
+          "served_gph": 6,
+          "demand_gph": 6,
+          "coverage_pct": 100.0
+        }
+      }
+    }
+  ]
+}

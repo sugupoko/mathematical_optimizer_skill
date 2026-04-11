@@ -1,0 +1,2211 @@
+{
+  "n_jobs": 75,
+  "n_gpus": 44,
+  "n_hcs": 22,
+  "first_infeasible": null,
+  "phases": [
+    {
+      "phase": "P01_static_only",
+      "status": "OPTIMAL",
+      "objective": 391.0,
+      "vars": 3073,
+      "constraints": 5846,
+      "active_hcs": [
+        "HC1",
+        "HC18",
+        "HC19",
+        "HC3",
+        "HC5"
+      ],
+      "accepted": 75,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 4,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P02_+team_node_whitelist",
+      "status": "OPTIMAL",
+      "objective": 391.0,
+      "vars": 3073,
+      "constraints": 6542,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC18",
+        "HC19",
+        "HC3",
+        "HC5"
+      ],
+      "accepted": 75,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 4,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P03_+gpu_count",
+      "status": "OPTIMAL",
+      "objective": 391.0,
+      "vars": 3073,
+      "constraints": 6692,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC3",
+        "HC5"
+      ],
+      "accepted": 75,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 9,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC7": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC8": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P04_+gpu_nonoverlap",
+      "status": "OPTIMAL",
+      "objective": 391.0,
+      "vars": 3073,
+      "constraints": 6736,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5"
+      ],
+      "accepted": 75,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 9,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC7": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": false,
+          "n_viol": 4
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P05_+infiniband",
+      "status": "OPTIMAL",
+      "objective": 391.0,
+      "vars": 3073,
+      "constraints": 6848,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC7"
+      ],
+      "accepted": 75,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 7,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P06_+v100_memory",
+      "status": "OPTIMAL",
+      "objective": 391.0,
+      "vars": 3073,
+      "constraints": 6848,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC7"
+      ],
+      "accepted": 75,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 7,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 3
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P07_+pretrain_premium_only",
+      "status": "OPTIMAL",
+      "objective": 391.0,
+      "vars": 3073,
+      "constraints": 6848,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC7"
+      ],
+      "accepted": 75,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 7,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P08_+dataset_locality",
+      "status": "OPTIMAL",
+      "objective": 387.0,
+      "vars": 3073,
+      "constraints": 7096,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC7"
+      ],
+      "accepted": 74,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 6,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P09_+single_node_colocation",
+      "status": "OPTIMAL",
+      "objective": 387.0,
+      "vars": 3270,
+      "constraints": 8758,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7"
+      ],
+      "accepted": 74,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 2,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P10_+deadline",
+      "status": "OPTIMAL",
+      "objective": 380.0,
+      "vars": 3270,
+      "constraints": 8833,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC14",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7"
+      ],
+      "accepted": 73,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 4,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": false,
+          "n_viol": 4
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P11_+maintenance",
+      "status": "OPTIMAL",
+      "objective": 380.0,
+      "vars": 4166,
+      "constraints": 10177,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7"
+      ],
+      "accepted": 73,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 4,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 3
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P12_+node_power",
+      "status": "OPTIMAL",
+      "objective": 380.0,
+      "vars": 4166,
+      "constraints": 10183,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8"
+      ],
+      "accepted": 73,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 4,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P13_+cooling_zone",
+      "status": "OPTIMAL",
+      "objective": 380.0,
+      "vars": 4166,
+      "constraints": 10185,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "accepted": 73,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 3,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P14_+licenses",
+      "status": "OPTIMAL",
+      "objective": 380.0,
+      "vars": 4166,
+      "constraints": 10262,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "accepted": 73,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 2,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P15_+team_peak_gpus",
+      "status": "OPTIMAL",
+      "objective": 378.0,
+      "vars": 4166,
+      "constraints": 10343,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "accepted": 73,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 1,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P16_+team_weekly_budget",
+      "status": "OPTIMAL",
+      "objective": 369.0,
+      "vars": 4166,
+      "constraints": 10349,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "accepted": 72,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 0,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P17_+T6_guaranteed",
+      "status": "OPTIMAL",
+      "objective": 369.0,
+      "vars": 4166,
+      "constraints": 10354,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC21",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "accepted": 72,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 0,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P18_+T1_coverage_70pct",
+      "status": "OPTIMAL",
+      "objective": 369.0,
+      "vars": 4166,
+      "constraints": 10355,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC17",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC21",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "accepted": 72,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 0,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P19_all_HCs_optimize",
+      "status": "OPTIMAL",
+      "objective": 369.0,
+      "vars": 4166,
+      "constraints": 10355,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC17",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC21",
+        "HC22",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "accepted": 72,
+      "active_hc_violations": 0,
+      "pending_hc_violations": 0,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    }
+  ]
+}
