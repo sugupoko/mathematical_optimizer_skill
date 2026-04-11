@@ -1,0 +1,89 @@
+project: flexible_job_shop
+version: v1
+updated: 2026-04-11
+
+problem:
+  class: production_scheduling
+  subclass: flexible_job_shop
+  complexity: complex
+  domain: manufacturing
+  n_machines: 15
+  n_operators: 12
+  n_jobs: 40
+  n_operations: 227
+  n_tools: 5
+  n_days: 5
+  day_length_minutes: 480
+  horizon_minutes: 2400
+  hc_count: 20
+  sc_count: 6
+  variables_cpsat_baseline_p11: 9283
+  variables_cpsat_improve: 19086
+  constraints_cpsat_p11: 21721
+
+data:
+  machines: data/machines.csv
+  operators: data/operators.csv
+  jobs: data/jobs.csv
+  operations: data/operations.csv
+  tools: data/tools.csv
+  constraints: data/constraints.csv
+
+spec:
+  path: spec.md
+  assumptions:
+    - A1_atomic_ops_no_preemption
+    - A2_single_shift_5_days
+    - A3_setup_via_HC20_proxy
+    - A4_operator_cap_weekly_aggregate
+    - A5_operator_off_days_as_blocker_intervals
+    - A6_tool_held_full_duration
+
+assess:
+  report: reports/assess_report.md
+  confirmation_questions: 6
+  hypothesised_bottlenecks:
+    - cnc_single_machine_m15
+    - tool_t05_cnc_serialisation
+    - operator_o11_cnc_skill
+    - urgent_day1_lathe_crowding
+
+baseline:
+  script: scripts/staged_baseline.py
+  pattern: NewOptionalIntervalVar + AddNoOverlap (FJSP)
+  phases: 11
+  first_infeasible: null
+  final_status: FEASIBLE
+  final_makespan: 1770
+  all_phases_feasible: true
+  time_limit_per_phase_sec: 30
+  workers: 8
+  results: results/baseline_results.json
+  report: reports/baseline_report.md
+
+improve:
+  script: scripts/improve.py
+  scenarios:
+    balanced:   {makespan: 2265, tardiness: 0, mload_spread: 690,  oload_spread: 510, setup: 54, hc_ok: 20}
+    throughput: {makespan: 1740, tardiness: 0, mload_spread: 2400, oload_spread: 2400, setup: 55, hc_ok: 20}
+    on_time:    {makespan: 2160, tardiness: 0, mload_spread: 2400, oload_spread: 2400, setup: 52, hc_ok: 20}
+    smooth:     {makespan: 2115, tardiness: 0, mload_spread: 750,  oload_spread: 164, setup: 56, hc_ok: 20}
+  recommended_profile: balanced
+  results: results/improve_results.json
+  report: reports/improve_report.md
+
+variants:
+  script: scripts/variants.py
+  profiles: 5
+  all_feasible: true
+  results: results/variants_results.json
+
+proposal:
+  report: reports/proposal.md
+  audience: manufacturing_director
+  ask: approve_balanced_profile_and_pilot_week
+
+next_actions:
+  - confirm_six_assess_questions_with_director
+  - if_hc8_needed_rerun_with_explicit_setup_times
+  - opt_deploy_balanced_profile_as_weekly_runbook

@@ -2,26 +2,27 @@
 
 > **注意**: このフォルダのデータは全て**合成データ（架空）**です。実在の人物・組織・住所とは一切関係ありません。ワークフローの動作確認とスキルの体験を目的としています。
 
-このフォルダには 10 個のサンプルプロジェクトが含まれています。
+このフォルダには 11 個のサンプルプロジェクトが含まれています。
 全スキル (assess → baseline → improve → report) の一連のワークフローを体験できます。
 
 各サンプルは `data/` (入力) を持ち、`v1/` フォルダ (バージョン管理) の中に
 `spec.md` / `scripts/` / `results/` / `reports/` を配置した構成です。
 
-## 10 サンプルの早見表
+## 11 サンプルの早見表
 
-| サンプル | 問題タイプ | 複雑度 | HC数 | 特徴 |
-|---|---|:---:|---:|---|
-| `shift_scheduling/` | スケジューリング | simple | 5 | 小規模シフト、需給不足の典型例 |
-| `delivery_routing/` | VRP | simple | 5 | 配送ルート最適化、AM/PM 分割 |
-| `care_matching/` | マッチング | medium | 4 | 介護利用者×ヘルパー、双方向選好 |
-| `ticket_assignment/` | 動的割当 | medium | 6 | ITSM、滞留検知、LLM 推定 |
-| `facility_location/` | 施設配置 | simple | 3 | UFL/CFL/P-median (MIP) |
-| `structural_design/` | 連続最適化 | - | - | scipy + SIMP によるトポロジー最適化 |
-| **`worker_supervisor/`** | **複合スケジューリング** | **complex** | **12** | **段階的 baseline で infeasibility を特定** |
-| **`clinic_nurse/`** | **複数施設スケジューリング** | **complex** | **8** | **1,296 変数、全 HC 充足可能** |
-| **`multi_depot_routing/`** | **マルチデポ VRP** | **complex** | **13** | **1,680 変数、SC トレードオフ検出** |
-| 🏆 **`hospital_or_scheduling/`** | **手術室スケジューリング** | **complex** | **22** | **最難関: 50 患者・6 OR・全 22 HC 充足** |
+| サンプル | 問題タイプ | 複雑度 | 変数数 | HC | SC | 特徴 |
+|---|---|:---:|---:|---:|---:|---|
+| `shift_scheduling/` | スケジューリング | simple | 210 | 5 | 5 | 小規模シフト、需給不足の典型例 |
+| `delivery_routing/` | VRP | simple | ~100 | 5 | 4 | AM/PM 分割で全顧客カバー |
+| `care_matching/` | マッチング | medium | ~150 | 4 | 4 | 介護利用者×ヘルパー、双方向選好 |
+| `ticket_assignment/` | 動的割当 | medium | ~500 | 6 | 5 | ITSM、滞留検知、LLM 推定 |
+| `facility_location/` | 施設配置 | simple | ~40 | 3 | 3 | UFL/CFL/P-median (MIP) |
+| `structural_design/` | 連続最適化 | - | 連続 | - | - | scipy + SIMP、トポロジー最適化 |
+| **`worker_supervisor/`** | **複合スケジューリング** | **complex** | **1,176** | **12** | **8** | **段階的 baseline で infeasibility を特定** |
+| **`clinic_nurse/`** | **複数施設スケジューリング** | **complex** | **1,296** | **8** | **6** | **全 HC 充足可能、SC トレードオフ** |
+| **`multi_depot_routing/`** | **マルチデポ VRP** | **complex** | **1,680** | **13** | **6** | **6台 vs 5台の車両数トレードオフ** |
+| **`hospital_or_scheduling/`** | **手術室スケジューリング** | **complex** | **~2,900** | **22** | **8** | **50 患者・6 OR・全 22 HC 充足** |
+| 🏆 **`flexible_job_shop/`** | **柔軟ジョブショップ (FJSP)** | **complex** | **9,283** | **20** | **6** | **最大規模: 40 ジョブ×15 機械、製造業** |
 
 ---
 
@@ -266,6 +267,45 @@ HC1-2: 患者訪問・OR 時間 / HC3-5: 外科医専門性・麻酔科医・看
 - **命に関わるストーリー** → 提案書が強力 (ICU 床不足のリスク明示等)
 - **真の多層最適化**: 患者 × OR × 日 × 外科医 × 麻酔科医 × 看護師 × 機材 が全部同時に絡む
 - 現実の大学病院で使えるレベルの定式化
+
+---
+
+## 🏆 flexible_job_shop/ — 最大規模サンプル (製造業 FJSP)
+
+**柔軟ジョブショップスケジューリング: 40 ジョブ × 15 機械 × 12 オペレーター、変数 9,283 個。**
+
+日本製鉄の出鋼スケジューリング事例 (工数 70% 削減) で知られる製造業の古典問題。
+CP-SAT の `NewIntervalVar` + `AddNoOverlap` パターンを活用した本格的なスケジューラ実装。
+
+### データ
+- `data/machines.csv` — 15 機械 (lathe 5, milling 4, drilling 3, grinding 2, cnc 1)
+- `data/operators.csv` — 12 オペレーター (機械種別スキル、勤務時間)
+- `data/jobs.csv` — 40 ジョブ (優先度: urgent/high/normal/low、納期、開始可能日)
+- `data/operations.csv` — 227 操作 (ジョブ内シーケンス、所要時間、適格機械、段取り時間)
+- `data/tools.csv` — 5 種類の工具 (数量制限あり: T03×1, T05×1 などタイト)
+- `data/constraints.csv` — **HC×20, SC×6**
+
+### HC (20 個)
+機械割当・NoOverlap・ジョブ内順序・日次営業時間・保守窓・段取り時間・オペレーター割当・スキルマッチ・工具数量・納期・最早開始・緊急ジョブ期限・機械互換性・段取り切替上限 等
+
+### 主要な発見
+- **全 11 Phase feasible** — 20 HCs すべて段階的に追加可能
+- **4 シナリオすべてで 20/20 HC 充足** (独立検証器で確認)
+- **Pareto トレードオフが明確**:
+  - `throughput` 重視: makespan 1740 分 (23%短縮) だが機械負荷 spread 2400 分 → 現場拒否レベル
+  - `smooth`: makespan のわずか 8% 損失で operator spread 164 分 (最良) → 実務で採用しやすい
+  - `balanced`: 非劣解の中間点 → 提案書で推奨
+- **発見されたデータ不整合**: 緊急ジョブの納期 day=1 + 総所要時間 > 480 分で Phase 5 infeasible になった → 生成データを修正 (2 日枠 + 所要時間制限)
+
+### 見どころ
+- **本パック最大規模 (9,283 変数、21,721 制約)**
+- **製造業ドメイン** → 既存の service sector サンプル (シフト・配送・医療) と差別化
+- **CP-SAT の真価**: `NewOptionalIntervalVar` による「機械が複数候補の操作」をエレガントに表現
+- **実際の段階的 baseline のバグ発見**: データ生成の甘さを Phase 5 で検出 → 実務でもよくあるパターンの教訓
+
+### 参照
+- OR-Tools チュートリアル: Flexible Job-Shop Scheduling
+- 日本製鉄 圧延スケジューリング: 週次計画業務 70% 削減 (エデルマン賞 2022)
 
 ---
 

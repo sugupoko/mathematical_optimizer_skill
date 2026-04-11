@@ -1,0 +1,13 @@
+operator_id,name,skills,max_daily_minutes,unavailable_days
+O01,Op-01,lathe;milling,480,
+O02,Op-02,lathe;drilling,480,2
+O03,Op-03,lathe;grinding,480,
+O04,Op-04,lathe,480,
+O05,Op-05,milling;drilling,480,5
+O06,Op-06,milling;cnc,480,
+O07,Op-07,milling;grinding,480,
+O08,Op-08,drilling;grinding,480,3
+O09,Op-09,drilling,480,
+O10,Op-10,grinding;cnc,480,
+O11,Op-11,cnc;milling;lathe,480,1
+O12,Op-12,lathe;milling;drilling,480,

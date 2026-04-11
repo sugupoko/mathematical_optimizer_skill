@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v3.4.0] - 2026-04-11
+
+### Added / 新規追加
+
+#### New Example: flexible_job_shop (largest) / 柔軟ジョブショップ (最大規模)
+- 40 jobs × 15 machines × 12 operators × 227 operations / 40 ジョブ × 15 機械 × 12 オペレーター
+- **9,283 variables, 21,721 constraints** (via model.Proto())
+- **20 HCs + 6 SCs** — machine non-overlap, precedence, setup time, tool constraints, operator skills
+- Uses CP-SAT `NewOptionalIntervalVar` + `AddNoOverlap` pattern for true scheduling
+- All 11 phases feasible, all 4 improve scenarios satisfy 20/20 HCs
+- Clear Pareto tradeoff: throughput (1740min makespan, heavy imbalance) vs smooth (fair workload, +8% makespan)
+- **Largest example in the skill pack** — manufacturing domain for contrast with service-sector samples
+
+#### examples_readme.md Enhanced / サンプル README 拡充
+- Summary table now includes variable count, HC count, and SC count / 早見表に変数数・HC 数・SC 数を追加
+- 11 examples total / 全 11 サンプル
+
+---
+
 ## [v3.3.0] - 2026-04-11
 
 ### Added / 新規追加

@@ -1,0 +1,100 @@
+{
+  "scenarios": [
+    {
+      "scenario": "balanced",
+      "status": "FEASIBLE",
+      "weights": {
+        "makespan": 3,
+        "tardiness": 5,
+        "m_balance": 1,
+        "setup": 1,
+        "o_balance": 1,
+        "prio_early": 1
+      },
+      "objective": 105819.0,
+      "hc_ok": 20,
+      "hc_total": 20,
+      "metrics": {
+        "makespan": 2265,
+        "total_tardiness": 0,
+        "mload_spread": 690,
+        "total_setup": 54,
+        "oload_spread": 510,
+        "prio_penalty": 97770
+      },
+      "vars": 19086
+    },
+    {
+      "scenario": "throughput",
+      "status": "FEASIBLE",
+      "weights": {
+        "makespan": 10,
+        "tardiness": 1,
+        "m_balance": 0,
+        "setup": 0,
+        "o_balance": 0,
+        "prio_early": 0
+      },
+      "objective": 17400.0,
+      "hc_ok": 20,
+      "hc_total": 20,
+      "metrics": {
+        "makespan": 1740,
+        "total_tardiness": 0,
+        "mload_spread": 2400,
+        "total_setup": 55,
+        "oload_spread": 2400,
+        "prio_penalty": 150720
+      },
+      "vars": 19086
+    },
+    {
+      "scenario": "on_time",
+      "status": "FEASIBLE",
+      "weights": {
+        "makespan": 1,
+        "tardiness": 20,
+        "m_balance": 0,
+        "setup": 1,
+        "o_balance": 0,
+        "prio_early": 3
+      },
+      "objective": 285397.0,
+      "hc_ok": 20,
+      "hc_total": 20,
+      "metrics": {
+        "makespan": 2160,
+        "total_tardiness": 0,
+        "mload_spread": 2400,
+        "total_setup": 52,
+        "oload_spread": 2400,
+        "prio_penalty": 94395
+      },
+      "vars": 19086
+    },
+    {
+      "scenario": "smooth",
+      "status": "FEASIBLE",
+      "weights": {
+        "makespan": 1,
+        "tardiness": 2,
+        "m_balance": 5,
+        "setup": 3,
+        "o_balance": 5,
+        "prio_early": 1
+      },
+      "objective": 105343.0,
+      "hc_ok": 20,
+      "hc_total": 20,
+      "metrics": {
+        "makespan": 2115,
+        "total_tardiness": 0,
+        "mload_spread": 750,
+        "total_setup": 56,
+        "oload_spread": 164,
+        "prio_penalty": 98490
+      },
+      "vars": 19086
+    }
+  ]
+}

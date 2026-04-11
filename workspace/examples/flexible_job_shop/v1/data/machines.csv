@@ -1,0 +1,16 @@
+machine_id,name,type,daily_start_minute,daily_end_minute,unavailable_days,maintenance_windows
+M01,Lathe-01,lathe,0,480,,3:120-180
+M02,Lathe-02,lathe,0,480,,
+M03,Lathe-03,lathe,0,480,,
+M04,Lathe-04,lathe,0,480,4,
+M05,Lathe-05,lathe,0,480,,
+M06,Milling-06,milling,0,480,,
+M07,Milling-07,milling,0,480,,2:60-120;5:300-360
+M08,Milling-08,milling,0,480,,
+M09,Milling-09,milling,0,480,,
+M10,Drilling-10,drilling,0,480,5,
+M11,Drilling-11,drilling,0,480,,
+M12,Drilling-12,drilling,0,480,,
+M13,Grinding-13,grinding,0,480,,1:0-60
+M14,Grinding-14,grinding,0,480,,
+M15,Cnc-15,cnc,0,480,2,

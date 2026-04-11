@@ -1,0 +1,1165 @@
+{
+  "first_infeasible": null,
+  "phases": [
+    {
+      "phase": "P01_machine_assign_noov",
+      "status": "FEASIBLE",
+      "makespan": 2265.0,
+      "vars": 2318,
+      "constraints": 2332,
+      "active_hcs": [
+        "HC1",
+        "HC18",
+        "HC2",
+        "HC4"
+      ],
+      "active_hc_violations": 0,
+      "pending_hc_violations": 9,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC16": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC6": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": false,
+          "n_viol": 4
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P02_+precedence",
+      "status": "FEASIBLE",
+      "makespan": 2370.0,
+      "vars": 2318,
+      "constraints": 2519,
+      "active_hcs": [
+        "HC1",
+        "HC16",
+        "HC18",
+        "HC2",
+        "HC3",
+        "HC4"
+      ],
+      "active_hc_violations": 0,
+      "pending_hc_violations": 7,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P03_+day_fit",
+      "status": "FEASIBLE",
+      "makespan": 2400.0,
+      "vars": 2545,
+      "constraints": 2973,
+      "active_hcs": [
+        "HC1",
+        "HC16",
+        "HC18",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5"
+      ],
+      "active_hc_violations": 0,
+      "pending_hc_violations": 6,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P04_+maint_unavail",
+      "status": "FEASIBLE",
+      "makespan": 2400.0,
+      "vars": 3079,
+      "constraints": 3774,
+      "active_hcs": [
+        "HC1",
+        "HC16",
+        "HC18",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7"
+      ],
+      "active_hc_violations": 0,
+      "pending_hc_violations": 5,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P05_+earliest_due",
+      "status": "FEASIBLE",
+      "makespan": 2400.0,
+      "vars": 3079,
+      "constraints": 4228,
+      "active_hcs": [
+        "HC1",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC18",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7"
+      ],
+      "active_hc_violations": 0,
+      "pending_hc_violations": 2,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P06_+urgent",
+      "status": "FEASIBLE",
+      "makespan": 2400.0,
+      "vars": 3079,
+      "constraints": 4253,
+      "active_hcs": [
+        "HC1",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7"
+      ],
+      "active_hc_violations": 0,
+      "pending_hc_violations": 2,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P07_+tooling",
+      "status": "FEASIBLE",
+      "makespan": 2370.0,
+      "vars": 3079,
+      "constraints": 4381,
+      "active_hcs": [
+        "HC1",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7"
+      ],
+      "active_hc_violations": 0,
+      "pending_hc_violations": 1,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P08_+operator_core",
+      "status": "FEASIBLE",
+      "makespan": 2370.0,
+      "vars": 5803,
+      "constraints": 6099,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC9"
+      ],
+      "active_hc_violations": 0,
+      "pending_hc_violations": 3,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P09_+operator_caps",
+      "status": "FEASIBLE",
+      "makespan": 2340.0,
+      "vars": 5803,
+      "constraints": 8851,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC17",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC9"
+      ],
+      "active_hc_violations": 0,
+      "pending_hc_violations": 0,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P10_+setup_limit",
+      "status": "FEASIBLE",
+      "makespan": 2340.0,
+      "vars": 9283,
+      "constraints": 21721,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC17",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "active_hc_violations": 0,
+      "pending_hc_violations": 0,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P11_all_HCs",
+      "status": "FEASIBLE",
+      "makespan": 1770.0,
+      "vars": 9283,
+      "constraints": 21721,
+      "active_hcs": [
+        "HC1",
+        "HC10",
+        "HC11",
+        "HC12",
+        "HC13",
+        "HC14",
+        "HC15",
+        "HC16",
+        "HC17",
+        "HC18",
+        "HC19",
+        "HC2",
+        "HC20",
+        "HC3",
+        "HC4",
+        "HC5",
+        "HC6",
+        "HC7",
+        "HC8",
+        "HC9"
+      ],
+      "active_hc_violations": 0,
+      "pending_hc_violations": 0,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    }
+  ],
+  "n_ops": 227,
+  "n_hcs": 20
+}

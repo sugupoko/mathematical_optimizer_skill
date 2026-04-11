@@ -1,0 +1,109 @@
+{
+  "variants": [
+    {
+      "name": "V1_director_default",
+      "status": "FEASIBLE",
+      "objective": 106284.0,
+      "hc_ok": 20,
+      "weights": {
+        "makespan": 3,
+        "tardiness": 5,
+        "m_balance": 1,
+        "setup": 1,
+        "o_balance": 1,
+        "prio_early": 1
+      },
+      "metrics": {
+        "makespan": 2130,
+        "total_tardiness": 0,
+        "mload_spread": 885,
+        "total_setup": 54,
+        "oload_spread": 135
+      }
+    },
+    {
+      "name": "V2_max_throughput",
+      "status": "FEASIBLE",
+      "objective": 17550.0,
+      "hc_ok": 20,
+      "weights": {
+        "makespan": 10,
+        "tardiness": 1,
+        "m_balance": 0,
+        "setup": 0,
+        "o_balance": 0,
+        "prio_early": 0
+      },
+      "metrics": {
+        "makespan": 1755,
+        "total_tardiness": 0,
+        "mload_spread": 2400,
+        "total_setup": 56,
+        "oload_spread": 2400
+      }
+    },
+    {
+      "name": "V3_union_friendly",
+      "status": "FEASIBLE",
+      "objective": 102522.0,
+      "hc_ok": 20,
+      "weights": {
+        "makespan": 1,
+        "tardiness": 2,
+        "m_balance": 2,
+        "setup": 1,
+        "o_balance": 15,
+        "prio_early": 1
+      },
+      "metrics": {
+        "makespan": 2160,
+        "total_tardiness": 0,
+        "mload_spread": 765,
+        "total_setup": 57,
+        "oload_spread": 30
+      }
+    },
+    {
+      "name": "V4_cost_min_setup",
+      "status": "FEASIBLE",
+      "objective": 101795.0,
+      "hc_ok": 20,
+      "weights": {
+        "makespan": 2,
+        "tardiness": 3,
+        "m_balance": 2,
+        "setup": 10,
+        "o_balance": 1,
+        "prio_early": 1
+      },
+      "metrics": {
+        "makespan": 2265,
+        "total_tardiness": 0,
+        "mload_spread": 675,
+        "total_setup": 56,
+        "oload_spread": 105
+      }
+    },
+    {
+      "name": "V5_urgent_first",
+      "status": "FEASIBLE",
+      "objective": 935682.0,
+      "hc_ok": 20,
+      "weights": {
+        "makespan": 2,
+        "tardiness": 25,
+        "m_balance": 1,
+        "setup": 1,
+        "o_balance": 1,
+        "prio_early": 10
+      },
+      "metrics": {
+        "makespan": 2070,
+        "total_tardiness": 0,
+        "mload_spread": 690,
+        "total_setup": 57,
+        "oload_spread": 195
+      }
+    }
+  ]
+}

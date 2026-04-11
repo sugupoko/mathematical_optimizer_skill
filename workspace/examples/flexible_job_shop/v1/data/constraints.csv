@@ -1,0 +1,27 @@
+id,kind,description
+HC1,hard,Each operation assigned to exactly one eligible machine
+HC2,hard,No two operations on the same machine overlap in time (AddNoOverlap)
+HC3,hard,Operation precedence within a job (op N+1 starts after op N ends)
+HC4,hard,Operation duration matches the machine's duration for that op
+HC5,hard,Operation must fit within a machine's daily operating hours
+HC6,hard,Machine maintenance windows are blocked
+HC7,hard,Machine unavailable days are blocked
+HC8,hard,Sequence-dependent setup time between different op_types on same machine
+HC9,hard,An operator is required on the machine during the operation
+HC10,hard,Operator skill must match the machine type
+HC11,hard,Operator daily max minutes not exceeded
+HC12,hard,Operator unavailable days respected
+HC13,hard,Tool availability: simultaneous usage cannot exceed tool quantity
+HC14,hard,Job due day: all operations of a job finish by end of due_day
+HC15,hard,Earliest start day: no operation may start before job's earliest_start_day
+HC16,hard,Precedence across days: op N+1 day >= op N day
+HC17,hard,No operator runs two machines simultaneously
+HC18,hard,Machine type compatibility (op_type must match machine type)
+HC19,hard,Urgent jobs complete within first 2 days
+HC20,hard,At most 1 setup (op_type) change per machine per day
+SC1,soft,Minimise makespan (total completion time)
+SC2,soft,Minimise total tardiness (late jobs vs due date)
+SC3,soft,Balance machine utilisation across the 15 machines
+SC4,soft,Minimise total setup-time overhead
+SC5,soft,Balance operator workload
+SC6,soft,Prioritise high-priority jobs (earliness bonus)
