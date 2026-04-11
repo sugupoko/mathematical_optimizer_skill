@@ -1,0 +1,452 @@
+{
+  "V1_balanced": {
+    "scenario": "V1_balanced",
+    "weights": {
+      "sc1_consecutive": 10,
+      "sc2_fairness": 5,
+      "sc3_min_hours": 8,
+      "sc4_home": 4,
+      "sc5_weekend": 3,
+      "sc6_evening": 6
+    },
+    "solver_status": "FEASIBLE",
+    "solver_feasible": true,
+    "time_sec": 60.03,
+    "objective": 35.0,
+    "hc_verify": {
+      "all_satisfied": true,
+      "total_violations": 0,
+      "by_constraint": {
+        "HC1": 0,
+        "HC2": 0,
+        "HC3": 0,
+        "HC4": 0,
+        "HC5": 0,
+        "HC6": 0,
+        "HC7": 0,
+        "HC8": 0
+      },
+      "samples": {}
+    },
+    "hc_all_satisfied": true,
+    "sc_evaluation": {
+      "scores": {
+        "SC1_consecutive": 100.0,
+        "SC2_fairness": 55.0,
+        "SC3_min_hours": 100.0,
+        "SC4_home_clinic": 94.4,
+        "SC5_weekend": 83.3,
+        "SC6_evening": 100.0,
+        "overall": 88.8
+      },
+      "raw": {
+        "hours_per_nurse": [
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          49.0,
+          46.0,
+          64.0,
+          55.0,
+          46.0,
+          64.0,
+          58.0,
+          58.0,
+          58.0,
+          64.0,
+          58.0
+        ],
+        "shifts_per_nurse": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "hours_spread": 18.0,
+        "home_fit_pct": 94.4,
+        "weekend_spread": 1,
+        "sc1_violators": 0,
+        "sc3_missed": 0,
+        "sc6_violators": 0
+      }
+    }
+  },
+  "V2_fairness_max": {
+    "scenario": "V2_fairness_max",
+    "weights": {
+      "sc1_consecutive": 10,
+      "sc2_fairness": 50,
+      "sc3_min_hours": 8,
+      "sc4_home": 4,
+      "sc5_weekend": 30,
+      "sc6_evening": 6
+    },
+    "solver_status": "OPTIMAL",
+    "solver_feasible": true,
+    "time_sec": 2.83,
+    "objective": 62.0,
+    "hc_verify": {
+      "all_satisfied": true,
+      "total_violations": 0,
+      "by_constraint": {
+        "HC1": 0,
+        "HC2": 0,
+        "HC3": 0,
+        "HC4": 0,
+        "HC5": 0,
+        "HC6": 0,
+        "HC7": 0,
+        "HC8": 0
+      },
+      "samples": {}
+    },
+    "hc_all_satisfied": true,
+    "sc_evaluation": {
+      "scores": {
+        "SC1_consecutive": 100.0,
+        "SC2_fairness": 47.5,
+        "SC3_min_hours": 100.0,
+        "SC4_home_clinic": 94.4,
+        "SC5_weekend": 83.3,
+        "SC6_evening": 100.0,
+        "overall": 87.5
+      },
+      "raw": {
+        "hours_per_nurse": [
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          49.0,
+          43.0,
+          64.0,
+          52.0,
+          52.0,
+          64.0,
+          58.0,
+          58.0,
+          58.0,
+          64.0,
+          58.0
+        ],
+        "shifts_per_nurse": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "hours_spread": 21.0,
+        "home_fit_pct": 94.4,
+        "weekend_spread": 1,
+        "sc1_violators": 0,
+        "sc3_missed": 0,
+        "sc6_violators": 0
+      }
+    }
+  },
+  "V3_home_max": {
+    "scenario": "V3_home_max",
+    "weights": {
+      "sc1_consecutive": 10,
+      "sc2_fairness": 5,
+      "sc3_min_hours": 8,
+      "sc4_home": 50,
+      "sc5_weekend": 3,
+      "sc6_evening": 6
+    },
+    "solver_status": "OPTIMAL",
+    "solver_feasible": true,
+    "time_sec": 17.79,
+    "objective": 271.0,
+    "hc_verify": {
+      "all_satisfied": true,
+      "total_violations": 0,
+      "by_constraint": {
+        "HC1": 0,
+        "HC2": 0,
+        "HC3": 0,
+        "HC4": 0,
+        "HC5": 0,
+        "HC6": 0,
+        "HC7": 0,
+        "HC8": 0
+      },
+      "samples": {}
+    },
+    "hc_all_satisfied": true,
+    "sc_evaluation": {
+      "scores": {
+        "SC1_consecutive": 100.0,
+        "SC2_fairness": 2.5,
+        "SC3_min_hours": 100.0,
+        "SC4_home_clinic": 96.5,
+        "SC5_weekend": 66.7,
+        "SC6_evening": 100.0,
+        "overall": 77.6
+      },
+      "raw": {
+        "hours_per_nurse": [
+          72.0,
+          72.0,
+          72.0,
+          64.0,
+          56.0,
+          72.0,
+          64.0,
+          49.0,
+          33.0,
+          64.0,
+          49.0,
+          41.0,
+          64.0,
+          51.0,
+          50.0,
+          67.0,
+          69.0,
+          59.0
+        ],
+        "shifts_per_nurse": [
+          9,
+          9,
+          9,
+          8,
+          7,
+          9,
+          8,
+          8,
+          6,
+          8,
+          8,
+          7,
+          8,
+          7,
+          7,
+          9,
+          9,
+          8
+        ],
+        "hours_spread": 39.0,
+        "home_fit_pct": 96.5,
+        "weekend_spread": 2,
+        "sc1_violators": 0,
+        "sc3_missed": 0,
+        "sc6_violators": 0
+      }
+    }
+  },
+  "V4_welfare": {
+    "scenario": "V4_welfare",
+    "weights": {
+      "sc1_consecutive": 80,
+      "sc2_fairness": 5,
+      "sc3_min_hours": 8,
+      "sc4_home": 4,
+      "sc5_weekend": 3,
+      "sc6_evening": 50
+    },
+    "solver_status": "FEASIBLE",
+    "solver_feasible": true,
+    "time_sec": 60.02,
+    "objective": 35.0,
+    "hc_verify": {
+      "all_satisfied": true,
+      "total_violations": 0,
+      "by_constraint": {
+        "HC1": 0,
+        "HC2": 0,
+        "HC3": 0,
+        "HC4": 0,
+        "HC5": 0,
+        "HC6": 0,
+        "HC7": 0,
+        "HC8": 0
+      },
+      "samples": {}
+    },
+    "hc_all_satisfied": true,
+    "sc_evaluation": {
+      "scores": {
+        "SC1_consecutive": 100.0,
+        "SC2_fairness": 55.0,
+        "SC3_min_hours": 100.0,
+        "SC4_home_clinic": 94.4,
+        "SC5_weekend": 83.3,
+        "SC6_evening": 100.0,
+        "overall": 88.8
+      },
+      "raw": {
+        "hours_per_nurse": [
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          52.0,
+          46.0,
+          64.0,
+          52.0,
+          46.0,
+          64.0,
+          58.0,
+          58.0,
+          58.0,
+          64.0,
+          58.0
+        ],
+        "shifts_per_nurse": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "hours_spread": 18.0,
+        "home_fit_pct": 94.4,
+        "weekend_spread": 1,
+        "sc1_violators": 0,
+        "sc3_missed": 0,
+        "sc6_violators": 0
+      }
+    }
+  },
+  "V5_min_hours": {
+    "scenario": "V5_min_hours",
+    "weights": {
+      "sc1_consecutive": 10,
+      "sc2_fairness": 5,
+      "sc3_min_hours": 50,
+      "sc4_home": 4,
+      "sc5_weekend": 3,
+      "sc6_evening": 6
+    },
+    "solver_status": "FEASIBLE",
+    "solver_feasible": true,
+    "time_sec": 60.04,
+    "objective": 35.0,
+    "hc_verify": {
+      "all_satisfied": true,
+      "total_violations": 0,
+      "by_constraint": {
+        "HC1": 0,
+        "HC2": 0,
+        "HC3": 0,
+        "HC4": 0,
+        "HC5": 0,
+        "HC6": 0,
+        "HC7": 0,
+        "HC8": 0
+      },
+      "samples": {}
+    },
+    "hc_all_satisfied": true,
+    "sc_evaluation": {
+      "scores": {
+        "SC1_consecutive": 100.0,
+        "SC2_fairness": 55.0,
+        "SC3_min_hours": 100.0,
+        "SC4_home_clinic": 94.4,
+        "SC5_weekend": 83.3,
+        "SC6_evening": 100.0,
+        "overall": 88.8
+      },
+      "raw": {
+        "hours_per_nurse": [
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          64.0,
+          52.0,
+          46.0,
+          64.0,
+          49.0,
+          49.0,
+          64.0,
+          58.0,
+          58.0,
+          58.0,
+          64.0,
+          58.0
+        ],
+        "shifts_per_nurse": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "hours_spread": 18.0,
+        "home_fit_pct": 94.4,
+        "weekend_spread": 1,
+        "sc1_violators": 0,
+        "sc3_missed": 0,
+        "sc6_violators": 0
+      }
+    }
+  }
+}

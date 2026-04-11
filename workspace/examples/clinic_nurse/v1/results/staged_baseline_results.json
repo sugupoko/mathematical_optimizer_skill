@@ -1,0 +1,247 @@
+{
+  "first_infeasible_phase": null,
+  "phases": [
+    {
+      "phase": "phase0_vars_only",
+      "flags": {},
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.04,
+      "total_assigned": 0,
+      "hc_verify": {
+        "total": 108,
+        "by_hc": {
+          "HC1": 72,
+          "HC2": 0,
+          "HC3": 0,
+          "HC4": 0,
+          "HC5": 0,
+          "HC6": 0,
+          "HC7": 36,
+          "HC8": 0
+        },
+        "all_ok": false
+      }
+    },
+    {
+      "phase": "phase1_hc1",
+      "flags": {
+        "add_hc1": true
+      },
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.01,
+      "total_assigned": 144,
+      "hc_verify": {
+        "total": 198,
+        "by_hc": {
+          "HC1": 0,
+          "HC2": 4,
+          "HC3": 4,
+          "HC4": 12,
+          "HC5": 126,
+          "HC6": 28,
+          "HC7": 0,
+          "HC8": 24
+        },
+        "all_ok": false
+      }
+    },
+    {
+      "phase": "phase2_hc1_hc2",
+      "flags": {
+        "add_hc1": true,
+        "add_hc2": true
+      },
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.06,
+      "total_assigned": 144,
+      "hc_verify": {
+        "total": 100,
+        "by_hc": {
+          "HC1": 0,
+          "HC2": 0,
+          "HC3": 5,
+          "HC4": 14,
+          "HC5": 13,
+          "HC6": 29,
+          "HC7": 17,
+          "HC8": 22
+        },
+        "all_ok": false
+      }
+    },
+    {
+      "phase": "phase3_hc1_hc3",
+      "flags": {
+        "add_hc1": true,
+        "add_hc2": true,
+        "add_hc3": true
+      },
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.04,
+      "total_assigned": 144,
+      "hc_verify": {
+        "total": 87,
+        "by_hc": {
+          "HC1": 0,
+          "HC2": 0,
+          "HC3": 0,
+          "HC4": 12,
+          "HC5": 11,
+          "HC6": 28,
+          "HC7": 16,
+          "HC8": 20
+        },
+        "all_ok": false
+      }
+    },
+    {
+      "phase": "phase4_hc1_hc4",
+      "flags": {
+        "add_hc1": true,
+        "add_hc2": true,
+        "add_hc3": true,
+        "add_hc4": true
+      },
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.03,
+      "total_assigned": 144,
+      "hc_verify": {
+        "total": 69,
+        "by_hc": {
+          "HC1": 0,
+          "HC2": 0,
+          "HC3": 0,
+          "HC4": 0,
+          "HC5": 13,
+          "HC6": 25,
+          "HC7": 12,
+          "HC8": 19
+        },
+        "all_ok": false
+      }
+    },
+    {
+      "phase": "phase5_hc1_hc5",
+      "flags": {
+        "add_hc1": true,
+        "add_hc2": true,
+        "add_hc3": true,
+        "add_hc4": true,
+        "add_hc5": true
+      },
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.04,
+      "total_assigned": 144,
+      "hc_verify": {
+        "total": 59,
+        "by_hc": {
+          "HC1": 0,
+          "HC2": 0,
+          "HC3": 0,
+          "HC4": 0,
+          "HC5": 0,
+          "HC6": 26,
+          "HC7": 11,
+          "HC8": 22
+        },
+        "all_ok": false
+      }
+    },
+    {
+      "phase": "phase6_hc1_hc6",
+      "flags": {
+        "add_hc1": true,
+        "add_hc2": true,
+        "add_hc3": true,
+        "add_hc4": true,
+        "add_hc5": true,
+        "add_hc6": true
+      },
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.04,
+      "total_assigned": 144,
+      "hc_verify": {
+        "total": 11,
+        "by_hc": {
+          "HC1": 0,
+          "HC2": 0,
+          "HC3": 0,
+          "HC4": 0,
+          "HC5": 0,
+          "HC6": 0,
+          "HC7": 11,
+          "HC8": 0
+        },
+        "all_ok": false
+      }
+    },
+    {
+      "phase": "phase7_hc1_hc7",
+      "flags": {
+        "add_hc1": true,
+        "add_hc2": true,
+        "add_hc3": true,
+        "add_hc4": true,
+        "add_hc5": true,
+        "add_hc6": true,
+        "add_hc7": true
+      },
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.04,
+      "total_assigned": 144,
+      "hc_verify": {
+        "total": 0,
+        "by_hc": {
+          "HC1": 0,
+          "HC2": 0,
+          "HC3": 0,
+          "HC4": 0,
+          "HC5": 0,
+          "HC6": 0,
+          "HC7": 0,
+          "HC8": 0
+        },
+        "all_ok": true
+      }
+    },
+    {
+      "phase": "phase8_full",
+      "flags": {
+        "add_hc1": true,
+        "add_hc2": true,
+        "add_hc3": true,
+        "add_hc4": true,
+        "add_hc5": true,
+        "add_hc6": true,
+        "add_hc7": true,
+        "add_hc8": true
+      },
+      "solver_status": "OPTIMAL",
+      "solver_feasible": true,
+      "time_sec": 0.04,
+      "total_assigned": 144,
+      "hc_verify": {
+        "total": 0,
+        "by_hc": {
+          "HC1": 0,
+          "HC2": 0,
+          "HC3": 0,
+          "HC4": 0,
+          "HC5": 0,
+          "HC6": 0,
+          "HC7": 0,
+          "HC8": 0
+        },
+        "all_ok": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+clinic_id,name,location,operating_hours,specialties
+C1,中央クリニック,central,"08:00-22:00","general,emergency,pediatric"
+C2,北クリニック,north,"09:00-18:00","general,pediatric,chronic"
+C3,南クリニック,south,"08:00-20:00","general,emergency,chronic"

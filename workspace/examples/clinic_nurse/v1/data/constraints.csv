@@ -1,0 +1,15 @@
+constraint_id,type,category,description,parameter
+HC1,hard,demand,各シフトの看護師必要人数を満たす,nurse_required
+HC2,hard,supply,看護師の週最大勤務時間を超えない,max_hours_per_week
+HC3,hard,availability,看護師の利用不可日には割当しない,unavailable_days
+HC4,hard,skill,看護師は必要な認定資格を全て持つこと,required_certifications
+HC5,hard,rest,夜シフト（evening/night）翌日の朝シフト禁止（11h休息）,11
+HC6,hard,uniqueness,同一日に1人の看護師は1シフトのみ,1
+HC7,hard,senior,senior_required=1のシフトにはseniorレベルを最低1名配置,senior_required
+HC8,hard,consistency,1日に複数クリニック掛け持ち禁止,1
+SC1,soft,quality,連続勤務は最大5日まで,5
+SC2,soft,fairness,看護師間の勤務時間の偏りを最小化,std_dev
+SC3,soft,quality,最低勤務時間をなるべく確保,min_hours_per_week
+SC4,soft,preference,home_clinicへの配属をなるべく優先,home_clinic
+SC5,soft,quality,週末配置（土日）は公平に分散,fair_weekend
+SC6,soft,quality,夜シフト（evening）は2週間で最大6回,6

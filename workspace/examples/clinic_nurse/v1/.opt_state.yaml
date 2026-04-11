@@ -1,0 +1,220 @@
+version: 1
+project_name: "clinic_nurse_example"
+created_at: "2026-04-11T00:00:00"
+updated_at: "2026-04-11T00:00:00"
+
+assess:
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
+  problem_type: "scheduling"
+  problem_subtype: "multi_clinic_nurse_rostering"
+  scale:
+    variables: 1296
+    hc_count: 8
+    sc_count: 6
+    size_class: "medium-to-large"
+  complexity:
+    overall: "complex"
+    axes:
+      variables: "complex"       # 1296 > 1000
+      hc_count: "medium"         # 8 (in 6-10 range)
+      problem_type: "complex"    # composite: multi-clinic + cert + senior
+      interaction: "complex"     # cert × senior × rest × home_clinic strongly coupled
+      domain: "medium"           # extended NRP
+    rationale: "1,296 decision variables, 3 clinics × 8 HCs with strong interaction between cert matching, senior placement, and home_clinic preference. Requires staged baseline."
+    recommended_approach: "staged"
+  entities:
+    - name: "nurses"
+      count: 18
+      source_file: "nurses.csv"
+    - name: "clinics"
+      count: 3
+      source_file: "clinics.csv"
+    - name: "shifts"
+      count: 72
+      source_file: "shifts.csv"
+  objectives:
+    primary: "Feasibility: satisfy all HC1-HC8"
+    secondary: "SC1-SC6 overall score maximization"
+  hard_constraints:
+    - id: "HC1"
+      description: "Each shift has required number of nurses"
+      ref: "R3,R4"
+    - id: "HC2"
+      description: "Nurse weekly hours <= max_hours"
+      ref: "R1,R4"
+    - id: "HC3"
+      description: "No assignment on unavailable days"
+      ref: "R1,R4"
+    - id: "HC4"
+      description: "Nurse must have required certifications"
+      ref: "R1,R3,R4"
+    - id: "HC5"
+      description: "No morning after evening (11h rest)"
+      ref: "R4"
+    - id: "HC6"
+      description: "At most 1 shift per day per nurse"
+      ref: "R4"
+    - id: "HC7"
+      description: "senior_required=1 shifts must have >=1 senior"
+      ref: "R3,R4"
+    - id: "HC8"
+      description: "No multi-clinic assignment same day"
+      ref: "R4"
+  soft_constraints:
+    - id: "SC1"
+      description: "Max 5 consecutive work days"
+    - id: "SC2"
+      description: "Minimize nurse hours fairness (std_dev)"
+    - id: "SC3"
+      description: "Meet min_hours_per_week"
+    - id: "SC4"
+      description: "Prefer home_clinic assignment"
+    - id: "SC5"
+      description: "Fair weekend distribution"
+    - id: "SC6"
+      description: "Evening shifts <= 6 per 2 weeks"
+  supply_demand:
+    total_demand_nurse_shifts: 144
+    supply_upper_bound: 172
+    utilization: 0.837
+    slack_ratio: 0.163
+  hypotheses:
+    - "Feasibility achievable (16% slack in supply)"
+    - "HC7 (senior coverage) may be locally tight: 36 shifts / 6 seniors"
+    - "HC4 cert requirements easily satisfied (8/6/6 capable vs 4 each)"
+    - "SC4 home_clinic is the softest constraint (will be sacrificed first)"
+  assumptions:
+    - key: "shift_as_unit"
+      value: "1 nurse = 1 shift unit per day"
+      ref: "R5"
+      confidence: "high"
+    - key: "multi_clinic_week"
+      value: "allowed across days within week"
+      ref: "R5"
+      confidence: "medium"
+      note: "HC8 only prohibits same-day multi-clinic"
+    - key: "travel_time"
+      value: "not considered"
+      ref: "R5"
+      confidence: "medium"
+    - key: "nurse_preferences"
+      value: "not considered (v1)"
+      ref: "R5"
+      confidence: "low"
+  data_quality:
+    overall: "良好"
+    issues: []
+
+baseline:
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
+  strategy: "staged"
+  time_limit_per_phase_sec: 60
+  num_workers: 4
+  independent_hc_verifier: true
+  first_infeasible_phase: null  # all phases feasible
+  all_phases_feasible: true
+  final_solution:
+    phase: "phase8_full"
+    total_assigned: 144
+    hc_all_satisfied: true
+    hc_violations: 0
+  phases_summary:
+    phase0_vars_only:      {status: OPTIMAL, assigned: 0,   hc_viol: 108, time: 0.04}
+    phase1_hc1:            {status: OPTIMAL, assigned: 144, hc_viol: 198, time: 0.01}
+    phase2_hc1_hc2:        {status: OPTIMAL, assigned: 144, hc_viol: 100, time: 0.06}
+    phase3_hc1_hc3:        {status: OPTIMAL, assigned: 144, hc_viol: 87,  time: 0.04}
+    phase4_hc1_hc4:        {status: OPTIMAL, assigned: 144, hc_viol: 69,  time: 0.03}
+    phase5_hc1_hc5:        {status: OPTIMAL, assigned: 144, hc_viol: 59,  time: 0.04}
+    phase6_hc1_hc6:        {status: OPTIMAL, assigned: 144, hc_viol: 11,  time: 0.04}
+    phase7_hc1_hc7:        {status: OPTIMAL, assigned: 144, hc_viol: 0,   time: 0.04}
+    phase8_full:           {status: OPTIMAL, assigned: 144, hc_viol: 0,   time: 0.04}
+  bottleneck:
+    constraint: null
+    note: "No bottleneck — problem is feasible with all 8 HCs. Supply/demand slack 16% and balanced cert distribution give enough room."
+  scripts:
+    - path: "scripts/staged_baseline.py"
+
+improve:
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
+  time_limit_per_scenario_sec: 60
+  num_workers: 4
+  independent_hc_verifier: true
+  scenarios:
+    A_balanced:
+      desc: "Balanced SC weights (default)"
+      solver_status: FEASIBLE
+      hc_all_satisfied: true
+      hc_total_violations: 0
+      objective: 35
+      sc_overall: 90.0
+      sc_scores: {SC1: 100, SC2: 62.5, SC3: 100, SC4: 94.4, SC5: 83.3, SC6: 100}
+      recommended: true
+    B_fairness:
+      desc: "Fairness emphasized"
+      solver_status: OPTIMAL
+      hc_all_satisfied: true
+      hc_total_violations: 0
+      objective: 52
+      sc_overall: 87.5
+      sc_scores: {SC1: 100, SC2: 47.5, SC3: 100, SC4: 94.4, SC5: 83.3, SC6: 100}
+    C_home_clinic:
+      desc: "Home clinic preferred"
+      solver_status: OPTIMAL
+      hc_all_satisfied: true
+      hc_total_violations: 0
+      objective: 171
+      sc_overall: 77.6
+      sc_scores: {SC1: 100, SC2: 2.5, SC3: 100, SC4: 96.5, SC5: 66.7, SC6: 100}
+      tradeoff: "SC4 gains +2.1 but SC2 loses -60 and SC5 loses -16.6"
+    D_welfare:
+      desc: "SC1 + SC6 emphasized"
+      solver_status: FEASIBLE
+      hc_all_satisfied: true
+      hc_total_violations: 0
+      objective: 35
+      sc_overall: 87.5
+      sc_scores: {SC1: 100, SC2: 47.5, SC3: 100, SC4: 94.4, SC5: 83.3, SC6: 100}
+  variants:
+    V1_balanced:     {hc: OK, overall: 88.8, scores: {SC1: 100, SC2: 55,  SC3: 100, SC4: 94.4, SC5: 83.3, SC6: 100}}
+    V2_fairness_max: {hc: OK, overall: 87.5, scores: {SC1: 100, SC2: 47.5, SC3: 100, SC4: 94.4, SC5: 83.3, SC6: 100}}
+    V3_home_max:     {hc: OK, overall: 77.6, scores: {SC1: 100, SC2: 2.5,  SC3: 100, SC4: 96.5, SC5: 66.7, SC6: 100}}
+    V4_welfare:      {hc: OK, overall: 88.8, scores: {SC1: 100, SC2: 55,  SC3: 100, SC4: 94.4, SC5: 83.3, SC6: 100}}
+    V5_min_hours:    {hc: OK, overall: 88.8, scores: {SC1: 100, SC2: 55,  SC3: 100, SC4: 94.4, SC5: 83.3, SC6: 100}}
+  best:
+    scenario: A_balanced
+    sc_overall: 90.0
+    hc_all_satisfied: true
+  qa_checklist:
+    hc_spec_code_match: "OK"
+    sc_spec_objective_match: "OK"
+    assumption_values_match: "OK"
+    evaluator_objective_match: "OK"
+    spec_internal_contradictions: "none"
+    source_freshness: "OK"
+    independent_hc_verifier: "OK"
+
+report:
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
+  output_file: "reports/proposal.md"
+  recommended_scenario: "A_balanced"
+  recommended_sc_overall: 90.0
+  proposals:
+    - name: "A. ソルバー自動生成 (balanced)"
+      cost: 0
+      effect: "weekly 9h -> 5s, all HCs satisfied, SC overall 90.0"
+      difficulty: "すぐできる"
+      recommended: true
+    - name: "B. Excel + 制約チェッカー"
+      cost: "開発工数のみ"
+      effect: "手修正後のミス検知"
+      difficulty: "1-2週間"
+    - name: "C. Web アプリ化"
+      cost: "開発工数(大)"
+      effect: "drag&drop + 再最適化"
+      difficulty: "2-3ヶ月"
+  impossibility_findings: []
+  feasibility_note: "全 8 HC を満たす解が存在（独立検証済み）。構造的ボトルネックなし。"
