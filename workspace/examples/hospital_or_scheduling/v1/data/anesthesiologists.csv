@@ -1,0 +1,11 @@
+anesth_id,name,pediatric_qualified,max_daily_minutes,unavailable_days
+A01,An_Abe,False,480,
+A02,An_Mori,False,480,3
+A03,An_Ikeda,False,480,
+A04,An_Hashimoto,False,480,
+A05,An_Ogawa,True,480,
+A06,An_Ishikawa,True,480,5
+A07,An_Maeda,True,480,
+A08,An_Fujita,True,480,2
+A09,An_Okada,False,480,
+A10,An_Hayashi,False,480,4

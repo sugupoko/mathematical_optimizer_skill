@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v3.3.0] - 2026-04-11
+
+### Added / 新規追加
+
+#### New Example: multi_depot_routing / マルチデポ配送VRP
+- 3 depots × 8 vehicles × 12 drivers × 30 customers × 5 days = 1,680 vars / 関東圏 MD-VRPTW
+- **13 HCs** (capacity, time window, vehicle type, driver cert, rest, etc.)
+- All 12 phases feasible (0.52s total) / 全 Phase feasible
+- SC tradeoff discovered: 6 vehicles/1694km vs 5 vehicles/1727km / 車両数 vs 距離のトレードオフ
+
+#### New Example: hospital_or_scheduling (hardest example) / 手術室スケジューリング (最難関)
+- 50 patients × 6 ORs × 5 days, **22 HCs + 8 SCs**, ~2,900 binary vars
+- Surgeons (15) × anesthesiologists (10) × nurses (20) with specialty and certification requirements
+- Cardiac/pediatric room equipment constraints, ICU bed capacity, urgent patient windows
+- Fully solvable: 50/50 patients scheduled with all 22 HCs satisfied
+- Clear tradeoff: coverage (50/50 + surgeon spread 775min) vs fairness (34/50 + spread 175min)
+- **Hardest example in the skill pack** — demonstrates staged baseline on 22 HCs
+
+#### examples_readme.md Updated / サンプル README 更新
+- Now lists 10 examples with HC counts / 10 サンプルと HC 数を一覧化
+- hospital_or_scheduling 🏆 highlighted as flagship complex example
+
+---
+
 ## [v3.2.0] - 2026-04-11
 
 ### Added / 新規追加

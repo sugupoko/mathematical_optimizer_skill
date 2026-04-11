@@ -1,0 +1,7 @@
+room_id,name,has_bypass_machine,has_pediatric_eq,has_c_arm,daily_open_minutes
+OR1,Cardiac-Main,True,False,True,480
+OR2,General-A,False,False,False,480
+OR3,General-B,False,False,True,480
+OR4,Ortho-Main,False,False,True,480
+OR5,Pediatric-Main,False,True,False,480
+OR6,Urgent-Flex,False,True,True,600

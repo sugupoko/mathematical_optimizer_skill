@@ -1,0 +1,16 @@
+surgeon_id,name,specialty,max_daily_minutes,max_weekly_minutes,unavailable_days
+S01,Dr_Tanaka,cardiac,480,2100,
+S02,Dr_Sato,cardiac,480,2100,5
+S03,Dr_Yamada,general,480,2100,
+S04,Dr_Suzuki,general,480,2100,3
+S05,Dr_Ito,general,480,2100,
+S06,Dr_Watanabe,general,480,2100,2
+S07,Dr_Takahashi,orthopedic,480,2100,
+S08,Dr_Nakamura,orthopedic,480,2100,4
+S09,Dr_Kobayashi,orthopedic,480,2100,
+S10,Dr_Kato,pediatric,480,2100,
+S11,Dr_Yoshida,pediatric,480,2100,5
+S12,Dr_Yamamoto,neuro,480,2100,
+S13,Dr_Matsumoto,neuro,480,2100,1
+S14,Dr_Inoue,vascular,480,2100,
+S15,Dr_Kimura,vascular,480,2100,4

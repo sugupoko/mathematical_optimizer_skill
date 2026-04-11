@@ -1,0 +1,31 @@
+id,type,description
+HC1,hard,Each elective patient scheduled at most once; urgent patients must be scheduled
+HC2,hard,OR daily open time (including cleaning) not exceeded
+HC3,hard,Assigned surgeon specialty matches patient specialty_required
+HC4,hard,Exactly 1 surgeon per scheduled surgery
+HC5,hard,Exactly 1 anesthesiologist per scheduled surgery
+HC6,hard,At least 2 nurses per surgery (scrub + circulator)
+HC7,hard,Long surgeries (>180 min) require 3 nurses
+HC8,hard,Cardiac surgery only in room with bypass machine
+HC9,hard,Pediatric surgery only in pediatric-equipped room
+HC10,hard,Pediatric surgery requires pediatric-qualified anesthesiologist
+HC11,hard,Pediatric surgery requires >=1 pediatric-qualified nurse
+HC12,hard,Surgeon daily minutes <= max_daily_minutes
+HC13,hard,Surgeon weekly minutes <= max_weekly_minutes
+HC14,hard,Anesthesiologist daily minutes <= max_daily_minutes
+HC15,hard,Nurse daily minutes <= max_daily_minutes
+HC16,hard,30-min cleaning gap between surgeries (absorbed as +30 per case)
+HC17,hard,Surgeon not scheduled on unavailable_days
+HC18,hard,Anesthesiologist not scheduled on unavailable_days
+HC19,hard,Nurse not scheduled on unavailable_days
+HC20,hard,ICU-requiring patients on day d <= icu_beds[d]
+HC21,hard,Urgent patients scheduled within [earliest_day, earliest_day+1]
+HC22,hard,Patient requested_surgeon honored when specified
+SC1,soft,Maximize number of elective patients scheduled
+SC2,soft,Surgeon workload fairness (minimize max-min minutes)
+SC3,soft,Balance OR utilization across rooms/days
+SC4,soft,Nurse workload fairness
+SC5,soft,Minimize total cleaning overhead (fewer but longer cases preferred)
+SC6,soft,Prefer requested_surgeon for patients with preferences
+SC7,soft,Schedule semi_urgent patients early
+SC8,soft,Minimize pediatric-room use for non-pediatric cases

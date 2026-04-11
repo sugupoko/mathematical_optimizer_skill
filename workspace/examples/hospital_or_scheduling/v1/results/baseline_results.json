@@ -1,0 +1,1063 @@
+{
+  "first_infeasible": null,
+  "phases": [
+    {
+      "phase": "P01_core_assign",
+      "status": "OPTIMAL",
+      "score": 50.0,
+      "sched_count": 50,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": false,
+          "n_viol": 45
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": false,
+          "n_viol": 4
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 6
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 9
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC13": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC22": {
+          "ok": false,
+          "n_viol": 19
+        }
+      }
+    },
+    {
+      "phase": "P02_+specialty",
+      "status": "OPTIMAL",
+      "score": 50.0,
+      "sched_count": 50,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": false,
+          "n_viol": 4
+        },
+        "HC9": {
+          "ok": false,
+          "n_viol": 6
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 9
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 3
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC22": {
+          "ok": false,
+          "n_viol": 12
+        }
+      }
+    },
+    {
+      "phase": "P03_+equipment",
+      "status": "OPTIMAL",
+      "score": 50.0,
+      "sched_count": 50,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 9
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": false,
+          "n_viol": 2
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC21": {
+          "ok": false,
+          "n_viol": 3
+        },
+        "HC22": {
+          "ok": false,
+          "n_viol": 12
+        }
+      }
+    },
+    {
+      "phase": "P04_+windows",
+      "status": "OPTIMAL",
+      "score": 50.0,
+      "sched_count": 50,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 9
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": false,
+          "n_viol": 3
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": false,
+          "n_viol": 12
+        }
+      }
+    },
+    {
+      "phase": "P05_+surgeon_caps",
+      "status": "OPTIMAL",
+      "score": 50.0,
+      "sched_count": 50,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 9
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": false,
+          "n_viol": 5
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": false,
+          "n_viol": 12
+        }
+      }
+    },
+    {
+      "phase": "P06_+anesth",
+      "status": "OPTIMAL",
+      "score": 50.0,
+      "sched_count": 50,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": false,
+          "n_viol": 6
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": false,
+          "n_viol": 1
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": false,
+          "n_viol": 15
+        }
+      }
+    },
+    {
+      "phase": "P07_+ped_qualification",
+      "status": "OPTIMAL",
+      "score": 50.0,
+      "sched_count": 50,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": false,
+          "n_viol": 9
+        }
+      }
+    },
+    {
+      "phase": "P08_+nurse_pool",
+      "status": "OPTIMAL",
+      "score": 50.0,
+      "sched_count": 50,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": false,
+          "n_viol": 9
+        }
+      }
+    },
+    {
+      "phase": "P09_+icu",
+      "status": "OPTIMAL",
+      "score": 50.0,
+      "sched_count": 50,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": false,
+          "n_viol": 9
+        }
+      }
+    },
+    {
+      "phase": "P10_+requested_surgeon",
+      "status": "OPTIMAL",
+      "score": 50.0,
+      "sched_count": 50,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    },
+    {
+      "phase": "P11_all_HCs",
+      "status": "OPTIMAL",
+      "score": 50.0,
+      "sched_count": 50,
+      "verify": {
+        "HC1": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC2": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC3": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC4": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC5": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC6": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC7": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC8": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC9": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC10": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC11": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC12": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC13": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC14": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC15": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC16": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC17": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC18": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC19": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC20": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC21": {
+          "ok": true,
+          "n_viol": 0
+        },
+        "HC22": {
+          "ok": true,
+          "n_viol": 0
+        }
+      }
+    }
+  ],
+  "n_patients": 50,
+  "n_hcs": 22
+}

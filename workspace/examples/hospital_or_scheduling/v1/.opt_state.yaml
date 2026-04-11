@@ -1,0 +1,87 @@
+project: hospital_or_scheduling
+version: v1
+updated: 2026-04-11
+
+problem:
+  class: resource_constrained_scheduling
+  subclass: multi_resource_or_scheduling
+  complexity: complex
+  n_patients: 50
+  n_rooms: 6
+  n_surgeons: 15
+  n_anesthesiologists: 10
+  n_nurses: 20
+  n_days: 5
+  hc_count: 22
+  sc_count: 8
+  variables_binary_approx: 2900
+
+data:
+  operating_rooms: data/operating_rooms.csv
+  surgeons: data/surgeons.csv
+  anesthesiologists: data/anesthesiologists.csv
+  nurses: data/nurses.csv
+  patients: data/patients.csv
+  icu_beds: data/icu_beds.csv
+  constraints: data/constraints.csv
+
+spec:
+  path: spec.md
+  assumptions:
+    - A1_or_day_aggregate_time
+    - A2_nurse_pool_aggregate
+    - A3_icu_one_day_occupancy
+    - A4_urgent_window_plus_one
+    - A5_requested_surgeon_hard
+    - A6_or6_relief_valve
+    - A7_pediatric_room_routing
+    - A8_cardiac_or1_only
+    - A9_no_intraday_surgeon_continuity
+
+assess:
+  report: reports/assess_report.md
+  confirmation_questions: 6
+  hypothesised_bottlenecks:
+    - surgeon_S01_cardiac
+    - or5_pediatric_day1_2
+    - neuro_day1
+    - vascular_urgent
+
+baseline:
+  script: scripts/staged_baseline.py
+  phases: 11
+  first_infeasible: null
+  final_status: OPTIMAL
+  final_scheduled: 50
+  final_hc_ok: 22
+  time_limit_sec: 120
+  workers: 4
+  report: reports/baseline_report.md
+  results: results/baseline_results.json
+
+improve:
+  script: scripts/improve.py
+  scenarios:
+    balanced:   {covered: 49, hc_ok: 22, surgeon_spread: 375}
+    coverage:   {covered: 50, hc_ok: 22, surgeon_spread: 815}
+    fairness:   {covered: 34, hc_ok: 22, surgeon_spread: 175}
+    efficiency: {covered: 49, hc_ok: 22, surgeon_spread: 470}
+  recommended_profile: balanced
+  report: reports/improve_report.md
+  results: results/improve_results.json
+
+variants:
+  script: scripts/variants.py
+  profiles: 5
+  all_feasible: true
+  results: results/variants_results.json
+
+proposal:
+  report: reports/proposal.md
+  audience: hospital_director
+  ask: approve_balanced_profile
+
+next_actions:
+  - confirm_six_assess_questions_with_director
+  - if_hc22_soft_rerun_improve
+  - opt_deploy_balanced_profile

@@ -1,0 +1,60 @@
+{
+  "scenarios": [
+    {
+      "scenario": "balanced",
+      "status": "FEASIBLE",
+      "metrics": {
+        "covered": 49,
+        "surgeon_spread_min": 315,
+        "or_max_minutes": 300,
+        "non_ped_in_ped_room": 5,
+        "semi_urgent_earliness": 49,
+        "objective": 4043.0,
+        "hc_ok": 22,
+        "hc_total": 22
+      }
+    },
+    {
+      "scenario": "coverage",
+      "status": "OPTIMAL",
+      "metrics": {
+        "covered": 50,
+        "surgeon_spread_min": 775,
+        "or_max_minutes": 410,
+        "non_ped_in_ped_room": 0,
+        "semi_urgent_earliness": 50,
+        "objective": 25050.0,
+        "hc_ok": 22,
+        "hc_total": 22
+      }
+    },
+    {
+      "scenario": "fairness",
+      "status": "OPTIMAL",
+      "metrics": {
+        "covered": 34,
+        "surgeon_spread_min": 175,
+        "or_max_minutes": 300,
+        "non_ped_in_ped_room": 0,
+        "semi_urgent_earliness": 35,
+        "objective": -30.0,
+        "hc_ok": 22,
+        "hc_total": 22
+      }
+    },
+    {
+      "scenario": "efficiency",
+      "status": "OPTIMAL",
+      "metrics": {
+        "covered": 49,
+        "surgeon_spread_min": 305,
+        "or_max_minutes": 300,
+        "non_ped_in_ped_room": 5,
+        "semi_urgent_earliness": 49,
+        "objective": 2583.0,
+        "hc_ok": 22,
+        "hc_total": 22
+      }
+    }
+  ]
+}

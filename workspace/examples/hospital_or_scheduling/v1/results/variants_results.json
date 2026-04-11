@@ -1,0 +1,79 @@
+{
+  "variants": [
+    {
+      "name": "V1_director_default",
+      "status": "FEASIBLE",
+      "covered": 49,
+      "hc_ok": 22,
+      "objective": 4043.0,
+      "weights": {
+        "cov": 100,
+        "su_early": 3,
+        "ped_purity": 5,
+        "clean": 1,
+        "or_balance": 1,
+        "surg_fair": 1
+      }
+    },
+    {
+      "name": "V2_max_throughput",
+      "status": "OPTIMAL",
+      "covered": 50,
+      "hc_ok": 22,
+      "objective": 50000.0,
+      "weights": {
+        "cov": 1000,
+        "su_early": 0,
+        "ped_purity": 1,
+        "clean": 0,
+        "or_balance": 0,
+        "surg_fair": 0
+      }
+    },
+    {
+      "name": "V3_union_friendly",
+      "status": "OPTIMAL",
+      "covered": 32,
+      "hc_ok": 22,
+      "objective": -2738.0,
+      "weights": {
+        "cov": 100,
+        "su_early": 2,
+        "ped_purity": 3,
+        "clean": 0,
+        "or_balance": 5,
+        "surg_fair": 15
+      }
+    },
+    {
+      "name": "V4_cost_min",
+      "status": "FEASIBLE",
+      "covered": 49,
+      "hc_ok": 22,
+      "objective": 1997.0,
+      "weights": {
+        "cov": 80,
+        "su_early": 1,
+        "ped_purity": 10,
+        "clean": 8,
+        "or_balance": 3,
+        "surg_fair": 1
+      }
+    },
+    {
+      "name": "V5_urgent_first",
+      "status": "OPTIMAL",
+      "covered": 49,
+      "hc_ok": 22,
+      "objective": 8901.0,
+      "weights": {
+        "cov": 200,
+        "su_early": 15,
+        "ped_purity": 5,
+        "clean": 1,
+        "or_balance": 1,
+        "surg_fair": 2
+      }
+    }
+  ]
+}
