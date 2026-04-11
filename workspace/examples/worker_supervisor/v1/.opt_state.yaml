@@ -1,195 +1,187 @@
-project: worker_supervisor
-version: v1
-created: 2026-04-11
+version: 1
+project_name: "worker_supervisor_example"
+created_at: "2026-04-11T00:00:00"
+updated_at: "2026-04-11T00:00:00"
 
 assess:
-  done: true
-  problem_type: extended_nurse_scheduling_with_pair_matching
-  refs:
-    R1: data/workers.csv
-    R2: data/supervisors.csv
-    R3: data/shifts.csv
-    R4: data/pair_constraints.csv
-    R5: data/constraints.csv
-    R6: analyst_assumptions
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
+  problem_type: "scheduling"
+  problem_subtype: "worker_supervisor_rostering_with_pairs"
   scale:
-    workers: 20
-    supervisors: 8
-    shifts: 42
-    binary_vars: 1176
-    hard_constraints: 12
-    soft_constraints: 8
+    variables: 1176
+    hc_count: 12
+    sc_count: 8
+    size_class: "large"
   complexity:
-    variable_scale: complex
-    hc_count: complex
-    problem_type: complex
-    constraint_interaction: strong
-    domain_familiarity: medium
-    overall: complex
-  recommended_strategy: staged_baseline
-  open_questions:
-    - Q1_demand_equality
-    - Q2_night_day_attribution
-    - Q3_HC9_interpretation
-    - Q4_HC10_interpretation
-    - Q5_bilingual_scope
-    - Q6_mentor_pair_priority
+    overall: "complex"
+    axes:
+      variables: "complex"
+      hc_count: "complex"
+      problem_type: "complex"
+      interaction: "complex"
+      domain: "medium"
+    rationale: "1176 vars, 12 HCs, composite (worker+supervisor+pair), strong interactions between skill/language/pair/rest"
+    recommended_approach: "staged"
+  entities:
+    - {name: workers, count: 20, source_file: workers.csv}
+    - {name: supervisors, count: 8, source_file: supervisors.csv}
+    - {name: shifts, count: 42, source_file: shifts.csv}
+  supply_demand:
+    worker_demand_shifts: 160
+    worker_demand_hours: 1280
+    worker_supply_upper_hours: 1456
+    worker_utilization: 0.879
+    supervisor_demand_shifts: 46
+    supervisor_supply_upper_hours: 592
+  hypotheses:
+    - "HC1-HC6 basic constraints likely feasible (88% utilization)"
+    - "HC7 (skill) + HC8 (bilingual) combo is highest risk — only 6 en speakers out of 20"
+    - "Pair constraints (HC11/HC12) likely manageable"
+    - "Staged baseline necessary to localize the wall"
+  assumptions:
+    - {key: shift_duration, value: 8h, ref: R3, confidence: high}
+    - {key: one_shift_per_day, value: 1, ref: R6, confidence: medium}
+    - {key: bilingual_all_must_speak_en, value: strictest, ref: R6, confidence: low, note: "Q5 needs clarification"}
+    - {key: mentorship_window, value: "2 weeks sum", ref: R6, confidence: medium}
+    - {key: rest_rule, value: "next calendar day forbidden", ref: R6, confidence: medium}
+  data_quality:
+    overall: "良好"
+    issues: []
 
 baseline:
-  done: true
-  strategy: staged
-  phases:
-    - phase: 0
-      added: none
-      status: OPTIMAL
-      feasible: true
-      cumulative_constraints: 0
-      time_sec: 0.09
-    - phase: 1
-      added: HC1_worker_demand
-      status: OPTIMAL
-      feasible: true
-      cumulative_constraints: 42
-      time_sec: 0.01
-    - phase: 2
-      added: HC2_supervisor_demand
-      status: OPTIMAL
-      feasible: true
-      cumulative_constraints: 84
-      time_sec: 0.01
-    - phase: 3
-      added: HC3_HC4_max_hours
-      status: OPTIMAL
-      feasible: true
-      cumulative_constraints: 140
-      time_sec: 0.05
-    - phase: 4
-      added: HC5_HC6_unavailable
-      status: OPTIMAL
-      feasible: true
-      cumulative_constraints: 242
-      time_sec: 0.03
-    - phase: 5
-      added: HC7_HC8_skills_bilingual
-      status: INFEASIBLE
-      feasible: false
-      cumulative_constraints: 484
-      time_sec: 0.00
-    - phase: 6
-      added: HC9_HC10_rest
-      status: INFEASIBLE
-      feasible: false
-      cumulative_constraints: 952
-      time_sec: 0.01
-    - phase: 7
-      added: HC11_HC12_pair
-      status: INFEASIBLE
-      feasible: false
-      cumulative_constraints: 1040
-      time_sec: 0.01
-  first_infeasible_phase: 5
-  bottleneck:
-    constraints: [HC1, HC7, HC8]
-    root_cause: |
-      reception+bilingual シフト (8 シフト中 4 つ) は 5 名/シフト必要だが、
-      en + reception スキルを両方持つ作業者は 4 名 (W002,W004,W008,W010) しかいない。
-      プール不足による構造的不可能性。
-  recommendations:
-    short_term:
-      - relax_HC1_for_reception_bilingual_shifts
-      - or_relax_HC7_skill_for_bilingual_shifts
-    mid_term:
-      - hire_one_more_en_reception_worker
-      - clarify_Q5_bilingual_scope
-  artifacts:
-    script: scripts/staged_baseline.py
-    results: results/staged_baseline_results.json
-    report: reports/baseline_report.md
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
+  strategy: "staged"
+  time_limit_per_phase_sec: 60
+  num_workers: 4
+  independent_hc_verifier: true
+  first_infeasible_phase: "Phase5_HC7_HC8"
+  all_phases_feasible: false
+  phases_summary:
+    Phase0_vars_only:  {status: OPTIMAL, w: 0,   v: 0,  feasible: true,  time: 0.03}
+    Phase1_HC1:        {status: OPTIMAL, w: 160, v: 0,  feasible: true,  time: 0.01}
+    Phase2_HC2:        {status: OPTIMAL, w: 160, v: 46, feasible: true,  time: 0.01}
+    Phase3_HC3_HC4:    {status: OPTIMAL, w: 160, v: 46, feasible: true,  time: 0.04}
+    Phase4_HC5_HC6:    {status: OPTIMAL, w: 160, v: 46, feasible: true,  time: 0.02}
+    Phase5_HC7_HC8:    {status: INFEASIBLE, feasible: false, time: 0.00}
+    Phase6_HC9_HC10:   {status: INFEASIBLE, feasible: false, time: 0.00}
+    Phase7_FULL:       {status: INFEASIBLE, feasible: false, time: 0.01}
+  root_cause:
+    bottleneck_constraints: ["HC7", "HC8"]
+    description: "鳩の巣原理: en+reception の作業者 4名 vs bilingual+reception シフトの需要 5名/シフト"
+    evidence:
+      en_reception_workers: 4
+      worker_ids: ["W002", "W004", "W008", "W010"]
+      bilingual_reception_shifts: 4
+      demand_per_shift: 5
+      shortage: 1
+    exonerated:
+      - "HC9, HC10 (rest) - Phase 6 未到達で容疑外"
+      - "HC11 (forbidden) - 2件のみ、影響小"
+      - "HC12 (mentorship) - 4件、2週間での達成は容易"
+  solution_options:
+    A_input_change:
+      - "A1: en+reception 作業者を1名追加採用 (推奨、恒久対策)"
+      - "A2: 既存作業者に英語研修 (時間かかる)"
+      - "A3: W013/W017 に reception 研修"
+    B_spec_change:
+      - "B1: HC1 を bilingual+reception で 5→4 に緩和 (暫定運用)"
+      - "B2: HC8 ソフト化 (非英語可を許容)"
+      - "B3: HC8 解釈を『最低1名 en』に変更 (Q5 確認必須)"
+    C_operations_change:
+      - "C1: bilingual 需要を別時間帯に分散"
+      - "C2: 外注/一時派遣で補う"
+  recommendation: "短期 B1 暫定運用 + 中期 A1 採用。並行して Q5 で B3 確認。"
+  scripts:
+    - path: "scripts/staged_baseline.py"
 
 improve:
-  done: true
-  date: 2026-04-11
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
   time_limit_per_scenario_sec: 60
-  num_search_workers: 4
-  independent_hc_verifier: true  # HC1-HC12 re-checked from assignment, not trusting solver status
+  num_workers: 4
+  independent_hc_verifier: true
   scenarios:
     A_hire_W021:
-      description: "Hire 1 bilingual reception worker (mid, 24-40h)"
+      description: "Hire 1 en+reception worker (mid, 40h)"
       solver_status: FEASIBLE
       hc_all_satisfied: true
       hc_total_violations: 0
-      objective: 200
-      overall_sc: 83.0
+      objective: 16
+      sc_overall: 92.5
       recommended: true
       note: "Only scenario that truly satisfies all 12 HCs"
-    B_relax_HC1_bilingual:
-      description: "Relax worker_required 5->4 on 4 bilingual+reception shifts"
+    B_relax_HC1:
+      description: "Relax worker_required 5->4 on bilingual+reception shifts"
       solver_status: FEASIBLE
       hc_all_satisfied: false
       hc_total_violations: 4
       hc_violations: {HC1: 4}
-      objective: 200
-      overall_sc: 83.0
-      note: "Spec change: requires updating HC1 in spec.md"
+      objective: 16
+      sc_overall: 92.5
+      note: "Requires spec.md HC1 change"
     C_soft_HC1:
       description: "Soft HC1 with shortage penalty"
       solver_status: FEASIBLE
       hc_all_satisfied: false
       hc_total_violations: 4
       hc_violations: {HC1: 4}
-      hc1_shortage_total: 4
-      objective: 4200
-      overall_sc: 83.0
+      objective: 4016
+      sc_overall: 92.5
     D_soft_HC8:
-      description: "Soft HC8 (allow non-bilingual on bilingual shifts)"
+      description: "Soft HC8 (allow non-en on bilingual shifts)"
       solver_status: FEASIBLE
       hc_all_satisfied: false
       hc_total_violations: 4
       hc_violations: {HC8: 4}
-      hc8_nonbilingual_assignments: 4
-      objective: 4207
-      overall_sc: 82.0
-  variants:
-    base_scenario: A_hire_W021
-    note: "All 5 variants converged to identical raw values within 60s (structural floor)"
-    structural_floor:
-      sc2_spread: 16
-      sc3_spread: 8
-      sc6_shortfall: 96
-      sc8_pairs: 16
-    runs:
-      V1_balanced:        {objective: 200, overall: 83.0}
-      V2_fairness_max:    {objective: 368, overall: 83.0}
-      V3_coverage_max:    {objective: 968, overall: 83.0}
-      V4_welfare:         {objective: 200, overall: 83.0}
-      V5_senior_coverage: {objective: 200, overall: 83.0}
-  qa_check:
-    hc_code_consistency: OK
-    sc_objective_consistency: OK
-    assumption_validity: OK
-    evaluate_objective_alignment: OK
-    spec_internal_contradiction: OK
-    source_freshness: OK
-  recommendation: A_hire_W021_long_term__B_relax_HC1_short_term
-  artifacts:
-    improve_script: scripts/improve.py
-    variants_script: scripts/variants.py
-    improve_results: results/improve_results.json
-    variant_results: results/variant_results.json
-    report: reports/improve_report.md
+      objective: 4030
+      sc_overall: 90.0
+  best:
+    scenario: "A_hire_W021"
+    hc_all_satisfied: true
+    sc_overall: 92.5
+  additional_data_needed:
+    - "Q5 (assess): bilingual_required の正確な解釈"
+    - "W021 採用予算・時期の確認"
+    - "B1 暫定運用の受容可否"
+  qa_checklist:
+    hc_spec_code_match: "OK"
+    sc_spec_objective_match: "OK"
+    assumption_values_match: "OK"
+    evaluator_objective_match: "OK (scale difference)"
+    spec_internal_contradictions: "known (HC7+HC8 structural, detected in baseline)"
+    source_freshness: "OK"
+    independent_hc_verifier: "OK"
 
 report:
-  done: true
-  date: 2026-04-11
-  artifacts:
-    proposal: reports/proposal.md
-  options_presented:
-    - A_hire_W021
-    - B_relax_HC1_bilingual
-    - C_redesign_shift_demand
-  recommended: A_hire_W021
-  delivery_format: excel_8_sheets_plus_pdf_proposal
-  next_steps:
-    - get_client_answer_Q5_bilingual_scope
-    - decide_hire_or_operational_compromise
-    - create_v2_after_hire_or_constraint_clarification
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
+  output_file: "reports/proposal.md"
+  recommended_scenario: "A_hire_W021"
+  proposals:
+    - name: "A. W021 採用 (恒久対策)"
+      cost: "新規人件費"
+      hc_satisfied: true
+      effect: "全 12 HC 充足、SC 92.5/100"
+      difficulty: "1-2ヶ月 (採用次第)"
+      recommended: true
+    - name: "B. HC1 緩和 (暫定運用)"
+      cost: 0
+      hc_satisfied: false
+      hc_violations: "HC1: 4 (spec 変更必要)"
+      effect: "即日運用可能、bilingual 対応キャパ 20% 減"
+      difficulty: "すぐ (顧客合意必要)"
+    - name: "C. HC8 緩和 (サービス変更)"
+      cost: 0
+      hc_satisfied: false
+      hc_violations: "HC8: 4"
+      effect: "英語対応品質が低下"
+      difficulty: "すぐ (サービス合意必要)"
+  impossibility_findings:
+    - "現行 20 名では全 12 HC を満たす解は存在しない (鳩の巣原理)"
+    - "en + reception の候補プール 4 名 < 需要 5 名/シフト"
+    - "1 名追加 (W021) で完全に解決可能 (実証済)"
+    - "HC9-HC12 は無罪 (段階的 baseline で切り分け済)"
+  most_important_question: "Q5: bilingual_required の正確な意味を確認"
+  most_important_question_reason: "もし『最低1名 en』解釈なら、コストゼロで全 HC 充足可能"

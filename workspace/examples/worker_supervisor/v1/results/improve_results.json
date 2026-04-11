@@ -3,6 +3,8 @@
     "scenario": "A_hire_W021",
     "solver_status": "FEASIBLE",
     "solver_feasible": true,
+    "time_sec": 60.04,
+    "objective": 16.0,
     "hc_all_satisfied": true,
     "hc_total_violations": 0,
     "hc_violations_by_constraint": {
@@ -19,37 +21,33 @@
       "HC11": 0,
       "HC12": 0
     },
-    "hc_violation_samples": {},
-    "objective": 200.0,
-    "time_sec": 60.03,
-    "evaluation": {
+    "sc_evaluation": {
       "scores": {
-        "SC1_consecutive_days": 100,
-        "SC2_worker_fairness": 80,
-        "SC3_supervisor_fairness": 90,
-        "SC4_worker_night": 100,
-        "SC5_supervisor_night": 100,
-        "SC6_min_hours": 52,
-        "SC7_senior_coverage": 100,
-        "SC8_preferred_pairs": 42,
-        "overall": 83.0
+        "SC1": 100.0,
+        "SC2": 60.0,
+        "SC3": 80.0,
+        "SC4": 100.0,
+        "SC5": 100.0,
+        "SC6": 100.0,
+        "SC7": 100.0,
+        "SC8": 100,
+        "overall": 92.5
       },
       "raw": {
-        "sc1_violations": 0,
-        "sc2_spread": 16,
-        "sc3_spread": 8,
-        "sc4_excess": 0,
-        "sc5_excess": 0,
-        "sc6_shortfall": 96,
-        "sc7_missing_days": 0,
-        "sc8_pairs_achieved": 16
+        "w_spread": 16,
+        "v_spread": 8,
+        "sc1_violators": 0,
+        "sc6_missed": 0,
+        "pref_achieved": 16
       }
     }
   },
-  "B_relax_HC1_bilingual": {
-    "scenario": "B_relax_HC1_bilingual",
+  "B_relax_HC1": {
+    "scenario": "B_relax_HC1",
     "solver_status": "FEASIBLE",
     "solver_feasible": true,
+    "time_sec": 60.02,
+    "objective": 16.0,
     "hc_all_satisfied": false,
     "hc_total_violations": 4,
     "hc_violations_by_constraint": {
@@ -66,37 +64,24 @@
       "HC11": 0,
       "HC12": 0
     },
-    "hc_violation_samples": {
-      "HC1": [
-        "shift 3 (Tue-morning w1): 4/5",
-        "shift 9 (Thu-morning w1): 4/5",
-        "shift 24 (Tue-morning w2): 4/5",
-        "shift 30 (Thu-morning w2): 4/5"
-      ]
-    },
-    "objective": 200.0,
-    "time_sec": 60.02,
-    "evaluation": {
+    "sc_evaluation": {
       "scores": {
-        "SC1_consecutive_days": 100,
-        "SC2_worker_fairness": 80,
-        "SC3_supervisor_fairness": 90,
-        "SC4_worker_night": 100,
-        "SC5_supervisor_night": 100,
-        "SC6_min_hours": 52,
-        "SC7_senior_coverage": 100,
-        "SC8_preferred_pairs": 42,
-        "overall": 83.0
+        "SC1": 100.0,
+        "SC2": 60.0,
+        "SC3": 80.0,
+        "SC4": 100.0,
+        "SC5": 100.0,
+        "SC6": 100.0,
+        "SC7": 100.0,
+        "SC8": 100,
+        "overall": 92.5
       },
       "raw": {
-        "sc1_violations": 0,
-        "sc2_spread": 16,
-        "sc3_spread": 8,
-        "sc4_excess": 0,
-        "sc5_excess": 0,
-        "sc6_shortfall": 96,
-        "sc7_missing_days": 0,
-        "sc8_pairs_achieved": 16
+        "w_spread": 16,
+        "v_spread": 8,
+        "sc1_violators": 0,
+        "sc6_missed": 0,
+        "pref_achieved": 16
       }
     }
   },
@@ -104,6 +89,8 @@
     "scenario": "C_soft_HC1",
     "solver_status": "FEASIBLE",
     "solver_feasible": true,
+    "time_sec": 60.02,
+    "objective": 4016.0,
     "hc_all_satisfied": false,
     "hc_total_violations": 4,
     "hc_violations_by_constraint": {
@@ -120,51 +107,33 @@
       "HC11": 0,
       "HC12": 0
     },
-    "hc_violation_samples": {
-      "HC1": [
-        "shift 3 (Tue-morning w1): 4/5",
-        "shift 9 (Thu-morning w1): 4/5",
-        "shift 24 (Tue-morning w2): 4/5",
-        "shift 30 (Thu-morning w2): 4/5"
-      ]
-    },
-    "objective": 4200.0,
-    "time_sec": 60.02,
-    "evaluation": {
+    "sc_evaluation": {
       "scores": {
-        "SC1_consecutive_days": 100,
-        "SC2_worker_fairness": 80,
-        "SC3_supervisor_fairness": 90,
-        "SC4_worker_night": 100,
-        "SC5_supervisor_night": 100,
-        "SC6_min_hours": 52,
-        "SC7_senior_coverage": 100,
-        "SC8_preferred_pairs": 42,
-        "overall": 83.0
+        "SC1": 100.0,
+        "SC2": 60.0,
+        "SC3": 80.0,
+        "SC4": 100.0,
+        "SC5": 100.0,
+        "SC6": 100.0,
+        "SC7": 100.0,
+        "SC8": 100,
+        "overall": 92.5
       },
       "raw": {
-        "sc1_violations": 0,
-        "sc2_spread": 16,
-        "sc3_spread": 8,
-        "sc4_excess": 0,
-        "sc5_excess": 0,
-        "sc6_shortfall": 96,
-        "sc7_missing_days": 0,
-        "sc8_pairs_achieved": 16
+        "w_spread": 16,
+        "v_spread": 8,
+        "sc1_violators": 0,
+        "sc6_missed": 0,
+        "pref_achieved": 16
       }
-    },
-    "hc1_shortage_total": 4,
-    "hc1_shortage_per_shift": {
-      "3": 1,
-      "9": 1,
-      "24": 1,
-      "30": 1
     }
   },
   "D_soft_HC8": {
     "scenario": "D_soft_HC8",
     "solver_status": "FEASIBLE",
     "solver_feasible": true,
+    "time_sec": 60.01,
+    "objective": 4030.0,
     "hc_all_satisfied": false,
     "hc_total_violations": 4,
     "hc_violations_by_constraint": {
@@ -181,40 +150,25 @@
       "HC11": 0,
       "HC12": 0
     },
-    "hc_violation_samples": {
-      "HC8": [
-        "W016 (no en) on bilingual shift Tue-morning w1",
-        "W018 (no en) on bilingual shift Thu-morning w1",
-        "W003 (no en) on bilingual shift Tue-morning w2",
-        "W018 (no en) on bilingual shift Thu-morning w2"
-      ]
-    },
-    "objective": 4207.0,
-    "time_sec": 60.02,
-    "evaluation": {
+    "sc_evaluation": {
       "scores": {
-        "SC1_consecutive_days": 100,
-        "SC2_worker_fairness": 70,
-        "SC3_supervisor_fairness": 90,
-        "SC4_worker_night": 100,
-        "SC5_supervisor_night": 100,
-        "SC6_min_hours": 52,
-        "SC7_senior_coverage": 100,
-        "SC8_preferred_pairs": 44,
-        "overall": 82.0
+        "SC1": 100.0,
+        "SC2": 40.0,
+        "SC3": 80.0,
+        "SC4": 100.0,
+        "SC5": 100.0,
+        "SC6": 100.0,
+        "SC7": 100.0,
+        "SC8": 100,
+        "overall": 90.0
       },
       "raw": {
-        "sc1_violations": 0,
-        "sc2_spread": 24,
-        "sc3_spread": 8,
-        "sc4_excess": 0,
-        "sc5_excess": 0,
-        "sc6_shortfall": 96,
-        "sc7_missing_days": 0,
-        "sc8_pairs_achieved": 17
+        "w_spread": 24,
+        "v_spread": 8,
+        "sc1_violators": 0,
+        "sc6_missed": 0,
+        "pref_achieved": 17
       }
-    },
-    "hc8_nonbilingual_worker_assignments": 4,
-    "hc8_nonbilingual_supervisor_assignments": 0
+    }
   }
 }
