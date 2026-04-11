@@ -5,6 +5,48 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v3.7.0] - 2026-04-11
+
+### Added / 新規追加
+
+#### New Example: inventory_ml_hybrid (ML × Optimization pipeline) / ML×最適化ハイブリッド
+- **First true ML+OR hybrid example in the pack** / パック初の本格 ML×OR ハイブリッド
+- Scenario: grocery retail chain with 8 stores, 25 SKUs, 2-year history
+- **Data: 146,000 rows** of synthetic POS sales history with realistic patterns:
+  - Weekly seasonality, Japan holidays, temperature effects, promos
+  - Category-specific variance (fresh 46%, packaged 10%)
+- **ML pipeline** (`forecast.py` using scikit-learn RandomForestRegressor):
+  - 15 features (lag/rolling/calendar/temperature/store+SKU)
+  - 50 trees, MAPE 22.4%, trained in ~2 seconds
+  - 80% prediction intervals via residual std
+- **Safety stock conversion** (`safety_stock.py`):
+  - Service level 95% (z=1.65)
+  - reorder_point = predicted_demand × lead_time + safety_stock
+- **Optimization** (`staged_baseline.py`, CP-SAT):
+  - 2,100 variables, 18 HCs, 8 SCs
+  - 10 phases all OPTIMAL
+  - Truck/supplier/storage/refrigeration/shelf-life constraints
+- **Comparison** (`compare_naive_vs_ml.py`):
+  - Naive baseline: past 4-week same-day average
+  - ML saves 179,254 JPY/week (-1.69%)
+  - **Waste reduction: -31%** (978 vs 1,418 units)
+  - Stockouts +58% but tunable via service level
+
+Key insight: ML's value is not raw MAE improvement but **calibrated residual
+distribution** → sharper safety stock → 31% less perishable waste
+
+6 scripts chained end-to-end in ~35 seconds total:
+1. `_generate_data.py` (synthetic 146k rows)
+2. `forecast.py` (ML training + prediction)
+3. `safety_stock.py` (forecast → orders)
+4. `staged_baseline.py` (CP-SAT)
+5. `improve.py` (4 scenarios)
+6. `compare_naive_vs_ml.py` (hybrid comparison)
+
+Reports include `ml_evaluation_report.md` with validation metrics and feature importance.
+
+---
+
 ## [v3.6.0] - 2026-04-11
 
 ### Added / 新規追加

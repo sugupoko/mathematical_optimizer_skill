@@ -1,0 +1,26 @@
+sku_id,name,category,shelf_life_days,unit_volume_m3,needs_refrigeration,supplier_id,case_size,unit_cost,retail_price
+K01,Tomato 500g,fresh_produce,5,0.008,0,SUP1,6,120,260
+K02,Lettuce,fresh_produce,4,0.012,0,SUP1,6,100,220
+K03,Banana bunch,fresh_produce,6,0.01,0,SUP1,8,130,280
+K04,Strawberry pack,fresh_produce,3,0.006,0,SUP1,6,280,580
+K05,Carrot 1kg,fresh_produce,7,0.011,0,SUP1,6,110,240
+K06,Milk 1L,dairy,10,0.0012,1,SUP2,12,90,210
+K07,Yogurt 400g,dairy,12,0.0008,1,SUP2,12,110,250
+K08,Cheese slice,dairy,14,0.0005,1,SUP2,12,180,390
+K09,Butter 200g,dairy,14,0.0004,1,SUP2,12,320,640
+K10,Cream 200ml,dairy,7,0.0005,1,SUP2,12,150,310
+K11,Sandwich,deli,5,0.0006,1,SUP3,10,180,390
+K12,Bento box,deli,6,0.0015,1,SUP3,8,380,720
+K13,Salad bowl,deli,7,0.0008,1,SUP3,10,220,450
+K14,Instant ramen,packaged_food,240,0.002,0,SUP4,20,110,230
+K15,Rice 2kg,packaged_food,365,0.0032,0,SUP4,10,680,1280
+K16,Pasta 500g,packaged_food,300,0.0008,0,SUP4,20,160,320
+K17,Canned tuna,packaged_food,720,0.0003,0,SUP4,24,140,290
+K18,Cereal 500g,packaged_food,240,0.0028,0,SUP4,12,380,720
+K19,Chocolate bar,packaged_food,180,0.0002,0,SUP4,24,120,260
+K20,Cookies pack,packaged_food,180,0.001,0,SUP4,16,240,480
+K21,Cola 500ml,beverages,200,0.0006,0,SUP5,24,90,190
+K22,Orange juice 1L,beverages,180,0.0012,0,SUP5,12,180,380
+K23,Sports drink 500ml,beverages,200,0.0006,0,SUP5,24,110,230
+K24,Mineral water 2L,beverages,365,0.0022,0,SUP5,6,100,210
+K25,Beer 350ml,beverages,180,0.0004,0,SUP5,24,200,420

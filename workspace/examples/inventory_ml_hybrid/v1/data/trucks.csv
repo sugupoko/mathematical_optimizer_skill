@@ -1,0 +1,7 @@
+truck_id,type,capacity_m3,refrigerated,daily_fixed_cost,cost_per_km
+T01,standard,30,0,8000,120
+T02,standard,30,0,8000,120
+T03,standard,25,0,7000,110
+T04,refrig,24,1,11000,150
+T05,refrig,22,1,10500,145
+T06,small_urban,12,0,5500,95

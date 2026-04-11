@@ -1,0 +1,27 @@
+id,type,description
+HC01,hard,"Order quantity must satisfy safety-stock requirement per (store, sku)"
+HC02,hard,"Order quantity must not exceed configured max_order per (store, sku)"
+HC03,hard,Sum of ordered volume per store must fit within storage_capacity_m3
+HC04,hard,Refrigerated SKUs volume per store must fit within refrigeration_capacity_m3
+HC05,hard,Truck load (m3) must not exceed truck capacity
+HC06,hard,Refrigerated SKUs may only travel on refrigerated trucks
+HC07,hard,Orders must be whole multiples of supplier case_size
+HC08,hard,Each SKU may be ordered only from its mapped supplier
+HC09,hard,Each truck may be used at most once per day
+HC10,hard,Supplier lead time must be respected (order day + lead_time <= delivery)
+HC11,hard,Fresh-category order must not exceed remaining shelf capacity
+HC12,hard,No same-day emergency orders (min lead time = 1 day)
+HC13,hard,Refrigerated trucks required if supplier ships refrigerated goods
+HC14,hard,Truck must be in the supplier's allowed-truck list
+HC15,hard,Each used truck trip must exceed 60% utilization
+HC16,hard,Dry and fresh categories cannot share the same truck trip
+HC17,hard,Each store accepts at most 3 supplier deliveries per day
+HC18,hard,Two conflicting suppliers cannot be received simultaneously (dock clash)
+SC01,soft,Minimise total cost (inventory + waste + transport + stockout)
+SC02,soft,Minimise expected waste on perishables
+SC03,soft,Minimise stockout risk
+SC04,soft,Balance truck utilisation across fleet
+SC05,soft,Prefer longer-shelf-life SKUs for bulk orders
+SC06,soft,Favour local suppliers (lower transport)
+SC07,soft,Minimise number of truck trips
+SC08,soft,Maintain service level per category

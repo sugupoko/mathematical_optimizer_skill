@@ -1,0 +1,9 @@
+store_id,name,region,daily_footfall,storage_capacity_m3,refrigeration_capacity_m3
+S01,Shibuya Urban,urban,8500,400,120
+S02,Shinjuku Central,urban,9200,420,130
+S03,Yokohama Bay,suburban,5200,520,160
+S04,Kawasaki West,suburban,4800,500,150
+S05,Chiba Park,suburban,4200,540,170
+S06,Saitama North,suburban,3900,560,180
+S07,Ikebukuro East,urban,7800,380,110
+S08,Machida South,suburban,4500,500,150

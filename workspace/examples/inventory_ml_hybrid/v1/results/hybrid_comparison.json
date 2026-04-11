@@ -1,0 +1,49 @@
+{
+  "ml": {
+    "total_inventory_cost": 9641493.0,
+    "transport_cost": 50000.0,
+    "expected_waste_cost": 187939.0,
+    "expected_stockout_cost": 532275.0,
+    "expected_total_cost": 10411707.0,
+    "expected_waste_units": 978.0,
+    "expected_stockout_units": 2413.0,
+    "service_level": 0.655,
+    "trip_count": 5,
+    "n_pairs": 200
+  },
+  "naive": {
+    "total_inventory_cost": 9958899.0,
+    "transport_cost": 50000.0,
+    "expected_waste_cost": 249406.0,
+    "expected_stockout_cost": 332656.0,
+    "expected_total_cost": 10590961.0,
+    "expected_waste_units": 1418.0,
+    "expected_stockout_units": 1529.0,
+    "service_level": 0.765,
+    "trip_count": 5,
+    "n_pairs": 200
+  },
+  "delta_naive_minus_ml": {
+    "cost_delta": 179254.0,
+    "cost_delta_pct": 1.69,
+    "stockout_delta": -884.0,
+    "waste_delta": 440.0,
+    "service_delta": -0.11,
+    "trip_delta": 0
+  },
+  "ml_metrics_overall": {
+    "mape": 0.22417558479122726,
+    "rmse": 8.59165640989792,
+    "bias": -0.24023235617874641,
+    "resid_std": 8.5882971700323,
+    "train_rows": 128400,
+    "val_rows": 12000
+  },
+  "forecast_accuracy_on_holdout_week": {
+    "ml_mae": 32.68,
+    "naive_mae": 24.64,
+    "ml_bias": -31.08,
+    "naive_bias": -21.21,
+    "n_pairs": 200
+  }
+}

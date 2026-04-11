@@ -1,0 +1,6 @@
+supplier_id,name,lead_time_days,min_order_case,truck_cost_per_trip,refrigerated_truck
+SUP1,FreshFarm Kanto,2,5,12000,0
+SUP2,Nippon Dairy,2,10,14000,1
+SUP3,Daily Deli Kitchen,1,4,9000,1
+SUP4,Grocery Wholesale,3,10,16000,0
+SUP5,Beverage Dist.,2,8,13000,0

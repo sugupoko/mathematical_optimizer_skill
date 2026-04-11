@@ -1,0 +1,82 @@
+project: inventory_ml_hybrid
+version: v1
+stage: improve_done
+pattern: ml_forecast_to_optimization
+problem_class: inventory_replenishment
+
+data:
+  sales_history_rows: 146000
+  stores: 8
+  skus: 25
+  suppliers: 5
+  trucks: 6
+  horizon_days: 7
+
+ml_model:
+  type: RandomForestRegressor
+  n_estimators: 50
+  max_depth: 14
+  min_samples_leaf: 5
+  features: [dow, dom, month, is_weekend, is_holiday, is_promo, temperature_c,
+             lag_1, lag_7, lag_14, lag_28, roll_mean_7, roll_mean_28, store_idx, sku_idx]
+  train_rows: 128400
+  val_rows: 12000
+  overall_mape: 0.2242
+  overall_rmse: 8.59
+  overall_bias: -0.24
+  residual_std: 8.59
+
+optimization:
+  solver: cp_sat
+  decision_variables_estimate: 2100
+  hard_constraints_total: 18
+  phases_completed: 10
+  final_active_violations: 0
+  baseline_trips: 15
+  baseline_total_cases_ml: 3241
+
+improvements:
+  scenarios_explored: [cost_min, service_max, waste_min, balanced]
+  best_for_cost: cost_min
+  best_for_waste: waste_min
+  recommended: balanced
+
+comparison:
+  ml_total_cost_weekly: 10444122
+  naive_total_cost_weekly: 10668559
+  ml_saves_weekly: 224437
+  ml_saves_pct: 2.1
+  ml_waste_units: 1045
+  naive_waste_units: 1554
+  waste_reduction_pct: 32.7
+  ml_service_level: 0.66
+  naive_service_level: 0.79
+
+artefacts:
+  spec: v1/spec.md
+  data_dir: v1/data
+  scripts:
+    - v1/scripts/_generate_data.py
+    - v1/scripts/forecast.py
+    - v1/scripts/safety_stock.py
+    - v1/scripts/staged_baseline.py
+    - v1/scripts/improve.py
+    - v1/scripts/compare_naive_vs_ml.py
+  results:
+    - v1/results/forecast.csv
+    - v1/results/forecast_naive.csv
+    - v1/results/forecast_metrics.json
+    - v1/results/order_requirements.csv
+    - v1/results/order_requirements_naive.csv
+    - v1/results/baseline_ml_staged.json
+    - v1/results/baseline_naive_staged.json
+    - v1/results/baseline_ml_orders.csv
+    - v1/results/baseline_ml_trips.csv
+    - v1/results/improve_results.json
+    - v1/results/hybrid_comparison.json
+  reports:
+    - v1/reports/assess_report.md
+    - v1/reports/baseline_report.md
+    - v1/reports/improve_report.md
+    - v1/reports/ml_evaluation_report.md
+    - v1/reports/proposal.md
