@@ -213,6 +213,38 @@ user_invocable: true
 **spec.md を更新したら、必ずこのチェックを実行すること。**
 仕様変更がコードに反映されていないと、結果が仕様と矛盾する。
 
+#### 最重要: 独立な HC 検証器を必ず書く
+
+**ソルバーの `FEASIBLE` フラグを信じてはいけない。**
+ソフト化した制約（penalty 化や 5→4 緩和など）を入れると、ソルバーは「緩和後のモデルで解を見つけた」を FEASIBLE と報告するが、**元の spec.md の HC を満たしているとは限らない**。
+
+必ず以下の独立検証器を実装すること:
+
+```python
+def verify_hard_constraints(solver, vars_d, data):
+    """Re-check HC1..HCN independently from the raw assignment.
+    
+    Does NOT rely on the model's internal satisfiability.
+    Reads solver.Value(x[...]) and checks each HC from scratch.
+    """
+    violations = {f"HC{i}": [] for i in range(1, N+1)}
+    # ... HC1: demand met? HC2: max hours? ... HCn: pair constraints?
+    return {
+        "all_satisfied": all(len(v) == 0 for v in violations.values()),
+        "total_violations": sum(len(v) for v in violations.values()),
+        "by_constraint": {hc: len(lst) for hc, lst in violations.items()},
+    }
+```
+
+各シナリオの結果には必ず以下を記録する:
+- `solver_status` (ソルバーの内部ステータス)
+- `hc_all_satisfied` (独立検証の結果)
+- `hc_total_violations` (違反総数)
+- `hc_violations_by_constraint` (HC別の違反内訳)
+
+レポートには **`hc_all_satisfied` を主として表示**し、「ソルバーが解を返した」と「元の HC を全て満たした」を区別すること。
+ソフト化シナリオ（HC1 soft, HC8 soft など）は、原則として `hc_all_satisfied = false` になる（緩和した HC が違反する）。
+
 ```
 ■ チェック1: ハード制約の完全一致
   spec.md の「ハード制約」テーブルの全項目が、ソルバーコードに制約として実装されているか？

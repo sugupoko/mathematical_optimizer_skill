@@ -107,4 +107,89 @@ baseline:
     report: reports/baseline_report.md
 
 improve:
-  done: false
+  done: true
+  date: 2026-04-11
+  time_limit_per_scenario_sec: 60
+  num_search_workers: 4
+  independent_hc_verifier: true  # HC1-HC12 re-checked from assignment, not trusting solver status
+  scenarios:
+    A_hire_W021:
+      description: "Hire 1 bilingual reception worker (mid, 24-40h)"
+      solver_status: FEASIBLE
+      hc_all_satisfied: true
+      hc_total_violations: 0
+      objective: 200
+      overall_sc: 83.0
+      recommended: true
+      note: "Only scenario that truly satisfies all 12 HCs"
+    B_relax_HC1_bilingual:
+      description: "Relax worker_required 5->4 on 4 bilingual+reception shifts"
+      solver_status: FEASIBLE
+      hc_all_satisfied: false
+      hc_total_violations: 4
+      hc_violations: {HC1: 4}
+      objective: 200
+      overall_sc: 83.0
+      note: "Spec change: requires updating HC1 in spec.md"
+    C_soft_HC1:
+      description: "Soft HC1 with shortage penalty"
+      solver_status: FEASIBLE
+      hc_all_satisfied: false
+      hc_total_violations: 4
+      hc_violations: {HC1: 4}
+      hc1_shortage_total: 4
+      objective: 4200
+      overall_sc: 83.0
+    D_soft_HC8:
+      description: "Soft HC8 (allow non-bilingual on bilingual shifts)"
+      solver_status: FEASIBLE
+      hc_all_satisfied: false
+      hc_total_violations: 4
+      hc_violations: {HC8: 4}
+      hc8_nonbilingual_assignments: 4
+      objective: 4207
+      overall_sc: 82.0
+  variants:
+    base_scenario: A_hire_W021
+    note: "All 5 variants converged to identical raw values within 60s (structural floor)"
+    structural_floor:
+      sc2_spread: 16
+      sc3_spread: 8
+      sc6_shortfall: 96
+      sc8_pairs: 16
+    runs:
+      V1_balanced:        {objective: 200, overall: 83.0}
+      V2_fairness_max:    {objective: 368, overall: 83.0}
+      V3_coverage_max:    {objective: 968, overall: 83.0}
+      V4_welfare:         {objective: 200, overall: 83.0}
+      V5_senior_coverage: {objective: 200, overall: 83.0}
+  qa_check:
+    hc_code_consistency: OK
+    sc_objective_consistency: OK
+    assumption_validity: OK
+    evaluate_objective_alignment: OK
+    spec_internal_contradiction: OK
+    source_freshness: OK
+  recommendation: A_hire_W021_long_term__B_relax_HC1_short_term
+  artifacts:
+    improve_script: scripts/improve.py
+    variants_script: scripts/variants.py
+    improve_results: results/improve_results.json
+    variant_results: results/variant_results.json
+    report: reports/improve_report.md
+
+report:
+  done: true
+  date: 2026-04-11
+  artifacts:
+    proposal: reports/proposal.md
+  options_presented:
+    - A_hire_W021
+    - B_relax_HC1_bilingual
+    - C_redesign_shift_demand
+  recommended: A_hire_W021
+  delivery_format: excel_8_sheets_plus_pdf_proposal
+  next_steps:
+    - get_client_answer_Q5_bilingual_scope
+    - decide_hire_or_operational_compromise
+    - create_v2_after_hire_or_constraint_clarification

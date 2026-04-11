@@ -1,0 +1,287 @@
+{
+  "V1_balanced": {
+    "weights": {
+      "sc1": 5,
+      "sc2": 1,
+      "sc3": 1,
+      "sc4": 3,
+      "sc5": 3,
+      "sc6": 2,
+      "sc7": 4,
+      "sc8": -1,
+      "shortage_HC1": 1000,
+      "shortage_HC8": 1000
+    },
+    "solver_status": "FEASIBLE",
+    "solver_feasible": true,
+    "hc_all_satisfied": true,
+    "hc_total_violations": 0,
+    "hc_violations_by_constraint": {
+      "HC1": 0,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0,
+      "HC6": 0,
+      "HC7": 0,
+      "HC8": 0,
+      "HC9": 0,
+      "HC10": 0,
+      "HC11": 0,
+      "HC12": 0
+    },
+    "objective": 200.0,
+    "time_sec": 60.04,
+    "evaluation": {
+      "scores": {
+        "SC1_consecutive_days": 100,
+        "SC2_worker_fairness": 80,
+        "SC3_supervisor_fairness": 90,
+        "SC4_worker_night": 100,
+        "SC5_supervisor_night": 100,
+        "SC6_min_hours": 52,
+        "SC7_senior_coverage": 100,
+        "SC8_preferred_pairs": 42,
+        "overall": 83.0
+      },
+      "raw": {
+        "sc1_violations": 0,
+        "sc2_spread": 16,
+        "sc3_spread": 8,
+        "sc4_excess": 0,
+        "sc5_excess": 0,
+        "sc6_shortfall": 96,
+        "sc7_missing_days": 0,
+        "sc8_pairs_achieved": 16
+      }
+    }
+  },
+  "V2_fairness_max": {
+    "weights": {
+      "sc1": 5,
+      "sc2": 8,
+      "sc3": 8,
+      "sc4": 3,
+      "sc5": 3,
+      "sc6": 2,
+      "sc7": 4,
+      "sc8": -1,
+      "shortage_HC1": 1000,
+      "shortage_HC8": 1000
+    },
+    "solver_status": "FEASIBLE",
+    "solver_feasible": true,
+    "hc_all_satisfied": true,
+    "hc_total_violations": 0,
+    "hc_violations_by_constraint": {
+      "HC1": 0,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0,
+      "HC6": 0,
+      "HC7": 0,
+      "HC8": 0,
+      "HC9": 0,
+      "HC10": 0,
+      "HC11": 0,
+      "HC12": 0
+    },
+    "objective": 368.0,
+    "time_sec": 60.02,
+    "evaluation": {
+      "scores": {
+        "SC1_consecutive_days": 100,
+        "SC2_worker_fairness": 80,
+        "SC3_supervisor_fairness": 90,
+        "SC4_worker_night": 100,
+        "SC5_supervisor_night": 100,
+        "SC6_min_hours": 52,
+        "SC7_senior_coverage": 100,
+        "SC8_preferred_pairs": 42,
+        "overall": 83.0
+      },
+      "raw": {
+        "sc1_violations": 0,
+        "sc2_spread": 16,
+        "sc3_spread": 8,
+        "sc4_excess": 0,
+        "sc5_excess": 0,
+        "sc6_shortfall": 96,
+        "sc7_missing_days": 0,
+        "sc8_pairs_achieved": 16
+      }
+    }
+  },
+  "V3_coverage_max": {
+    "weights": {
+      "sc1": 15,
+      "sc2": 1,
+      "sc3": 1,
+      "sc4": 3,
+      "sc5": 3,
+      "sc6": 10,
+      "sc7": 4,
+      "sc8": -1,
+      "shortage_HC1": 1000,
+      "shortage_HC8": 1000
+    },
+    "solver_status": "FEASIBLE",
+    "solver_feasible": true,
+    "hc_all_satisfied": true,
+    "hc_total_violations": 0,
+    "hc_violations_by_constraint": {
+      "HC1": 0,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0,
+      "HC6": 0,
+      "HC7": 0,
+      "HC8": 0,
+      "HC9": 0,
+      "HC10": 0,
+      "HC11": 0,
+      "HC12": 0
+    },
+    "objective": 968.0,
+    "time_sec": 60.02,
+    "evaluation": {
+      "scores": {
+        "SC1_consecutive_days": 100,
+        "SC2_worker_fairness": 80,
+        "SC3_supervisor_fairness": 90,
+        "SC4_worker_night": 100,
+        "SC5_supervisor_night": 100,
+        "SC6_min_hours": 52,
+        "SC7_senior_coverage": 100,
+        "SC8_preferred_pairs": 42,
+        "overall": 83.0
+      },
+      "raw": {
+        "sc1_violations": 0,
+        "sc2_spread": 16,
+        "sc3_spread": 8,
+        "sc4_excess": 0,
+        "sc5_excess": 0,
+        "sc6_shortfall": 96,
+        "sc7_missing_days": 0,
+        "sc8_pairs_achieved": 16
+      }
+    }
+  },
+  "V4_welfare": {
+    "weights": {
+      "sc1": 5,
+      "sc2": 1,
+      "sc3": 1,
+      "sc4": 12,
+      "sc5": 12,
+      "sc6": 2,
+      "sc7": 4,
+      "sc8": -1,
+      "shortage_HC1": 1000,
+      "shortage_HC8": 1000
+    },
+    "solver_status": "FEASIBLE",
+    "solver_feasible": true,
+    "hc_all_satisfied": true,
+    "hc_total_violations": 0,
+    "hc_violations_by_constraint": {
+      "HC1": 0,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0,
+      "HC6": 0,
+      "HC7": 0,
+      "HC8": 0,
+      "HC9": 0,
+      "HC10": 0,
+      "HC11": 0,
+      "HC12": 0
+    },
+    "objective": 200.0,
+    "time_sec": 60.02,
+    "evaluation": {
+      "scores": {
+        "SC1_consecutive_days": 100,
+        "SC2_worker_fairness": 80,
+        "SC3_supervisor_fairness": 90,
+        "SC4_worker_night": 100,
+        "SC5_supervisor_night": 100,
+        "SC6_min_hours": 52,
+        "SC7_senior_coverage": 100,
+        "SC8_preferred_pairs": 42,
+        "overall": 83.0
+      },
+      "raw": {
+        "sc1_violations": 0,
+        "sc2_spread": 16,
+        "sc3_spread": 8,
+        "sc4_excess": 0,
+        "sc5_excess": 0,
+        "sc6_shortfall": 96,
+        "sc7_missing_days": 0,
+        "sc8_pairs_achieved": 16
+      }
+    }
+  },
+  "V5_senior_coverage": {
+    "weights": {
+      "sc1": 5,
+      "sc2": 1,
+      "sc3": 1,
+      "sc4": 3,
+      "sc5": 3,
+      "sc6": 2,
+      "sc7": 20,
+      "sc8": -1,
+      "shortage_HC1": 1000,
+      "shortage_HC8": 1000
+    },
+    "solver_status": "FEASIBLE",
+    "solver_feasible": true,
+    "hc_all_satisfied": true,
+    "hc_total_violations": 0,
+    "hc_violations_by_constraint": {
+      "HC1": 0,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0,
+      "HC6": 0,
+      "HC7": 0,
+      "HC8": 0,
+      "HC9": 0,
+      "HC10": 0,
+      "HC11": 0,
+      "HC12": 0
+    },
+    "objective": 200.0,
+    "time_sec": 60.02,
+    "evaluation": {
+      "scores": {
+        "SC1_consecutive_days": 100,
+        "SC2_worker_fairness": 80,
+        "SC3_supervisor_fairness": 90,
+        "SC4_worker_night": 100,
+        "SC5_supervisor_night": 100,
+        "SC6_min_hours": 52,
+        "SC7_senior_coverage": 100,
+        "SC8_preferred_pairs": 42,
+        "overall": 83.0
+      },
+      "raw": {
+        "sc1_violations": 0,
+        "sc2_spread": 16,
+        "sc3_spread": 8,
+        "sc4_excess": 0,
+        "sc5_excess": 0,
+        "sc6_shortfall": 96,
+        "sc7_missing_days": 0,
+        "sc8_pairs_achieved": 16
+      }
+    }
+  }
+}
