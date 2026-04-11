@@ -1,0 +1,174 @@
+{
+  "A_hire_W021": {
+    "scenario": "A_hire_W021",
+    "solver_status": "FEASIBLE",
+    "solver_feasible": true,
+    "time_sec": 60.03,
+    "objective": 16.0,
+    "hc_all_satisfied": true,
+    "hc_total_violations": 0,
+    "hc_violations_by_constraint": {
+      "HC1": 0,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0,
+      "HC6": 0,
+      "HC7": 0,
+      "HC8": 0,
+      "HC9": 0,
+      "HC10": 0,
+      "HC11": 0,
+      "HC12": 0
+    },
+    "sc_evaluation": {
+      "scores": {
+        "SC1": 100.0,
+        "SC2": 60.0,
+        "SC3": 80.0,
+        "SC4": 100.0,
+        "SC5": 100.0,
+        "SC6": 100.0,
+        "SC7": 100.0,
+        "SC8": 100,
+        "overall": 92.5
+      },
+      "raw": {
+        "spread_w": 16,
+        "spread_v": 8,
+        "sc1_violators": 0,
+        "sc6_missed": 0,
+        "pref_achieved": 16
+      }
+    }
+  },
+  "B_relax_HC1": {
+    "scenario": "B_relax_HC1",
+    "solver_status": "OPTIMAL",
+    "solver_feasible": true,
+    "time_sec": 54.49,
+    "objective": 16.0,
+    "hc_all_satisfied": false,
+    "hc_total_violations": 4,
+    "hc_violations_by_constraint": {
+      "HC1": 4,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0,
+      "HC6": 0,
+      "HC7": 0,
+      "HC8": 0,
+      "HC9": 0,
+      "HC10": 0,
+      "HC11": 0,
+      "HC12": 0
+    },
+    "sc_evaluation": {
+      "scores": {
+        "SC1": 100.0,
+        "SC2": 60.0,
+        "SC3": 80.0,
+        "SC4": 100.0,
+        "SC5": 100.0,
+        "SC6": 100.0,
+        "SC7": 100.0,
+        "SC8": 100,
+        "overall": 92.5
+      },
+      "raw": {
+        "spread_w": 16,
+        "spread_v": 8,
+        "sc1_violators": 0,
+        "sc6_missed": 0,
+        "pref_achieved": 16
+      }
+    }
+  },
+  "C_soft_HC1": {
+    "scenario": "C_soft_HC1",
+    "solver_status": "FEASIBLE",
+    "solver_feasible": true,
+    "time_sec": 60.02,
+    "objective": 4016.0,
+    "hc_all_satisfied": false,
+    "hc_total_violations": 4,
+    "hc_violations_by_constraint": {
+      "HC1": 4,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0,
+      "HC6": 0,
+      "HC7": 0,
+      "HC8": 0,
+      "HC9": 0,
+      "HC10": 0,
+      "HC11": 0,
+      "HC12": 0
+    },
+    "sc_evaluation": {
+      "scores": {
+        "SC1": 95.0,
+        "SC2": 60.0,
+        "SC3": 80.0,
+        "SC4": 100.0,
+        "SC5": 100.0,
+        "SC6": 100.0,
+        "SC7": 100.0,
+        "SC8": 100,
+        "overall": 91.9
+      },
+      "raw": {
+        "spread_w": 16,
+        "spread_v": 8,
+        "sc1_violators": 1,
+        "sc6_missed": 0,
+        "pref_achieved": 16
+      }
+    }
+  },
+  "D_soft_HC8": {
+    "scenario": "D_soft_HC8",
+    "solver_status": "FEASIBLE",
+    "solver_feasible": true,
+    "time_sec": 60.03,
+    "objective": 4030.0,
+    "hc_all_satisfied": false,
+    "hc_total_violations": 4,
+    "hc_violations_by_constraint": {
+      "HC1": 0,
+      "HC2": 0,
+      "HC3": 0,
+      "HC4": 0,
+      "HC5": 0,
+      "HC6": 0,
+      "HC7": 0,
+      "HC8": 4,
+      "HC9": 0,
+      "HC10": 0,
+      "HC11": 0,
+      "HC12": 0
+    },
+    "sc_evaluation": {
+      "scores": {
+        "SC1": 100.0,
+        "SC2": 40.0,
+        "SC3": 80.0,
+        "SC4": 100.0,
+        "SC5": 100.0,
+        "SC6": 100.0,
+        "SC7": 100.0,
+        "SC8": 100,
+        "overall": 90.0
+      },
+      "raw": {
+        "spread_w": 24,
+        "spread_v": 8,
+        "sc1_violators": 0,
+        "sc6_missed": 0,
+        "pref_achieved": 17
+      }
+    }
+  }
+}

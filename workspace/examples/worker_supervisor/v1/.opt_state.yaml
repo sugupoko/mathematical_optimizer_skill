@@ -1,0 +1,193 @@
+version: 1
+project_name: "worker_supervisor_example"
+created_at: "2026-04-11T00:00:00"
+updated_at: "2026-04-11T00:00:00"
+
+assess:
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
+  problem_type: "scheduling"
+  problem_subtype: "worker_supervisor_rostering_with_pairs"
+  scale:
+    variables: 1176
+    hc_count: 12
+    sc_count: 8
+    size_class: "large"
+  complexity:
+    overall: "complex"
+    axes:
+      variables: "complex"
+      hc_count: "complex"
+      problem_type: "complex"
+      interaction: "complex"
+      domain: "medium"
+    rationale: "1,176 vars, 12 HCs, composite (worker+supervisor+pair), strong skill×lang×pair×rest interactions"
+    recommended_approach: "staged"
+  entities:
+    - {name: workers, count: 20, source_file: workers.csv}
+    - {name: supervisors, count: 8, source_file: supervisors.csv}
+    - {name: shifts, count: 42, source_file: shifts.csv}
+  supply_demand:
+    worker_demand_shifts: 160
+    worker_demand_hours: 1280
+    worker_supply_upper_hours: 1456
+    worker_utilization: 0.879
+    supervisor_demand_shifts: 46
+    supervisor_supply_abundant: true
+  pre_identified_risks:
+    en_reception_pool: 4
+    en_reception_demand_per_shift: 5
+    affected_shifts: ["w1 Tue morning", "w1 Thu morning", "w2 Tue morning", "w2 Thu morning"]
+    hypothesis: "HC1 ∩ HC7 ∩ HC8 で鳩の巣違反の可能性 (pool 4 < demand 5)"
+  hypotheses:
+    - "Phase 1-4 (HC1-HC6) 基礎需要・供給・可用性は通る見込み"
+    - "Phase 5 (+HC7+HC8) で壁に到達する可能性が高い"
+    - "HC9-HC12 は無実の可能性"
+  assumptions:
+    - {key: shift_duration, value: 8h, ref: R3, confidence: high}
+    - {key: one_shift_per_day, value: 1, ref: R6, confidence: medium}
+    - {key: bilingual_all_must_en, value: strictest, ref: R6, confidence: low, note: "Q5 で要確認"}
+    - {key: mentorship_window, value: "2 weeks sum", ref: R6, confidence: medium}
+    - {key: rest_rule, value: "next calendar day forbidden", ref: R6, confidence: medium}
+  data_quality:
+    overall: "良好"
+    issues: []
+
+baseline:
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
+  strategy: "staged"
+  time_limit_per_phase_sec: 60
+  num_workers: 4
+  independent_hc_verifier: true
+  first_infeasible_phase: "Phase5_HC7_HC8"
+  all_phases_feasible: false
+  phases_summary:
+    # active_ok = Phase 強制 HC を全て満たしているか (ソルバーの正しさ検証)
+    # pending = 未追加 HC の違反数 (後の Phase で解消見込み)
+    Phase0_vars_only: {adds: [],             status: OPTIMAL,    active_ok: true, pending: 88,  time: 0.04}
+    Phase1_HC1:       {adds: [HC1],          status: OPTIMAL,    active_ok: true, pending: 135, time: 0.01}
+    Phase2_HC2:       {adds: [HC2],          status: OPTIMAL,    active_ok: true, pending: 116, time: 0.01}
+    Phase3_HC3_HC4:   {adds: [HC3, HC4],     status: OPTIMAL,    active_ok: true, pending: 88,  time: 0.04}
+    Phase4_HC5_HC6:   {adds: [HC5, HC6],     status: OPTIMAL,    active_ok: true, pending: 70,  time: 0.03}
+    Phase5_HC7_HC8:   {adds: [HC7, HC8],     status: INFEASIBLE, active_ok: null, pending: null, time: 0.01}
+    Phase6_HC9_HC10:  {adds: [HC9, HC10],    status: INFEASIBLE, active_ok: null, pending: null, time: 0.01}
+    Phase7_FULL:      {adds: [HC11, HC12],   status: INFEASIBLE, active_ok: null, pending: null, time: 0.01}
+  root_cause:
+    bottleneck_constraints: ["HC1", "HC7", "HC8"]
+    description: "鳩の巣原理: en+reception 候補 4 名 vs 需要 5 名/シフト × 4 シフト"
+    evidence:
+      en_reception_workers: 4
+      worker_ids: ["W002", "W004", "W008", "W010"]
+      affected_shifts: 4
+      demand_per_shift: 5
+      shortage_per_shift: 1
+    exonerated:
+      - "HC9, HC10 (rest) — Phase 5 で既に壁のため評価不可"
+      - "HC11 (forbidden) — 2件のみ、鳩の巣とは無関係"
+      - "HC12 (mentorship) — 4件、2週間達成は容易"
+  solution_options:
+    A_input_change:
+      A1: "W021 (en+reception) を 1 名追加採用 — 人件費、1-2ヶ月"
+      A2: "W013/W017 に reception 研修 — 研修費、2-3ヶ月"
+      A3: "reception 保持者に英語研修 — 研修費+時間、6ヶ月以上"
+    B_spec_change:
+      B1: "HC1 緩和 (bilingual+reception で 5→4) — 0円、顧客合意"
+      B2: "HC8 解釈変更 (最低1名 en) — 0円、Q5 確認必須"
+      B3: "HC1 soft 化 (penalty 付き shortage 許容) — 0円"
+    C_operations_change:
+      C1: "bilingual 需要の時間帯再配置 — 顧客導線変更"
+      C2: "一時派遣で補う — 外注費"
+  recommendation: "即時 Q5 確認 (B2 可能性) → 不可なら B1 暫定 + A1 採用進行"
+  scripts:
+    - path: "scripts/staged_baseline.py"
+
+improve:
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
+  time_limit_per_scenario_sec: 60
+  num_workers: 4
+  independent_hc_verifier: true
+  scenarios:
+    A_hire_W021:
+      description: "Hire 1 en+reception worker (mid, 40h)"
+      solver_status: FEASIBLE
+      hc_all_satisfied: true
+      hc_total_violations: 0
+      objective: 16
+      sc_overall: 92.5
+      recommended: true
+      note: "Only scenario that truly satisfies all 12 HCs"
+    B_relax_HC1:
+      description: "Relax worker_required 5->4 on bilingual+reception shifts"
+      solver_status: OPTIMAL
+      hc_all_satisfied: false
+      hc_total_violations: 4
+      hc_violations: {HC1: 4}
+      objective: 16
+      sc_overall: 92.5
+      note: "Spec change: HC1 must be modified in spec.md"
+    C_soft_HC1:
+      description: "Soft HC1 with shortage penalty"
+      solver_status: FEASIBLE
+      hc_all_satisfied: false
+      hc_total_violations: 4
+      hc_violations: {HC1: 4}
+      objective: 4016
+      sc_overall: 91.9
+    D_soft_HC8:
+      description: "Soft HC8 (non-en on bilingual shifts)"
+      solver_status: FEASIBLE
+      hc_all_satisfied: false
+      hc_total_violations: 4
+      hc_violations: {HC8: 4}
+      objective: 4030
+      sc_overall: 90.0
+  best:
+    scenario: "A_hire_W021"
+    hc_all_satisfied: true
+    sc_overall: 92.5
+  additional_data_needed:
+    - "Q5 (assess): bilingual_required の解釈 (全員 vs 最低1名)"
+    - "W021 採用予算・時期"
+    - "B1 暫定運用の受容可否"
+  qa_checklist:
+    hc_spec_code_match: "OK"
+    sc_spec_objective_match: "OK (SC7 はスコア側のみ、v2 で obj 追加検討)"
+    assumption_values_match: "OK"
+    evaluator_objective_match: "OK (スケール差あり)"
+    spec_internal_contradictions: "known (HC7+HC8 structural, detected in baseline)"
+    source_freshness: "OK"
+    independent_hc_verifier: "OK"
+
+report:
+  status: "completed"
+  completed_at: "2026-04-11T00:00:00"
+  output_file: "reports/proposal.md"
+  recommended_scenario: "A_hire_W021"
+  proposals:
+    - name: "A. W021 採用 (恒久対策)"
+      cost: "新規人件費"
+      hc_satisfied: true
+      effect: "全 12 HC 充足、SC 92.5/100"
+      difficulty: "1-2ヶ月 (採用次第)"
+      recommended: true
+    - name: "B. HC1 緩和 (暫定運用)"
+      cost: 0
+      hc_satisfied: false
+      hc_violations: "HC1: 4 (spec 変更必要)"
+      effect: "即日運用可能、bilingual 対応キャパ 20% 減"
+      difficulty: "すぐ (顧客合意必要)"
+    - name: "C. HC8 緩和 (サービス変更)"
+      cost: 0
+      hc_satisfied: false
+      hc_violations: "HC8: 4"
+      effect: "英語対応品質が低下"
+      difficulty: "すぐ (サービス合意必要)"
+  impossibility_findings:
+    - "現行 20 名では全 12 HC を満たす解は存在しない (鳩の巣原理)"
+    - "en + reception の候補プール 4 名 < 需要 5 名/シフト"
+    - "1 名追加 (W021) で完全に解決可能 (実証済)"
+    - "HC9-HC12 は無罪 (段階的 baseline で切り分け済)"
+  most_important_question: "Q5: bilingual_required の正確な意味"
+  most_important_question_reason: "『最低1名 en』解釈なら、コストゼロで全 HC 充足可能"

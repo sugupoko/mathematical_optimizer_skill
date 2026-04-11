@@ -1,0 +1,10 @@
+constraint_type,entity1,entity2,description
+forbidden,W003,S002,人間関係の問題で同一シフト不可
+forbidden,W009,S006,過去にトラブルあり
+mentorship,W008,S001,新人育成のため定期的にペア
+mentorship,W011,S004,新人育成のため定期的にペア
+mentorship,W012,S007,新人育成のため定期的にペア
+mentorship,W016,S001,新人育成のため定期的にペア
+preferred,W002,S003,英語対応の相性が良い
+preferred,W004,S005,チャット対応の相性が良い
+preferred,W013,S003,エスカレーション対応の経験共有
