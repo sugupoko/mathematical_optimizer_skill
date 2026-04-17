@@ -5,6 +5,59 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v3.8.0] - 2026-04-17
+
+### Added / 新規追加
+
+#### New Example: ticket_assignment_advanced (stochastic swarming, full-stack) / 確率的動的チケットアサイン（全部盛り）
+- **15th example, most feature-rich in the pack** / 15番目のサンプル、機能的に最も複雑
+- 50 engineers (L1-L4) × 200 tickets × 4 time periods (8h horizon)
+- **4,469 variables, 4,965 constraints, 15 HCs + 10 SCs**
+- Priority features:
+  - **Multi-skill tickets** (39 tickets requiring 2-3 skills simultaneously)
+  - **Swarming** (28 tickets with lead/support/observer role assignments)
+  - **Uncertainty**: lognormal resolution times (mean+std), block-unblock geometric distributions, Poisson arrival predictions
+  - **CVaR(95%)** risk evaluation across 100 Monte Carlo scenarios
+- Additional features:
+  - Ticket dependency DAG (24 edges, 5 cascading groups: LDAP/network/DB/security/cloud)
+  - Non-linear SLA penalties (3-tier: warning/violation/critical + VIP multiplier)
+  - Escalation chains (L1→L2→L3→L4 with handoff costs)
+  - Team constraints (forbidden pairs, mentoring, VIP preferences, junior restrictions)
+  - Fatigue modeling (continuous degradation, recovery)
+  - 4 time periods with shift changes (34→14→9 available engineers)
+
+Results:
+- Baseline: 48/96 assigned, P1 2/5, CVaR=13.0
+- Objective improvement (robust): P1 3/5, P2 6/10, CVaR=12.4 — but **count stuck at 48**
+- **Structural improvement S4: 48→75 assigned (+56%)**, CVaR=12.2
+  - S1: blocked slot release (+19 assignments)
+  - S2: L2→L1 delegation (+9 assignments)
+  - S3: S1+S2 combined (+24 assignments)
+  - S4: S3 + off-shift L3 call-in (+27 assignments, best CVaR)
+  - S5: S4 + observer trimming (+27 assignments, marginal)
+
+Data: 10 CSV files + scenario_params.json, reproducible via `generate_data.py` (seed=42)
+Scripts: `solve_baseline.py`, `improve.py` (4 strategies × 3 variants), `improve_structural.py` (5 scenarios)
+
+#### opt-improve: Layer 0 Thinking / 改善レイヤーの階層化
+- Added **Section 0: 改善のレイヤーを見極める** before existing Section 1
+- Three layers, upper layers have 10x+ more impact:
+  - **Layer 1**: Change the problem (question assumptions, release resources, propose operational changes)
+  - **Layer 2**: Change the model (redefine hard/soft, change variable granularity, change decomposition axis)
+  - **Layer 3**: Change parameters (objective weights, solver settings, heuristic design)
+- Three abstract questions (Q1-Q3) for escaping model-local optima:
+  - Q1: What "fixed" inputs could actually be moved?
+  - Q2: What "constraints" are actually just costs?
+  - Q3: What resources exist outside the current model scope?
+- Decision flow: when coverage is capped, go to Layer 1 before tuning Layer 3
+
+#### OPTIMIZATION_MINDSET: Case B2 / 思考回路ケースB2追加
+- New case: **"Solvable but capped"** — solver returns OPTIMAL but coverage/assignment count hits ceiling
+- Key insight: OPTIMAL means optimal *within this model*, not optimal overall
+- Mandates listing 3+ structural changes before concluding "impossible"
+
+---
+
 ## [v3.7.0] - 2026-04-11
 
 ### Added / 新規追加
