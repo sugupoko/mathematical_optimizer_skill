@@ -1,0 +1,26 @@
+constraint_id,type,description,hard_or_soft,weight,details
+HC01,skill_match,チケットの必要スキルをエンジニアが全て保有していること,hard,,all(s in engineer.skills for s in ticket.required_skills)
+HC02,tier_requirement,チケットの最低ティア要件を満たすこと,hard,,engineer.tier >= ticket.min_tier
+HC03,shift_available,アサイン先エンジニアが該当タイムステップで勤務中であること,hard,,engineer.on_shift(time_period) == True
+HC04,capacity_limit,同時担当チケット数が上限を超えないこと（疲労係数込み）,hard,,current_load + new_load <= max_concurrent * (1 - fatigue_penalty)
+HC05,swarming_roles,スワーミングチケットでは必要な役割（lead/support/observer）を全て充足,hard,,lead は min_tier 以上、support は min_tier-1 以上
+HC06,swarming_lead_unique,スワーミングチケットの lead は1人のみ,hard,,count(role=lead) == 1 per swarming ticket
+HC07,dependency_order,blocker チケットが完了/進行中でないと blocked チケットに着手不可,hard,,blocks/sequence 依存が未解決なら unassigned のまま
+HC08,escalation_cooldown,エスカレーション後30分は同チケットの再エスカレーション不可,hard,,escalation_cooldown_minutes >= 30
+HC09,pair_forbidden,禁止ペアのエンジニアを同一スワーミングチケットに同時アサインしない,hard,,team_constraints の forbidden ペアを参照
+HC10,l4_critical_only,L4 エンジニアは P1 または P2+VIP のチケットにのみアサイン可能,hard,,ticket.priority in (P1) or (P2 and vip_customer)
+HC11,multi_skill_coverage,マルチスキルチケットでは、スワーミングメンバー全体で全必要スキルをカバー,hard,,union(member.skills) ⊇ ticket.required_skills
+HC12,max_swarming_per_engineer,1人のエンジニアが同時に参加できるスワーミングは最大2件,hard,,count(swarming_tickets) <= 2
+HC13,night_shift_minimum,夜勤帯（T3）で最低3名のオンシフトエンジニアを維持,hard,,count(on_shift at T3) >= 3
+HC14,vip_response_time,VIP顧客チケットは受付後1時間以内にアサイン完了,hard,,vip_customer and time_to_assign <= 1h
+HC15,escalation_tier_up,エスカレーションは必ず現在の担当より上位ティアに行うこと,hard,,escalation_target.tier > current_assignee.tier
+SC01,sla_priority,SLA残時間が短いチケットを優先的にアサイン（非線形ペナルティ）,soft,100,sla_penalties.csv の3段階ペナルティを適用
+SC02,skill_proficiency,解決実績の多いスキル×エンジニア組合せを優先,soft,70,resolution_history の平均解決時間と分散を考慮
+SC03,load_balance,エンジニア間の負荷を均等化（疲労度加重）,soft,50,effective_load = tickets * (1 + fatigue_level) の標準偏差を最小化
+SC04,minimize_reassignment,既存アサインの変更を最小化,soft,40,reassignment_count を最小化、引き継ぎコスト +30min を加算
+SC05,tier_efficiency,可能な限り低いティアで解決（L3/L4を温存）,soft,30,min_tier を満たす最低ティアを優先、L4温存は weight x2
+SC06,uncertainty_robust,解決時間の不確実性を考慮したロバスト配置,soft,60,CVaR(95%) で SLA 違反リスクを評価、高分散チケットは余裕を持たせる
+SC07,mentoring_pair,スワーミングでジュニア(L1)とシニア(L3+)をペアにし育成機会を確保,soft,15,observer ロールに L1 を配置、mentor に mentoring_eligible=True を配置
+SC08,dependency_group_same_engineer,related 依存のチケットは同一エンジニアに集約,soft,25,dependency_type=related のペアは同じ assigned_to を優先
+SC09,future_capacity_reserve,将来タイムステップの予測到着分の容量を確保,soft,35,time_periods.csv の predicted_arrivals に基づき余裕を残す
+SC10,fatigue_avoidance,疲労度が高いエンジニアへの新規アサインを抑制,soft,20,fatigue_level > 0.6 のエンジニアは新規アサインのペナルティ x2

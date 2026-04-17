@@ -1,0 +1,447 @@
+{
+  "solver_info": {
+    "status": "OPTIMAL",
+    "objective": 14402.0,
+    "wall_time": 0.11,
+    "num_variables": 4428,
+    "num_constraints": 4951
+  },
+  "assignment_count": 48,
+  "unassigned_count": 48,
+  "scenario_evaluation": {
+    "n_scenarios": 100,
+    "mean_violations": 9.7,
+    "median_violations": 10.0,
+    "min_violations": 6,
+    "max_violations": 14,
+    "cvar_95": 13
+  },
+  "assignments": {
+    "TK019": [
+      {
+        "engineer_id": "E023",
+        "role": "lead",
+        "engineer_name": "森 蓮",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK022": [
+      {
+        "engineer_id": "E029",
+        "role": "lead",
+        "engineer_name": "大野 海斗",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK030": [
+      {
+        "engineer_id": "E031",
+        "role": "lead",
+        "engineer_name": "原 樹",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK031": [
+      {
+        "engineer_id": "E042",
+        "role": "lead",
+        "engineer_name": "島田 芽依",
+        "engineer_tier": "L3"
+      }
+    ],
+    "TK042": [
+      {
+        "engineer_id": "E012",
+        "role": "lead",
+        "engineer_name": "松本 真由",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK052": [
+      {
+        "engineer_id": "E038",
+        "role": "lead",
+        "engineer_name": "菅原 楓",
+        "engineer_tier": "L3"
+      }
+    ],
+    "TK053": [
+      {
+        "engineer_id": "E033",
+        "role": "lead",
+        "engineer_name": "川口 奏太",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK054": [
+      {
+        "engineer_id": "E013",
+        "role": "lead",
+        "engineer_name": "木村 隼人",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK055": [
+      {
+        "engineer_id": "E027",
+        "role": "lead",
+        "engineer_name": "石井 大翔",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK059": [
+      {
+        "engineer_id": "E015",
+        "role": "lead",
+        "engineer_name": "山田 悠斗",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK064": [
+      {
+        "engineer_id": "E023",
+        "role": "lead",
+        "engineer_name": "森 蓮",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK065": [
+      {
+        "engineer_id": "E002",
+        "role": "lead",
+        "engineer_name": "鈴木 美咲",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK069": [
+      {
+        "engineer_id": "E025",
+        "role": "lead",
+        "engineer_name": "橋本 颯太",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK076": [
+      {
+        "engineer_id": "E021",
+        "role": "lead",
+        "engineer_name": "清水 陽太",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK077": [
+      {
+        "engineer_id": "E029",
+        "role": "lead",
+        "engineer_name": "大野 海斗",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK082": [
+      {
+        "engineer_id": "E014",
+        "role": "lead",
+        "engineer_name": "林 彩乃",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK085": [
+      {
+        "engineer_id": "E029",
+        "role": "lead",
+        "engineer_name": "大野 海斗",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK094": [
+      {
+        "engineer_id": "E001",
+        "role": "lead",
+        "engineer_name": "田中 健太",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK095": [
+      {
+        "engineer_id": "E032",
+        "role": "lead",
+        "engineer_name": "浜田 桃子",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK100": [
+      {
+        "engineer_id": "E002",
+        "role": "lead",
+        "engineer_name": "鈴木 美咲",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK103": [
+      {
+        "engineer_id": "E001",
+        "role": "lead",
+        "engineer_name": "田中 健太",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK104": [
+      {
+        "engineer_id": "E015",
+        "role": "lead",
+        "engineer_name": "山田 悠斗",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK107": [
+      {
+        "engineer_id": "E014",
+        "role": "lead",
+        "engineer_name": "林 彩乃",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK109": [
+      {
+        "engineer_id": "E024",
+        "role": "lead",
+        "engineer_name": "池田 葵",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK118": [
+      {
+        "engineer_id": "E011",
+        "role": "lead",
+        "engineer_name": "高橋 亮介",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK121": [
+      {
+        "engineer_id": "E013",
+        "role": "lead",
+        "engineer_name": "木村 隼人",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK122": [
+      {
+        "engineer_id": "E014",
+        "role": "lead",
+        "engineer_name": "林 彩乃",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK124": [
+      {
+        "engineer_id": "E008",
+        "role": "lead",
+        "engineer_name": "吉田 さくら",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK134": [
+      {
+        "engineer_id": "E015",
+        "role": "lead",
+        "engineer_name": "山田 悠斗",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK135": [
+      {
+        "engineer_id": "E013",
+        "role": "lead",
+        "engineer_name": "木村 隼人",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK136": [
+      {
+        "engineer_id": "E016",
+        "role": "lead",
+        "engineer_name": "井上 理恵",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK138": [
+      {
+        "engineer_id": "E011",
+        "role": "lead",
+        "engineer_name": "高橋 亮介",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK142": [
+      {
+        "engineer_id": "E016",
+        "role": "lead",
+        "engineer_name": "井上 理恵",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK148": [
+      {
+        "engineer_id": "E013",
+        "role": "lead",
+        "engineer_name": "木村 隼人",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK151": [
+      {
+        "engineer_id": "E015",
+        "role": "lead",
+        "engineer_name": "山田 悠斗",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK160": [
+      {
+        "engineer_id": "E024",
+        "role": "lead",
+        "engineer_name": "池田 葵",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK163": [
+      {
+        "engineer_id": "E013",
+        "role": "lead",
+        "engineer_name": "木村 隼人",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK164": [
+      {
+        "engineer_id": "E016",
+        "role": "lead",
+        "engineer_name": "井上 理恵",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK168": [
+      {
+        "engineer_id": "E038",
+        "role": "lead",
+        "engineer_name": "菅原 楓",
+        "engineer_tier": "L3"
+      }
+    ],
+    "TK169": [
+      {
+        "engineer_id": "E027",
+        "role": "lead",
+        "engineer_name": "石井 大翔",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK174": [
+      {
+        "engineer_id": "E002",
+        "role": "lead",
+        "engineer_name": "鈴木 美咲",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK185": [
+      {
+        "engineer_id": "E016",
+        "role": "lead",
+        "engineer_name": "井上 理恵",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK003": [
+      {
+        "engineer_id": "E033",
+        "role": "lead",
+        "engineer_name": "川口 奏太",
+        "engineer_tier": "L2"
+      },
+      {
+        "engineer_id": "E027",
+        "role": "support",
+        "engineer_name": "石井 大翔",
+        "engineer_tier": "L2"
+      },
+      {
+        "engineer_id": "E012",
+        "role": "observer",
+        "engineer_name": "松本 真由",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK006": [
+      {
+        "engineer_id": "E044",
+        "role": "lead",
+        "engineer_name": "古川 彩花",
+        "engineer_tier": "L3"
+      },
+      {
+        "engineer_id": "E021",
+        "role": "support",
+        "engineer_name": "清水 陽太",
+        "engineer_tier": "L2"
+      }
+    ],
+    "TK011": [
+      {
+        "engineer_id": "E040",
+        "role": "lead",
+        "engineer_name": "青木 紬",
+        "engineer_tier": "L3"
+      },
+      {
+        "engineer_id": "E012",
+        "role": "support",
+        "engineer_name": "松本 真由",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK034": [
+      {
+        "engineer_id": "E023",
+        "role": "lead",
+        "engineer_name": "森 蓮",
+        "engineer_tier": "L2"
+      },
+      {
+        "engineer_id": "E007",
+        "role": "support",
+        "engineer_name": "加藤 拓海",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK038": [
+      {
+        "engineer_id": "E002",
+        "role": "lead",
+        "engineer_name": "鈴木 美咲",
+        "engineer_tier": "L1"
+      },
+      {
+        "engineer_id": "E006",
+        "role": "support",
+        "engineer_name": "小林 愛",
+        "engineer_tier": "L1"
+      }
+    ],
+    "TK048": [
+      {
+        "engineer_id": "E011",
+        "role": "lead",
+        "engineer_name": "高橋 亮介",
+        "engineer_tier": "L1"
+      },
+      {
+        "engineer_id": "E006",
+        "role": "support",
+        "engineer_name": "小林 愛",
+        "engineer_tier": "L1"
+      }
+    ]
+  }
+}

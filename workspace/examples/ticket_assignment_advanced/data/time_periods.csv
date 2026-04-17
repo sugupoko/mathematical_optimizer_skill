@@ -1,0 +1,5 @@
+period_id,time,description,shifts_active,available_engineers,predicted_new_tickets_p1,predicted_new_tickets_p2,predicted_new_tickets_p3,predicted_new_tickets_p4,prediction_confidence,blocked_unblock_probability,notes
+T0,2026-03-30 14:00,現在（日勤+遅番が稼働中）,"day,late",34,1,2,5,3,0.7,0.1,月曜午後、インシデント多め
+T1,2026-03-30 16:00,+2h（日勤ラスト2時間）,"day,late",34,0,1,3,2,0.6,0.2,日勤エンジニアの引き継ぎ準備開始
+T2,2026-03-30 18:00,+4h（日勤終了、遅番のみ）,late,14,0,1,2,1,0.5,0.05,人数激減。P1エスカレーション対応に要注意
+T3,2026-03-30 22:00,+8h（遅番→夜勤交代）,night,9,0,0,1,1,0.4,0.02,最少人数。重大障害発生時はL4 on-call 呼出

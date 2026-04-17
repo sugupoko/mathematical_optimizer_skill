@@ -1,0 +1,14 @@
+priority,stage,threshold_hours_remaining,penalty_multiplier,description
+P1,warning,2.0,2.0,P1 SLA残2時間: ペナルティ2倍
+P1,violation,0.5,5.0,P1 SLA残30分: ペナルティ5倍
+P1,critical_violation,0.0,20.0,P1 SLA超過: ペナルティ20倍
+P2,warning,4.0,1.5,P2 SLA残4時間: ペナルティ1.5倍
+P2,violation,1.0,4.0,P2 SLA残1時間: ペナルティ4倍
+P2,critical_violation,0.0,10.0,P2 SLA超過: ペナルティ10倍
+P3,warning,8.0,1.2,P3 SLA残8時間: ペナルティ1.2倍
+P3,violation,2.0,3.0,P3 SLA残2時間: ペナルティ3倍
+P3,critical_violation,0.0,6.0,P3 SLA超過: ペナルティ6倍
+P4,warning,24.0,1.1,P4 SLA残24時間: ペナルティ1.1倍
+P4,violation,4.0,2.0,P4 SLA残4時間: ペナルティ2倍
+P4,critical_violation,0.0,4.0,P4 SLA超過: ペナルティ4倍
+VIP,any,-1,1.5,VIP顧客チケットは全段階で追加1.5倍

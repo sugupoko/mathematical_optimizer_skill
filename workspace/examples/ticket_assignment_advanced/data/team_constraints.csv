@@ -1,0 +1,12 @@
+constraint_id,type,engineer_1,engineer_2,description
+TC01,forbidden_pair,E003,E007,過去のインシデント対応で意見対立。同一スワーミングに配置しない
+TC02,forbidden_pair,E021,E025,コミュニケーションスタイルの不一致。同一チケット回避
+TC03,forbidden_pair,E038,E042,同一チームのL3同士。障害時は別チケットに分散して冗長性確保
+TC04,mentoring_pair,E037,E002,E037(L3)がE002(L1)を育成中。週2回以上のペア対応を推奨
+TC05,mentoring_pair,E041,E010,E041(L3)がE010(L1)のセキュリティスキル育成中
+TC06,mentoring_pair,E047,E015,E047(L4)がE015(L1)のクラウド基盤育成中
+TC07,team_coverage,,,"セキュリティチーム(E011,E025,E038,E047)のうち最低1名はアサイン可能状態を維持"
+TC08,team_coverage,,,"DB専門家(E021,E031,E037,E048)のうち最低1名はアサイン可能状態を維持"
+TC09,vip_preference,E047,,VIP顧客A社の案件はE047(L4)がlead担当を強く希望
+TC10,vip_preference,E041,,VIP顧客B社はE041(L3)との信頼関係あり。可能な限りアサイン
+TC11,junior_restriction,,,"経験1年以下(E001,E003,E005,E007)はP1単独アサイン不可。スワーミングのobserverは可"

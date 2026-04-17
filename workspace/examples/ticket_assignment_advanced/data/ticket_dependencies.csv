@@ -1,0 +1,25 @@
+dep_id,blocker_ticket_id,blocked_ticket_id,dependency_type,description
+D001,TK005,TK036,blocks,LDAP復旧まで脆弱性スキャン結果レビュー＋monitoring対応は対応不可
+D002,TK005,TK037,blocks,LDAP復旧までソフトウェアライセンス管理＋security対応は対応不可
+D003,TK005,TK043,blocks,LDAP復旧までテスト環境DBリストア＋security対応は対応不可
+D004,TK005,TK044,blocks,LDAP復旧まで新規SaaS SSO設定＋network対応は対応不可
+D005,TK005,TK046,blocks,LDAP復旧までハイパーバイザーメモリ不足＋security対応は対応不可
+D006,TK002,TK005,blocks,ネットワーク復旧後に認証基盤(LDAP)応答停止＋DNS連鎖障害を対応
+D007,TK002,TK010,blocks,ネットワーク復旧後にTerraform state ロック解除＋network連携対応を対応
+D008,TK002,TK018,blocks,ネットワーク復旧後に複合障害: database/ai_ml/networkを対応
+D009,TK001,TK004,blocks,DB復旧後に決済基盤DB障害＋API全断を実施
+D010,TK001,TK009,blocks,DB復旧後にフィッシングメール報告対応＋database連携対応を実施
+D011,TK001,TK014,blocks,DB復旧後にバックアップジョブ失敗＋monitoring連携対応を実施
+D012,TK001,TK016,blocks,DB復旧後に本番アプリサーバーCPU95%超過＋database連携対応を実施
+D013,TK009,TK017,sequence,フィッシングメール報告対応＋database連携対応完了後に複合障害: infra/monitoring/security
+D014,TK017,TK036,sequence,複合障害: infra/monitoring/security完了後に脆弱性スキャン結果レビュー＋monitoring対応
+D015,TK036,TK037,sequence,脆弱性スキャン結果レビュー＋monitoring対応完了後にソフトウェアライセンス管理＋security対応
+D016,TK034,TK040,preferred_order,DBレプリケーション遅延＋cloud対応を先にやると効率的
+D017,TK034,TK050,preferred_order,DBレプリケーション遅延＋cloud対応を先にやると効率的
+D018,TK034,TK051,preferred_order,DBレプリケーション遅延＋cloud対応を先にやると効率的
+D019,TK088,TK106,related,同一エンジニアが担当すると効率的
+D020,TK085,TK080,related,同一エンジニアが担当すると効率的
+D021,TK031,TK121,related,同一エンジニアが担当すると効率的
+D022,TK058,TK057,related,同一エンジニアが担当すると効率的
+D023,TK066,TK127,related,同一エンジニアが担当すると効率的
+D024,TK121,TK134,related,同一エンジニアが担当すると効率的

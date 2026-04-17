@@ -1,0 +1,113 @@
+{
+  "S1: blocked解放のみ": {
+    "solver_info": {
+      "status": "OPTIMAL",
+      "objective": 200596.0,
+      "wall_time": 0.17,
+      "num_variables": 4428,
+      "num_constraints": 4951
+    },
+    "assigned_count": 67,
+    "unassigned_count": 29,
+    "scenario_evaluation": {
+      "mean": 9.9,
+      "median": 10.0,
+      "min": 6,
+      "max": 12,
+      "cvar_95": 12
+    },
+    "changes": [
+      "打ち手1: blocked スロット解放 → {'L1': 17, 'L2': 10, 'L3': 8, 'L4': 2}"
+    ]
+  },
+  "S2: L2→L1委譲のみ": {
+    "solver_info": {
+      "status": "OPTIMAL",
+      "objective": 187733.0,
+      "wall_time": 0.05,
+      "num_variables": 4428,
+      "num_constraints": 4951
+    },
+    "assigned_count": 57,
+    "unassigned_count": 39,
+    "scenario_evaluation": {
+      "mean": 10.2,
+      "median": 10.0,
+      "min": 6,
+      "max": 13,
+      "cvar_95": 12.4
+    },
+    "changes": [
+      "打ち手2: L2→L1 委譲 8件"
+    ]
+  },
+  "S3: blocked解放+L2→L1委譲": {
+    "solver_info": {
+      "status": "OPTIMAL",
+      "objective": 201712.0,
+      "wall_time": 0.1,
+      "num_variables": 4428,
+      "num_constraints": 4951
+    },
+    "assigned_count": 72,
+    "unassigned_count": 24,
+    "scenario_evaluation": {
+      "mean": 10.5,
+      "median": 10.5,
+      "min": 7,
+      "max": 14,
+      "cvar_95": 13.4
+    },
+    "changes": [
+      "打ち手1: blocked スロット解放 → {'L1': 17, 'L2': 10, 'L3': 8, 'L4': 2}",
+      "打ち手2: L2→L1 委譲 8件"
+    ]
+  },
+  "S4: S3+L3呼出": {
+    "solver_info": {
+      "status": "OPTIMAL",
+      "objective": 202640.0,
+      "wall_time": 0.1,
+      "num_variables": 4644,
+      "num_constraints": 5119
+    },
+    "assigned_count": 75,
+    "unassigned_count": 21,
+    "scenario_evaluation": {
+      "mean": 9.3,
+      "median": 9.0,
+      "min": 6,
+      "max": 13,
+      "cvar_95": 12.2
+    },
+    "changes": [
+      "打ち手1: blocked スロット解放 → {'L1': 17, 'L2': 10, 'L3': 8, 'L4': 2}",
+      "打ち手2: L2→L1 委譲 8件",
+      "打ち手3: L3 呼出 ['E045', 'E046']"
+    ]
+  },
+  "S5: 全部盛り(S4+observer省略)": {
+    "solver_info": {
+      "status": "OPTIMAL",
+      "objective": 194720.0,
+      "wall_time": 0.09,
+      "num_variables": 4558,
+      "num_constraints": 5091
+    },
+    "assigned_count": 75,
+    "unassigned_count": 21,
+    "scenario_evaluation": {
+      "mean": 9.8,
+      "median": 10.0,
+      "min": 6,
+      "max": 13,
+      "cvar_95": 12.4
+    },
+    "changes": [
+      "打ち手1: blocked スロット解放 → {'L1': 17, 'L2': 10, 'L3': 8, 'L4': 2}",
+      "打ち手2: L2→L1 委譲 8件",
+      "打ち手3: L3 呼出 ['E045', 'E046']",
+      "打ち手4: observer 省略 ['TK001', 'TK002', 'TK003']"
+    ]
+  }
+}

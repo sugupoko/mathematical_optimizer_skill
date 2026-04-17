@@ -1,0 +1,6 @@
+rule_id,from_tier,to_tier,trigger_condition,handoff_cost_minutes,description
+ESC01,L1,L2,elapsed_without_progress >= 90min,30,L1が90分進捗なしならL2にエスカレーション
+ESC02,L2,L3,elapsed_without_progress >= 120min OR sla_remaining < 2h,45,L2が120分進捗なし、またはSLA残2時間未満でL3へ
+ESC03,L3,L4,sla_remaining < 1h AND priority == P1,15,P1でSLA残1時間未満はL4に即エスカレーション（引き継ぎコスト最小）
+ESC04,L1,L3,priority == P1 AND skill_match_confidence < 0.5,30,P1でL1のスキル適合度が低い場合、L2をスキップしてL3へ
+ESC05,any,L4,ticket.type == change_emergency,15,緊急変更は直接L4が判断
